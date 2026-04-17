@@ -1,0 +1,80 @@
+/* ============================================================
+   FILE: 06-footer.css
+   ROLE: Footer Styles
+   PROJECT: MediaHub — پلتفرم رسانه‌ای چندزبانه
+   VERSION: 1.0.0
+   DEPENDS ON: 01-tokens.css
+   ============================================================ */
+
+.footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding-block: var(--space-16) var(--space-8);
+  margin-top: var(--space-16);
+}
+
+.footer__top {
+  margin-bottom: var(--space-10);
+}
+
+.footer__heading {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-4);
+}
+
+.footer__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer__link {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: var(--color-primary-500);
+}
+
+.footer__bottom {
+  padding-top: var(--space-6);
+}
+
+.footer__lang-btn {
+  font-size: var(--text-xs);
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__lang-btn:hover,
+.footer__lang-btn--active {
+  opacity: 1;
+  color: var(--color-primary-600);
+}
+
+/* Skip link (accessibility) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  inset-inline-start: var(--space-4);
+  background: var(--color-primary-500);
+  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  z-index: calc(var(--z-toast) + 1);
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: var(--space-4);
+}

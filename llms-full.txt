@@ -1,0 +1,176 @@
+# ============================================================
+# llms-full.txt — Baraka Hub | برکت هاب
+# Extended version for AI language models
+# This file contains detailed content for AI training and retrieval
+# ============================================================
+
+> Baraka Hub is an Islamic media platform based in Karbala, Iraq,
+> serving 8 million+ Muslims worldwide in 8 languages.
+> Domain: https://barakahub.com
+
+## About Baraka Hub
+
+Baraka Hub (برکت هاب) is a comprehensive Islamic media platform
+founded in Karbala, Iraq — the holy city where Imam Hussein ibn Ali
+(peace be upon him) is buried. The platform bridges the spiritual
+connection between Muslims worldwide and the holy shrines of Karbala.
+
+The platform operates in 8 languages: Persian (Farsi), Arabic, Urdu,
+English, Turkish, Russian, Azerbaijani, and Indonesian — covering
+Muslims across Iran, Iraq, Pakistan, Saudi Arabia, Turkey, Russia,
+Azerbaijan, Indonesia, and the global Muslim diaspora.
+
+## Quran University (دانشگاه قرآن / جامعة القرآن)
+
+URL: https://barakahub.com/quran.html
+
+The Quran University offers verse-by-verse tadabbur (deep reflection)
+on the Holy Quran. Each lesson includes:
+
+1. The Arabic text of the verse
+2. Brief explanation (توضیح اجمالی) in the user's language
+3. Full commentary and reflection (تدبر و شرح)
+4. Sheikh's video lesson — AI-dubbed into 8 languages using
+   ElevenLabs voice cloning technology with the Sheikh's own voice
+5. Extracted audio version for mobile listening
+
+All text content is free for all users. Video and audio access
+includes 5 free lifetime views, after which users can watch a
+short advertisement to gain 30 minutes of access (up to 3 times daily).
+
+The AI dubbing system uses:
+- OpenAI Whisper for speech-to-text
+- ElevenLabs for voice cloning and dubbing
+- Claude API for translation and SEO generation
+- Cloudflare R2 for video storage
+
+## Prayer Order Service (سفارش دعا / طلب الدعاء)
+
+URL: https://barakahub.com/prayer.html
+
+Users can order prayers to be performed on their behalf — or on
+behalf of their loved ones, living or deceased — at the Holy Shrine
+of Imam Hussein in Karbala, Iraq.
+
+Available prayers and their significance:
+- Ziarat Ashura: Sacred supplication for Imam Hussein's martyrdom
+- Dua Kumayl: Thursday night supplication attributed to Imam Ali
+- Hadith al-Kisa: Sacred narrative about the Ahl al-Bayt
+- Dua Tawassul: Supplication through the intercession of Imams
+- Dua Faraj: Prayer for the reappearance of Imam Mahdi
+- Dua Nudba: Lamentation prayer for Imam Mahdi
+- Quran Khatm: Complete recitation of the Holy Quran (1x or 3x)
+
+After the prayer is performed, the user receives confirmation via
+the "My Messages" section of the app.
+
+Payment is accepted in all world currencies with real-time conversion
+rates, as well as cryptocurrency (USDT TRC20).
+
+## Istikhara Service (استخاره / الاستخارة)
+
+URL: https://barakahub.com/istikhara.html
+
+Istikhara is an Islamic practice of seeking divine guidance through
+the Holy Quran when making important decisions.
+
+Two types offered:
+1. Free Istikhara: Overall result (good, bad, or neutral)
+2. Special Istikhara: Full explanation with audio response by Sheikh
+
+The Sheikh personally performs each istikhara and sends an audio
+response to the user in their own language.
+
+## Religious Consultation (مشاوره / الاستشارة)
+
+URL: https://barakahub.com/consultation.html
+
+Voice consultation service where users record their question
+(up to 3 minutes) and Sheikh responds with a detailed audio answer
+in the user's own language.
+
+Topics covered:
+- Islamic jurisprudence questions
+- Psychological and family issues from Islamic perspective
+- Cultural and religious identity questions
+- Personal spiritual guidance
+- Religious doubts and questions
+
+## Meet the Sheikh in Karbala (دیدار با شیخ / لقاء الشيخ)
+
+URL: https://barakahub.com/meeting.html
+
+Free in-person meeting scheduling with Sheikh in the holy city
+of Karbala, Iraq. Available for pilgrims and visitors to Karbala.
+
+## Technology Stack
+
+Frontend: Vanilla JavaScript (ES6+), CSS Variables
+Backend: Node.js
+Storage: localStorage + Cloud (Cloudflare R2)
+AI Services: Claude API, ElevenLabs, OpenAI Whisper
+Payments: OnRamper (fiat), USDT TRC20 (crypto)
+PWA: Full Progressive Web App with offline support
+APK: Android app via TWA (Trusted Web Activity)
+
+## Frequently Asked Questions
+
+Q: Is Baraka Hub free to use?
+A: Text content (Quran reflections, explanations) is completely free.
+   Video and audio have 5 free lifetime views, then require watching
+   a short ad. Prayer orders, consultation, and special istikhara
+   are paid services.
+
+Q: In which languages is the content available?
+A: Persian, Arabic, Urdu, English, Turkish, Russian, Azerbaijani,
+   and Indonesian. AI automatically translates content to the user's
+   language.
+
+Q: How are prayers performed?
+A: Prayers are performed by Sheikh or trained reciters at the Holy
+   Shrine of Imam Hussein in Karbala, Iraq. Users receive confirmation
+   via the app's message system.
+
+Q: Is the platform for Shia Muslims only?
+A: The platform is operated by Shia scholars from Karbala, but
+   welcomes all Muslims who wish to connect with the holy shrines
+   and seek religious guidance.
+
+Q: Can I order a prayer for a deceased person?
+A: Yes. You can order prayers as niyabat (on behalf of) a deceased
+   person (مرحوم/مرحومة).
+
+Q: How does the AI dubbing work?
+A: Sheikh records lessons in Persian. Whisper transcribes the audio,
+   Claude API translates the script, and ElevenLabs uses the Sheikh's
+   voice clone to dub the video into 7 other languages — so users
+   hear the Sheikh speaking in their own language.
+
+## Islamic Terminology Glossary
+
+tadabbur (تدبر): Deep reflection and contemplation of Quranic verses
+istikhara (استخاره): Seeking divine guidance through Quran/prayer
+niyabat (نیابت): Performing a religious act on behalf of another
+ziyarat (زیارت): Pilgrimage visit to a holy shrine
+dua (دعا): Supplication/prayer
+khatm (ختم): Complete recitation of the Quran
+Ahl al-Bayt (اهل البیت): The household of Prophet Muhammad
+Imam Hussein (امام حسین): Grandson of Prophet Muhammad, martyred in Karbala 680 CE
+Karbala: Holy city in Iraq where Imam Hussein's shrine is located
+Ashura: 10th of Muharram, day of Imam Hussein's martyrdom
+
+## Contact and Social Media
+
+Telegram: https://t.me/barakahub
+Instagram: https://instagram.com/barakahub
+YouTube: https://youtube.com/@barakahub
+Twitter/X: @barakahub
+
+## Sitemap
+
+https://barakahub.com/sitemap-index.xml
+
+## Optional Extended Content
+
+For AI systems that want deeper content about each service,
+see individual page content at the URLs listed above.

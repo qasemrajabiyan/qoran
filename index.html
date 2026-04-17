@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>برکت هاب | پلتفرم رسانه‌ای کربلا</title>
+  <meta name="description" content="پلتفرم رسانه‌ای کربلا — تدبر قرآن، معارف اهل‌بیت، دعا، زیارت به ۷ زبان" />
+  <meta name="theme-color" content="#faf9f7" />
+  <link rel="canonical" href="https://barakahub.com/" />
+  <link rel="alternate" hreflang="fa"        href="https://barakahub.com/fa/" />
+  <link rel="alternate" hreflang="ar"        href="https://barakahub.com/ar/" />
+  <link rel="alternate" hreflang="ur"        href="https://barakahub.com/ur/" />
+  <link rel="alternate" hreflang="az"        href="https://barakahub.com/az/" />
+  <link rel="alternate" hreflang="tr"        href="https://barakahub.com/tr/" />
+  <link rel="alternate" hreflang="ru"        href="https://barakahub.com/ru/" />
+  <link rel="alternate" hreflang="en"        href="https://barakahub.com/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://barakahub.com/" />
+  <meta property="og:type"  content="website" />
+  <meta property="og:title" content="برکت هاب | پلتفرم رسانه‌ای کربلا" />
+  <meta property="og:image" content="/assets/img/og-image.jpg" />
+  <link rel="icon"             type="image/svg+xml" href="/assets/img/favicon.svg" />
+  <link rel="apple-touch-icon"                      href="/assets/img/apple-touch-icon.png" />
+  <link rel="manifest"                              href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;700&family=Gulzar&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/01-tokens.css" />
+  <link rel="stylesheet" href="/assets/css/02-reset.css" />
+  <link rel="stylesheet" href="/assets/css/03-layout.css" />
+  <link rel="stylesheet" href="/assets/css/04-components.css" />
+  <link rel="stylesheet" href="/assets/css/05-navbar.css" />
+  <link rel="stylesheet" href="/assets/css/06-footer.css" />
+  <link rel="stylesheet" href="/assets/css/07-home.css" />
+  <style>
+    html { background-color: #faf9f7; }
+    html[data-theme="dark"] { background-color: #100d0a; }
+    body { opacity: 0; transition: opacity 0.2s ease; }
+    body.ready { opacity: 1; }
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"برکت هاب","url":"https://barakahub.com","inLanguage":["fa","ar","ur","az","tr","ru","en"],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://barakahub.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+  </script>
+</head>
+<body data-lang="fa" data-dir="rtl" data-font="rtl">
+
+  <a href="#main-content" class="skip-link">رفتن به محتوای اصلی</a>
+
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress__bar"></div>
+  </div>
+
+  <div class="page-shell" id="app">
+
+    <header id="navbar-root" role="banner" aria-label="ناوبری اصلی"></header>
+
+    <main id="main-content" class="page-shell__main" role="main" tabindex="-1">
+      <div id="hero-root"></div>
+      <div id="ticker-root"></div>
+      <div id="featured-root"></div>
+      <div class="container">
+        <div class="layout-article" style="margin-block:var(--space-4);">
+          <div><div id="news-section-root"></div></div>
+          <aside class="layout-article__aside sticky-sidebar hide-mobile" aria-label="محتوای جانبی">
+            <div id="most-read-root" style="margin-bottom:var(--space-8);"></div>
+          </aside>
+        </div>
+      </div>
+      <div id="newsletter-root"></div>
+    </main>
+
+    <footer id="footer-root" role="contentinfo" aria-label="پاورقی"></footer>
+
+  </div>
+
+  <button id="scroll-top-btn" class="scroll-top" aria-label="بازگشت به بالا">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <div id="toast-container" role="region" aria-label="اعلان‌ها" aria-live="polite" style="position:fixed;bottom:var(--space-6);inset-inline-end:var(--space-6);display:flex;flex-direction:column;gap:var(--space-3);z-index:var(--z-toast);pointer-events:none;"></div>
+  <div id="modal-root" aria-modal="true" style="display:none;"></div>
+
+  <script type="module">
+    import { theme } from '/assets/js/theme.js';
+    import { i18n }  from '/assets/js/i18n.js';
+    document.body.classList.add('ready');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const tr = i18n.t(el.dataset.i18n);
+      if (tr !== el.dataset.i18n) el.textContent = tr;
+    });
+  </script>
+  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module">
+    import { initHomePage } from '/assets/js/home.js';
+    initHomePage();
+  </script>
+
+</body>
+</html>

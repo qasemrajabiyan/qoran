@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>پنل مدیریت — مدیاهاب</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <link rel="stylesheet" href="/assets/css/03-layout.css"/>
+  <link rel="stylesheet" href="/assets/css/04-components.css"/>
+  <link rel="stylesheet" href="/assets/css/12-admin.css"/>
+  <style>
+    html,body{margin:0;padding:0;height:100%;}
+    html{background:#0e1117;}
+    body{opacity:0;transition:opacity 0.2s;}
+    body.ready{opacity:1;}
+    #admin-root{min-height:100vh;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes slideInRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+    @keyframes slideInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    #admin-content{transition:opacity 0.2s ease;}
+    @media(max-width:1023px){
+      .admin-sidebar{position:fixed!important;inset-inline-start:-280px!important;transition:inset-inline-start 0.3s ease!important;z-index:var(--z-modal)!important;}
+      .admin-sidebar.admin-sidebar--open{inset-inline-start:0!important;}
+    }
+  </style>
+</head>
+<body>
+  <div id="admin-root" role="application" aria-label="پنل مدیریت مدیاهاب"></div>
+  <script type="module">
+    import { initAdminDashboard } from '/assets/js/admin-router.js';
+    document.body.classList.add('ready');
+    initAdminDashboard(document.getElementById('admin-root'));
+  </script>
+</body>
+</html>

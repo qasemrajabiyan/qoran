@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ورود ادمین — مدیاهاب</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <link rel="stylesheet" href="/assets/css/04-components.css"/>
+  <link rel="stylesheet" href="/assets/css/12-admin.css"/>
+  <style>
+    html,body { background:#0a0e14; margin:0; padding:0; }
+    body { opacity:0; transition:opacity 0.2s; }
+    body.ready { opacity:1; }
+
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #070d14 0%, #0f1923 50%, #070d14 100%);
+      padding: 24px;
+    }
+
+    .login-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      backdrop-filter: blur(20px);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-logo__icon {
+      font-size: 56px;
+      display: block;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 4px 16px rgba(42,157,143,0.5));
+    }
+
+    .login-logo__title {
+      font-family: var(--font-rtl-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: white;
+      display: block;
+    }
+
+    .login-logo__sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .login-field { margin-bottom: 20px; }
+
+    .login-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      font-family: var(--font-rtl-body);
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .login-input:focus {
+      border-color: var(--color-primary-400);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(42,157,143,0.2);
+    }
+
+    .login-input::placeholder { color: rgba(255,255,255,0.3); }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: var(--font-rtl-body);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42,157,143,0.4);
+    }
+
+    .login-error {
+      color: #fca5a5;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="login-logo__icon" aria-hidden="true">🕌</span>
+        <span class="login-logo__title">مدیاهاب</span>
+        <span class="login-logo__sub">پنل مدیریت</span>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="login-field">
+          <label class="login-label" for="admin-pass">رمز عبور ادمین</label>
+          <input
+            type="password"
+            class="login-input"
+            id="admin-pass"
+            autocomplete="current-password"
+            placeholder="رمز عبور را وارد کنید"
+            aria-required="true"
+          />
+        </div>
+        <button type="submit" class="login-btn">ورود به پنل مدیریت</button>
+        <div class="login-error" id="login-error" role="alert">رمز عبور اشتباه است</div>
+      </form>
+    </div>
+  </div>
+  <script type="module">
+    import { adminLogin } from '/assets/js/admin.js';
+    document.body.classList.add('ready');
+    document.getElementById('login-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pass = document.getElementById('admin-pass')?.value;
+      if (adminLogin(pass)) {
+        window.location.href = '/admin.html';
+      } else {
+        const err = document.getElementById('login-error');
+        if (err) err.style.display = 'block';
+        document.getElementById('admin-pass').style.borderColor = '#f87171';
+      }
+    });
+  </script>
+</body>
+</html>

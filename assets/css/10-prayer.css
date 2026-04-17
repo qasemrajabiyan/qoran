@@ -1,0 +1,941 @@
+/* ============================================================
+   FILE: 10-prayer.css
+   ROLE: سفارش دعا و ختم قرآن — طراحی معنوی مدرن ۲۰۲۶
+   PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+   VERSION: 1.0.0
+   DEPENDS ON: 01-tokens.css, 02-reset.css, 03-layout.css, 04-components.css
+   ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   A. PRAYER PAGE HERO
+   ════════════════════════════════════════════════════════════ */
+.prayer-hero {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(
+    145deg,
+    #1a0a2e 0%,
+    #2d1b4e 35%,
+    #1b3a4b 70%,
+    #0a2a1a 100%
+  );
+  padding-top: var(--navbar-height);
+}
+
+.prayer-hero__pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(circle at 20% 50%, white 1px, transparent 1px),
+    radial-gradient(circle at 80% 50%, white 1px, transparent 1px),
+    radial-gradient(circle at 50% 20%, white 1px, transparent 1px),
+    radial-gradient(circle at 50% 80%, white 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.prayer-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(244,162,97,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.prayer-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding-block: var(--space-12);
+}
+
+.prayer-hero__icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: var(--space-5);
+  animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 16px rgba(244,162,97,0.4));
+}
+
+.prayer-hero__title {
+  font-family: var(--font-rtl-display);
+  font-size: clamp(1.8rem, 4vw, var(--text-3xl));
+  font-weight: var(--weight-black);
+  color: white;
+  margin-bottom: var(--space-4);
+  animation: fadeIn 0.7s ease 0.1s both;
+}
+
+:lang(en) .prayer-hero__title,
+:lang(ru) .prayer-hero__title,
+:lang(tr) .prayer-hero__title,
+:lang(az) .prayer-hero__title {
+  font-family: var(--font-ltr-display);
+}
+
+.prayer-hero__desc {
+  color: rgba(255,255,255,0.70);
+  font-size: var(--text-md);
+  max-width: 52ch;
+  margin: 0 auto;
+  line-height: var(--leading-relaxed);
+  animation: fadeIn 0.7s ease 0.2s both;
+}
+
+/* ════════════════════════════════════════════════════════════
+   B. SERVICE TYPE TABS (دعا / ختم قرآن)
+   ════════════════════════════════════════════════════════════ */
+.service-tabs {
+  display: flex;
+  background: var(--bg-surface-2);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2);
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+  max-width: 480px;
+}
+
+.service-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.service-tab--active {
+  background: var(--bg-surface);
+  color: var(--color-primary-700);
+  box-shadow: var(--shadow-md);
+}
+
+.service-tab__icon { font-size: 22px; }
+
+/* ════════════════════════════════════════════════════════════
+   C. PRAYER CARD (کارت انتخاب دعا)
+   ════════════════════════════════════════════════════════════ */
+.prayer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.prayer-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  user-select: none;
+}
+
+/* نور دکوراتیو گوشه */
+.prayer-card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  inset-inline-end: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42,157,143,0.08), transparent 70%);
+  pointer-events: none;
+  transition: all var(--transition-base);
+}
+
+.prayer-card:hover {
+  border-color: var(--color-primary-400);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-3px);
+}
+
+.prayer-card:hover::before {
+  opacity: 0.6;
+  transform: scale(1.5);
+}
+
+.prayer-card--selected {
+  border-color: var(--color-primary-500);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-50) 0%,
+    var(--bg-surface) 100%
+  );
+  box-shadow: 0 0 0 4px rgba(42,157,143,0.15), var(--shadow-lg);
+}
+
+[data-theme="dark"] .prayer-card--selected {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-950, #051a17) 0%,
+    var(--bg-surface) 100%
+  );
+}
+
+/* چک‌مارک انتخاب */
+.prayer-card__check {
+  position: absolute;
+  top: var(--space-4);
+  inset-inline-end: var(--space-4);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-surface-2);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.prayer-card--selected .prayer-card__check {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: white;
+}
+
+.prayer-card__icon {
+  font-size: 44px;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+}
+
+.prayer-card__name {
+  font-family: 'Noto Naskh Arabic', var(--font-rtl-body), serif;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  line-height: var(--leading-snug);
+}
+
+:lang(en) .prayer-card__name,
+:lang(ru) .prayer-card__name,
+:lang(tr) .prayer-card__name,
+:lang(az) .prayer-card__name {
+  font-family: var(--font-ltr-display);
+}
+
+.prayer-card__desc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-normal);
+}
+
+.prayer-card__price {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+}
+
+.prayer-card__price-amount {
+  font-size: var(--text-md);
+  font-weight: var(--weight-black);
+  color: var(--color-primary-600);
+}
+
+.prayer-card__price-currency {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.prayer-card--unavailable {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════════════════════════
+   D. ORDER FORM (فرم سفارش)
+   ════════════════════════════════════════════════════════════ */
+.order-form {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.order-form__header {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-800));
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.order-form__header-icon { font-size: 32px; }
+
+.order-form__header-title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: white;
+}
+
+.order-form__header-sub {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.7);
+  margin-top: 2px;
+}
+
+.order-form__body {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ── بخش نیت (خودم / دیگری) ── */
+.intent-section { }
+
+.intent-label {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.intent-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.intent-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-base);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+}
+
+.intent-option:hover {
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-700);
+}
+
+.intent-option--active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+  font-weight: var(--weight-bold);
+}
+
+[data-theme="dark"] .intent-option--active {
+  background: var(--color-primary-900);
+}
+
+.intent-option__radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.intent-option--active .intent-option__radio {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-500);
+}
+
+.intent-option--active .intent-option__radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  display: block;
+}
+
+.intent-option__icon { font-size: 22px; }
+
+/* ── بخش اطلاعات شخص دیگر ── */
+.other-person-fields {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  animation: fadeIn 0.3s ease;
+}
+
+/* وضعیت حیات */
+.alive-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.alive-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-surface);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+}
+
+.alive-option:hover { border-color: var(--color-primary-300); }
+
+.alive-option--active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+[data-theme="dark"] .alive-option--active {
+  background: var(--color-primary-900);
+}
+
+/* ── بخش نوع نیت ── */
+.purpose-section { }
+
+.purpose-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.purpose-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-surface);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+.purpose-option:hover {
+  border-color: var(--color-primary-300);
+  background: var(--color-primary-50);
+}
+
+.purpose-option--checked {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+  font-weight: var(--weight-semibold);
+}
+
+[data-theme="dark"] .purpose-option--checked {
+  background: var(--color-primary-900);
+}
+
+.purpose-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  font-size: 12px;
+}
+
+.purpose-option--checked .purpose-checkbox {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: white;
+}
+
+.purpose-option__icon { font-size: 20px; }
+
+/* ════════════════════════════════════════════════════════════
+   E. PAYMENT SECTION
+   ════════════════════════════════════════════════════════════ */
+.payment-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.payment-section__header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-surface-2);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.payment-methods {
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.payment-method {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-base);
+}
+
+.payment-method:hover { border-color: var(--color-primary-300); }
+
+.payment-method--active {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-50);
+}
+
+[data-theme="dark"] .payment-method--active {
+  background: var(--color-primary-900);
+}
+
+.payment-method__logo {
+  width: 48px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  font-weight: var(--weight-bold);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.payment-method__info { flex: 1; }
+
+.payment-method__name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.payment-method__desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.payment-method__radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.payment-method--active .payment-method__radio {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-500);
+}
+
+.payment-method--active .payment-method__radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  display: block;
+}
+
+/* ════════════════════════════════════════════════════════════
+   F. ORDER SUMMARY (خلاصه سفارش)
+   ════════════════════════════════════════════════════════════ */
+.order-summary {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--space-4));
+}
+
+.order-summary__header {
+  background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+  padding: var(--space-5) var(--space-6);
+  color: white;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.order-summary__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.order-summary__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.order-summary__label { color: var(--text-muted); }
+.order-summary__value {
+  color: var(--text-primary);
+  font-weight: var(--weight-semibold);
+  text-align: end;
+}
+
+.order-summary__divider {
+  border: none;
+  border-top: 1px dashed var(--border-color);
+  margin: var(--space-2) 0;
+}
+
+.order-summary__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 2px solid var(--border-color);
+}
+
+.order-summary__total-label {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+}
+
+.order-summary__total-amount {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  color: var(--color-primary-600);
+}
+
+.order-submit-btn {
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-top: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.order-submit-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.order-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(42,157,143,0.4);
+}
+
+.order-submit-btn:hover::after { opacity: 1; }
+.order-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ════════════════════════════════════════════════════════════
+   G. SUCCESS MODAL
+   ════════════════════════════════════════════════════════════ */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  animation: fadeIn 0.3s ease;
+}
+
+.success-modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: var(--shadow-2xl);
+  animation: scaleIn 0.4s var(--transition-spring);
+  border: 1px solid var(--border-color);
+}
+
+.success-modal__icon {
+  font-size: 72px;
+  display: block;
+  margin-bottom: var(--space-6);
+  animation: float 3s ease-in-out infinite;
+}
+
+.success-modal__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-black);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+:lang(fa) .success-modal__title,
+:lang(ar) .success-modal__title,
+:lang(ur) .success-modal__title {
+  font-family: var(--font-rtl-display);
+}
+
+.success-modal__desc {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-6);
+}
+
+.success-modal__code {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary-700);
+  letter-spacing: 0.1em;
+  display: inline-block;
+  margin-bottom: var(--space-6);
+  direction: ltr;
+}
+
+/* ════════════════════════════════════════════════════════════
+   H. QURAN KHATM PAGE
+   ════════════════════════════════════════════════════════════ */
+.khatm-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.khatm-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.khatm-card:hover {
+  border-color: var(--color-secondary-400);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.khatm-card--selected {
+  border-color: var(--color-secondary-500);
+  background: var(--color-secondary-50);
+  box-shadow: 0 0 0 4px rgba(244,162,97,0.15), var(--shadow-lg);
+}
+
+[data-theme="dark"] .khatm-card--selected {
+  background: rgba(244,162,97,0.08);
+}
+
+.khatm-card__num {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-black);
+  color: var(--color-secondary-600);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.khatm-card__label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.khatm-card__price {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary-600);
+  margin-top: var(--space-3);
+  display: block;
+}
+
+.khatm-card__check {
+  position: absolute;
+  top: var(--space-3);
+  inset-inline-end: var(--space-3);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-secondary-500);
+  color: white;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.khatm-card--selected .khatm-card__check {
+  display: flex;
+}
+
+/* ════════════════════════════════════════════════════════════
+   I. STEPS INDICATOR
+   ════════════════════════════════════════════════════════════ */
+.order-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: var(--space-8);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.order-steps::-webkit-scrollbar { display: none; }
+
+.order-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.order-step__num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-surface-2);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.order-step--active .order-step__num {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: white;
+}
+
+.order-step--done .order-step__num {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+
+.order-step--active { color: var(--color-primary-700); font-weight: var(--weight-bold); }
+.order-step--done   { color: var(--color-success); }
+
+.order-step__line {
+  height: 2px;
+  width: 40px;
+  background: var(--border-color);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.order-step--done + .order-step__line {
+  background: var(--color-success);
+}
+
+/* ════════════════════════════════════════════════════════════
+   J. RESPONSIVE
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .order-summary { position: static; }
+}
+
+@media (max-width: 640px) {
+  .prayer-grid { grid-template-columns: 1fr; }
+  .intent-options { grid-template-columns: 1fr; }
+  .purpose-grid { grid-template-columns: 1fr; }
+  .alive-options { grid-template-columns: 1fr; }
+  .khatm-options { grid-template-columns: 1fr 1fr; }
+  .order-form__body { padding: var(--space-5); }
+  .service-tabs { max-width: 100%; }
+}
