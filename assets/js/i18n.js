@@ -31,7 +31,7 @@ export const TRANSLATIONS = {
   'nav.about':        { fa:'درباره ما',     ar:'من نحن',       ur:'ہمارے بارے میں', az:'Haqqımızda',   tr:'Hakkımızda',   ru:'О нас',      en:'About',         id:'Tentang Kami'       },
   'nav.contact':      { fa:'تماس با ما',    ar:'اتصل بنا',     ur:'رابطہ کریں',      az:'Əlaqə',         tr:'İletişim',     ru:'Контакты',   en:'Contact',       id:'Hubungi'            },
   'nav.quran':        { fa:'دانشگاه قرآن', ar:'جامعة القرآن', ur:'یونیورسٹی قرآن', az:'Quran Universiteti', tr:'Kuran Üniversitesi', ru:'Университет Корана', en:'Quran University', id:'Universitas Quran' },
-  'nav.quran.full':   { fa:'دانشگاه قرآن (آموزش گام به گام تدبر و فهم قرآن)', ar:'جامعة القرآن (التعلم خطوة بخطوة في التدبر وفهم القرآن)', ur:'یونیورسٹی قرآن (قرآن فہمی کی مرحلہ وار تعلیم)', az:'Quran Universiteti (Quranı addım-addım dərk etmə)', tr:'Kuran Üniversitesi (Adım adım Kuran tefekkürü)', ru:'Университет Корана (Пошаговое осмысление и понимание Корана)', en:'Quran University (Step-by-step Quran reflection & understanding)' },
+  'nav.quran.full':   { fa:'دانشگاه قرآن (آموزش گام به گام تدبر و فهم قرآن)', ar:'جامعة القرآن (التعلم خطوة بخطوة في التدبر وفهم القرآن)', ur:'یونیورسٹی قرآن (قرآن فہمی کی مرحلہ وار تعلیم)', az:'Quran Universiteti (Quranı addım-addım dərk etmə)', tr:'Kuran Üniversitesi (Adım adım Kuran tefekkürü)', ru:'Университет Корана (Пошаговое осмысление и понимание Корана)', en:'Quran University (Step-by-step Quran reflection & understanding)', id:'Universitas Quran (Refleksi & pemahaman Quran langkah demi langkah)' },
   'nav.prayer':       { fa:'سفارش دعا',     ar:'طلب الدعاء',   ur:'دعا آرڈر',        az:'Dua sifarişi',  tr:'Dua Siparişi', ru:'Заказ дуа',  en:'Prayer Order',  id:'Pesan Doa'          },
   'nav.meeting':      { fa:'دیدار با شیخ',  ar:'لقاء الشيخ',   ur:'شیخ ملاقات',      az:'Şeyxlə görüş',  tr:'Şeyh Görüşü',  ru:'Встреча',    en:'Sheikh Visit',  id:'Kunjungi Syaikh'    },
   'btn.readMore':     { fa:'ادامه مطلب',    ar:'اقرأ المزيد',  ur:'مزید پڑھیں',      az:'Daha çox',      tr:'Devamını Oku', ru:'Далее',      en:'Read More',     id:'Baca Selengkapnya'  },
@@ -50,9 +50,9 @@ export const TRANSLATIONS = {
   'search.noResults': { fa:'نتیجه‌ای یافت نشد',ar:'لم تتم العثور على نتائج',ur:'کوئی نتیجہ نہیں',az:'Nəticə tapılmadı',tr:'Sonuç bulunamadı',ru:'Нет результатов',en:'No results found', id:'Tidak ada hasil' },
   'theme.dark':       { fa:'تیره',          ar:'داكن',         ur:'تاریک',           az:'Tünd',          tr:'Koyu',         ru:'Тёмная',     en:'Dark',          id:'Gelap'              },
   'theme.light':      { fa:'روشن',          ar:'فاتح',         ur:'روشن',            az:'Açıq',          tr:'Açık',         ru:'Светлая',    en:'Light',         id:'Terang'             },
-  'footer.copyright': { fa:'تمامی حقوق محفوظ است',ar:'جميع الحقوق محفوظة',ur:'تمام حقوق محفوظ ہیں',az:'Bütün hüquqlar qorunur',tr:'Tüm hakları saklıdır',ru:'Все права защищены',en:'All rights reserved' },
-  'error.404':        { fa:'صفحه یافت نشد', ar:'الصفحة غير موجودة',ur:'صفحہ نہیں ملا',az:'Səhifə tapılmadı',tr:'Sayfa Bulunamadı',ru:'Страница не найдена',en:'Page Not Found' },
-  'error.generic':    { fa:'خطایی رخ داده', ar:'حدث خطأ',      ur:'خرابی ہوئی',      az:'Xəta baş verdi',tr:'Bir hata oluştu',ru:'Произошла ошибка',en:'An error occurred' },
+  'footer.copyright': { fa:'تمامی حقوق محفوظ است',ar:'جميع الحقوق محفوظة',ur:'تمام حقوق محفوظ ہیں',az:'Bütün hüquqlar qorunur',tr:'Tüm hakları saklıdır',ru:'Все права защищены',en:'All rights reserved', id:'Semua hak dilindungi' },
+  'error.404':        { fa:'صفحه یافت نشد', ar:'الصفحة غير موجودة',ur:'صفحہ نہیں ملا',az:'Səhifə tapılmadı',tr:'Sayfa Bulunamadı',ru:'Страница не найдена',en:'Page Not Found', id:'Halaman Tidak Ditemukan' },
+  'error.generic':    { fa:'خطایی رخ داده', ar:'حدث خطأ',      ur:'خرابی ہوئی',      az:'Xəta baş verdi',tr:'Bir hata oluştu',ru:'Произошла ошибка',en:'An error occurred', id:'Terjadi kesalahan' },
 };
 
 export class I18n {
