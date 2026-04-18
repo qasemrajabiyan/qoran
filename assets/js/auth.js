@@ -14,24 +14,24 @@ import { i18n, t } from './i18n.js';
    ترجمه‌های اختصاصی این ماژول
    ──────────────────────────────────────────────────────────── */
 const AUTH_COPY = {
-  login:         { fa:'ورود', ar:'تسجيل الدخول', ur:'لاگ ان', az:'Daxil ol', tr:'Giriş', ru:'Войти', en:'Login' },
-  register:      { fa:'ثبت‌نام', ar:'التسجيل', ur:'رجسٹر', az:'Qeydiyyat', tr:'Kayıt Ol', ru:'Регистрация', en:'Register' },
-  fullName:      { fa:'نام کامل', ar:'الاسم الكامل', ur:'پورا نام', az:'Tam adınız', tr:'Tam Adınız', ru:'Полное имя', en:'Full Name' },
-  email:         { fa:'آدرس ایمیل', ar:'البريد الإلكتروني', ur:'ای میل', az:'E-poçt', tr:'E-posta', en:'Email', ru:'Эл. почта' },
-  country:       { fa:'کشور (اختیاری)', ar:'الدولة (اختياري)', ur:'ملک (اختیاری)', az:'Ölkə (ixtiyari)', tr:'Ülke (İsteğe Bağlı)', ru:'Страна (необязательно)', en:'Country (Optional)' },
-  sendOtp:       { fa:'ارسال کد تأیید', ar:'إرسال رمز التحقق', ur:'تصدیقی کوڈ بھیجیں', az:'Doğrulama kodu göndər', tr:'Doğrulama Kodu Gönder', ru:'Отправить код', en:'Send Verification Code' },
-  verifyOtp:     { fa:'تأیید کد', ar:'تأكيد الرمز', ur:'کوڈ تصدیق کریں', az:'Kodu təsdiqlə', tr:'Kodu Doğrula', ru:'Подтвердить код', en:'Verify Code' },
-  otpSent:       { fa:'کد به ایمیل شما ارسال شد', ar:'تم إرسال الرمز إلى بريدك', ur:'کوڈ آپ کے ای میل پر بھیجا گیا', az:'Kod e-poçtunuza göndərildi', tr:'Kod e-postanıza gönderildi', ru:'Код отправлен на вашу почту', en:'Code sent to your email' },
-  resendOtp:     { fa:'ارسال مجدد کد', ar:'إعادة إرسال الرمز', ur:'کوڈ دوبارہ بھیجیں', az:'Kodu yenidən göndər', tr:'Kodu Yeniden Gönder', ru:'Отправить снова', en:'Resend Code' },
-  continueGoogle:{ fa:'ادامه با گوگل', ar:'المتابعة بجوجل', ur:'گوگل سے جاری رہیں', az:'Google ilə davam et', tr:'Google ile Devam Et', ru:'Войти через Google', en:'Continue with Google' },
-  orEmail:       { fa:'یا با ایمیل', ar:'أو بالبريد الإلكتروني', ur:'یا ای میل سے', az:'Və ya e-poçtla', tr:'veya E-posta ile', ru:'или по Email', en:'or with Email' },
-  namePlaceholder:{ fa:'مثلاً: علی محمدی', ar:'مثال: محمد أحمد', ur:'مثلاً: احمد علی', az:'Məs: Əli Əliyev', tr:'Örn: Ahmet Yılmaz', ru:'Напр: Алексей Иванов', en:'e.g. John Smith' },
-  emailInvalid:  { fa:'ایمیل معتبر وارد کنید', ar:'أدخل بريداً صحيحاً', ur:'درست ای میل درج کریں', az:'Düzgün e-poçt daxil edin', tr:'Geçerli e-posta girin', ru:'Введите корректный email', en:'Enter a valid email' },
-  nameRequired:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required' },
-  otpInvalid:    { fa:'کد اشتباه است', ar:'الرمز خاطئ', ur:'غلط کوڈ', az:'Kod yanlışdır', tr:'Hatalı kod', ru:'Неверный код', en:'Invalid code' },
-  welcomeBack:   { fa:'خوش برگشتید', ar:'مرحباً بعودتك', ur:'خوش آمدید واپس', az:'Xoş gəldiniz', tr:'Tekrar Hoş Geldiniz', ru:'С возвращением', en:'Welcome Back' },
-  visualTitle:   { fa:'به خانواده برکت‌هاب خوش آمدید', ar:'مرحباً بك في عائلة بركت هاب', ur:'برکت‌ہب خاندان میں خوش آمدید', az:'BarakatHub ailəsinə xoş gəldiniz', tr:'BarakatHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в BarakatHub', en:'Welcome to BarakatHub Family' },
-  visualDesc:    { fa:'تدبر در قرآن، دعا، زیارت و ارتباط با کربلا — همه در یک پلتفرم', ar:'التدبر في القرآن والدعاء والزيارة والتواصل مع كربلاء', ur:'قرآن تدبر، دعا، زیارت اور کربلا سے رابطہ', az:'Quran təfəkkürü, dua, ziyarət', tr:'Kuran tefekkürü, dua, ziyaret', ru:'Размышление над Кораном, молитвы, паломничество', en:'Quran reflection, prayer, pilgrimage — all in one platform' },
+  login:         { fa:'ورود', ar:'تسجيل الدخول', ur:'لاگ ان', az:'Daxil ol', tr:'Giriş', ru:'Войти', en:'Login', id:'Masuk' },
+  register:      { fa:'ثبت‌نام', ar:'التسجيل', ur:'رجسٹر', az:'Qeydiyyat', tr:'Kayıt Ol', ru:'Регистрация', en:'Register', id:'Daftar' },
+  fullName:      { fa:'نام کامل', ar:'الاسم الكامل', ur:'پورا نام', az:'Tam adınız', tr:'Tam Adınız', ru:'Полное имя', en:'Full Name', id:'Nama Lengkap' },
+  email:         { fa:'آدرس ایمیل', ar:'البريد الإلكتروني', ur:'ای میل', az:'E-poçt', tr:'E-posta', en:'Email', ru:'Эл. почта', id:'Email' },
+  country:       { fa:'کشور (اختیاری)', ar:'الدولة (اختياري)', ur:'ملک (اختیاری)', az:'Ölkə (ixtiyari)', tr:'Ülke (İsteğe Bağlı)', ru:'Страна (необязательно)', en:'Country (Optional)', id:'Negara (Opsional)' },
+  sendOtp:       { fa:'ارسال کد تأیید', ar:'إرسال رمز التحقق', ur:'تصدیقی کوڈ بھیجیں', az:'Doğrulama kodu göndər', tr:'Doğrulama Kodu Gönder', ru:'Отправить код', en:'Send Verification Code', id:'Kirim Kode Verifikasi' },
+  verifyOtp:     { fa:'تأیید کد', ar:'تأكيد الرمز', ur:'کوڈ تصدیق کریں', az:'Kodu təsdiqlə', tr:'Kodu Doğrula', ru:'Подтвердить код', en:'Verify Code', id:'Verifikasi Kode' },
+  otpSent:       { fa:'کد به ایمیل شما ارسال شد', ar:'تم إرسال الرمز إلى بريدك', ur:'کوڈ آپ کے ای میل پر بھیجا گیا', az:'Kod e-poçtunuza göndərildi', tr:'Kod e-postanıza gönderildi', ru:'Код отправлен на вашу почту', en:'Code sent to your email', id:'Kode dikirim ke email Anda' },
+  resendOtp:     { fa:'ارسال مجدد کد', ar:'إعادة إرسال الرمز', ur:'کوڈ دوبارہ بھیجیں', az:'Kodu yenidən göndər', tr:'Kodu Yeniden Gönder', ru:'Отправить снова', en:'Resend Code', id:'Kirim Ulang Kode' },
+  continueGoogle:{ fa:'ادامه با گوگل', ar:'المتابعة بجوجل', ur:'گوگل سے جاری رہیں', az:'Google ilə davam et', tr:'Google ile Devam Et', ru:'Войти через Google', en:'Continue with Google', id:'Lanjutkan dengan Google' },
+  orEmail:       { fa:'یا با ایمیل', ar:'أو بالبريد الإلكتروني', ur:'یا ای میل سے', az:'Və ya e-poçtla', tr:'veya E-posta ile', ru:'или по Email', en:'or with Email', id:'atau dengan Email' },
+  namePlaceholder:{ fa:'مثلاً: علی محمدی', ar:'مثال: محمد أحمد', ur:'مثلاً: احمد علی', az:'Məs: Əli Əliyev', tr:'Örn: Ahmet Yılmaz', ru:'Напр: Алексей Иванов', en:'e.g. John Smith', id:'cth. Ahmad Budi' },
+  emailInvalid:  { fa:'ایمیل معتبر وارد کنید', ar:'أدخل بريداً صحيحاً', ur:'درست ای میل درج کریں', az:'Düzgün e-poçt daxil edin', tr:'Geçerli e-posta girin', ru:'Введите корректный email', en:'Enter a valid email', id:'Masukkan email yang valid' },
+  nameRequired:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required', id:'Nama wajib diisi' },
+  otpInvalid:    { fa:'کد اشتباه است', ar:'الرمز خاطئ', ur:'غلط کوڈ', az:'Kod yanlışdır', tr:'Hatalı kod', ru:'Неверный код', en:'Invalid code', id:'Kode tidak valid' },
+  welcomeBack:   { fa:'خوش برگشتید', ar:'مرحباً بعودتك', ur:'خوش آمدید واپس', az:'Xoş gəldiniz', tr:'Tekrar Hoş Geldiniz', ru:'С возвращением', en:'Welcome Back', id:'Selamat Datang Kembali' },
+  visualTitle:   { fa:'به خانواده برکت‌هاب خوش آمدید', ar:'مرحباً بك في عائلة بركت هاب', ur:'برکت‌ہب خاندان میں خوش آمدید', az:'BarakatHub ailəsinə xoş gəldiniz', tr:'BarakatHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в BarakatHub', en:'Welcome to BarakatHub Family', id:'Selamat Datang di Keluarga BarakatHub' },
+  visualDesc:    { fa:'تدبر در قرآن، دعا، زیارت و ارتباط با کربلا — همه در یک پلتفرم', ar:'التدبر في القرآن والدعاء والزيارة والتواصل مع كربلاء', ur:'قرآن تدبر، دعا، زیارت اور کربلا سے رابطہ', az:'Quran təfəkkürü, dua, ziyarət', tr:'Kuran tefekkürü, dua, ziyaret', ru:'Размышление над Кораном, молитвы, паломничество', en:'Quran reflection, prayer, pilgrimage — all in one platform', id:'Refleksi Quran, doa, ziarah — semua dalam satu platform' },
 };
 
 function tx(obj) {
@@ -175,7 +175,7 @@ export function renderAuthPage(container) {
             <div class="auth-visual__stats" aria-label="آمار">
               <div class="auth-visual__stat">
                 <span class="auth-visual__stat-num">۱۲۴۰+</span>
-                <span class="auth-visual__stat-lbl">${{ fa:'مقاله', ar:'مقالة', ur:'مضمون', en:'Articles', tr:'Makale', ru:'Статей', az:'Məqalə' }[i18n.lang] ?? 'مقاله'}</span>
+                <span class="auth-visual__stat-lbl">${{ fa:'مقاله', ar:'مقالة', ur:'مضمون', en:'Articles', tr:'Makale', ru:'Статей', az:'Məqalə', id:'Artikel' }[i18n.lang] ?? 'مقاله'}</span>
               </div>
               <div class="auth-visual__stat">
                 <span class="auth-visual__stat-num">۸۲K</span>
@@ -183,7 +183,7 @@ export function renderAuthPage(container) {
               </div>
               <div class="auth-visual__stat">
                 <span class="auth-visual__stat-num">۷</span>
-                <span class="auth-visual__stat-lbl">${{ fa:'زبان', ar:'لغة', ur:'زبان', en:'Languages', tr:'Dil', ru:'Языков', az:'Dil' }[i18n.lang] ?? 'زبان'}</span>
+                <span class="auth-visual__stat-lbl">${{ fa:'زبان', ar:'لغة', ur:'زبان', en:'Languages', tr:'Dil', ru:'Языков', az:'Dil', id:'Bahasa' }[i18n.lang] ?? 'زبان'}</span>
               </div>
             </div>
           </div>
@@ -362,7 +362,7 @@ export function renderAuthPage(container) {
             font-size:var(--text-sm); cursor:pointer; text-decoration:underline;
             text-underline-offset:3px;
           ">
-            ← ${tx({ fa:'تغییر ایمیل', ar:'تغيير البريد', ur:'ای میل تبدیل کریں', en:'Change Email', tr:'E-postayı Değiştir', ru:'Изменить email', az:'E-poçtu dəyişdir' })}
+            ← ${tx({ fa:'تغییر ایمیل', ar:'تغيير البريد', ur:'ای میل تبدیل کریں', en:'Change Email', tr:'E-postayı Değiştir', ru:'Изменить email', az:'E-poçtu dəyişdir', id:'Ganti Email' })}
           </button>
         </div>
       </div>
@@ -406,7 +406,7 @@ export function renderAuthPage(container) {
     const timer = new OTPTimer(
       120,
       (rem) => {
-        if (timerEl) timerEl.textContent = `${tx({ fa:'ارسال مجدد تا', ar:'إعادة الإرسال بعد', ur:'دوبارہ بھیجیں', en:'Resend in', tr:'Yeniden gönder', ru:'Отправить снова через', az:'Yenidən göndər' })} ${Math.floor(rem/60).toString().padStart(2,'0')}:${(rem%60).toString().padStart(2,'0')} `;
+        if (timerEl) timerEl.textContent = `${tx({ fa:'ارسال مجدد تا', ar:'إعادة الإرسال بعد', ur:'دوبارہ بھیجیں', en:'Resend in', tr:'Yeniden gönder', ru:'Отправить снова через', az:'Yenidən göndər', id:'Kirim ulang dalam' })} ${Math.floor(rem/60).toString().padStart(2,'0')}:${(rem%60).toString().padStart(2,'0')} `;
       },
       () => {
         if (resendBtn) resendBtn.disabled = false;
@@ -523,7 +523,7 @@ export function renderAuthPage(container) {
   async function _handleGoogleLogin() {
     /* در production: Google OAuth redirect */
     console.log('[Auth] Google login initiated');
-    alert(tx({ fa:'Google Login در نسخه production فعال می‌شود', ar:'Google Login سيُفعَّل في نسخة الإنتاج', en:'Google Login will be enabled in production', tr:'Google Login üretimde aktif olacak', ru:'Google Login будет активен в production', az:'Google Login tezliklə aktivləşdiriləcək', ur:'Google Login جلد فعال ہوگا' }));
+    alert(tx({ fa:'Google Login در نسخه production فعال می‌شود', ar:'Google Login سيُفعَّل في نسخة الإنتاج', en:'Google Login will be enabled in production', tr:'Google Login üretimde aktif olacak', ru:'Google Login будет активен в production', az:'Google Login tezliklə aktivləşdiriləcək', ur:'Google Login جلد فعال ہوگا', id:'Google Login akan aktif di versi produksi' }));
   }
 
   _render();
