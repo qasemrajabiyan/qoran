@@ -22,7 +22,7 @@ export const AboutContent = {
         /* عنوان */
         title: {
           fa: 'درباره برکت‌هاب',
-          ar: 'عن ميدياهاب',
+          ar: 'عن بركت هاب',
           ur: 'برکت‌ہب کے بارے میں',
           az: 'BarakatHub haqqında',
           tr: 'BarakatHub Hakkında',

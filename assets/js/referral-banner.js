@@ -379,7 +379,7 @@ export const MessageDispatcher = {
       icon:    '📖',
       title:   {
         fa: 'پیام از برکت‌هاب — کربلا',
-        ar: 'رسالة من ميدياهاب — كربلاء',
+        ar: 'رسالة من بركت هاب — كربلاء',
         ur: 'برکت‌ہب کربلا کا پیغام',
         en: 'Message from BarakatHub — Karbala',
         tr: 'BarakatHub Kerbela\'dan mesaj',
