@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: istikhara.js
  * ROLE: سیستم استخاره — رایگان (متن) + پولی (صوت با صدای شیخ)
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * DEPENDS ON: i18n.js, auth.js, auto-translate.js, notifications.js
  *

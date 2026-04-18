@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: theme.js
  * ROLE: Theme Manager — Dark / Light Mode Toggle
- * PROJECT: MediaHub — پلتفرم رسانه‌ای چندزبانه
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
  * VERSION: 1.0.0
  *
  * USAGE:
@@ -18,7 +18,7 @@
 
 export class Theme {
   constructor(options = {}) {
-    this._storageKey  = options.storageKey  ?? 'mediahub_theme';
+    this._storageKey  = options.storageKey  ?? 'BarakatHub_theme';
     this._attribute   = options.attribute   ?? 'data-theme';
     this._target      = options.target      ?? document.documentElement;
     this._listeners   = [];

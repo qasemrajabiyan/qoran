@@ -1,8 +1,8 @@
 /**
  * ============================================================
  * FILE: index.js
- * ROLE: سرور اصلی MediaHub Karbala Backend
- * PROJECT: MediaHub — پلتفرم رسانه‌ای اسلامی کربلا
+ * ROLE: سرور اصلی BarakatHub Karbala Backend
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای اسلامی کربلا
  * VERSION: 2.0.0
  *
  * راه‌اندازی:
@@ -83,7 +83,7 @@ app.use('/api/quran', quranRoutes);
 app.get('/health', (req, res) => {
   res.json({
     status:    'online',
-    project:   'MediaHub Karbala Backend',
+    project:   'BarakatHub Karbala Backend',
     version:   '2.0.0',
     timestamp: new Date().toISOString(),
     env:       CONFIG.NODE_ENV,
@@ -109,7 +109,7 @@ app.use((err, req, res, next) => {
    ──────────────────────────────────────────────────────────── */
 app.listen(CONFIG.PORT, () => {
   console.log('\n' + chalk.green('═'.repeat(56)));
-  console.log(chalk.green.bold('  🕌  MediaHub Karbala — Backend Server v2.0.0'));
+  console.log(chalk.green.bold('  🕌  BarakatHub Karbala — Backend Server v2.0.0'));
   console.log(chalk.green('═'.repeat(56)));
   console.log(chalk.cyan(`  ▶  آدرس:     ${CONFIG.BASE_URL}`));
   console.log(chalk.cyan(`  ▶  پورت:     ${CONFIG.PORT}`));

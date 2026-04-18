@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: audio-player.js
  * ROLE: پلیر صوت جهانی — سرعت ۱x/۱.۵x/۲x + کنترل فونت
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * ============================================================
  */
@@ -160,8 +160,8 @@ export class AudioPlayer {
   _setupMediaSession() {
     if (!('mediaSession' in navigator)) return;
     navigator.mediaSession.metadata = new MediaMetadata({
-      title:  this.options.label || 'MediaHub کربلا',
-      artist: 'دانشگاه قرآن — MediaHub',
+      title:  this.options.label || 'BarakatHub کربلا',
+      artist: 'دانشگاه قرآن — BarakatHub',
       album:  'پلتفرم رسانه‌ای کربلا',
     });
     navigator.mediaSession.setActionHandler('play',  () => { this.audio?.play(); });

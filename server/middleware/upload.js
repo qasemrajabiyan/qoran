@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: middleware/upload.js
  * ROLE: مدیریت آپلود فایل ویدیو و صوت
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * ============================================================
  */
 

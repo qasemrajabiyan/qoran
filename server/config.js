@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: config.js
  * ROLE: تنظیمات مرکزی سرور — کلیدهای API و پیکربندی
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * VERSION: 2.0.0
  * ============================================================
  */
@@ -48,7 +48,7 @@ export const CONFIG = {
     ACCOUNT_ID:        process.env.CF_ACCOUNT_ID        || '',
     ACCESS_KEY_ID:     process.env.CF_R2_ACCESS_KEY_ID  || '',
     SECRET_ACCESS_KEY: process.env.CF_R2_SECRET_KEY     || '',
-    BUCKET_NAME:       process.env.CF_R2_BUCKET         || 'mediahub-media',
+    BUCKET_NAME:       process.env.CF_R2_BUCKET         || 'BarakatHub-media',
     PUBLIC_URL:        process.env.CF_R2_PUBLIC_URL      || '',  /* آدرس عمومی bucket */
   },
 
@@ -70,7 +70,7 @@ export const CONFIG = {
   UPLOAD: {
     MAX_VIDEO_SIZE_MB: 500,
     MAX_AUDIO_SIZE_MB: 50,
-    TEMP_DIR:          '/tmp/mediahub',
+    TEMP_DIR:          '/tmp/BarakatHub',
     ALLOWED_VIDEO:     ['video/mp4', 'video/webm', 'video/quicktime'],
     ALLOWED_AUDIO:     ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/webm', 'audio/ogg'],
   },

@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: referral-banner.js
  * ROLE: بنر contextual معرفی (۳۰ ثانیه) + پیام‌های زمان‌بندی‌شده
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  *
  * شامل:
@@ -381,10 +381,10 @@ export const MessageDispatcher = {
         fa: 'پیام از برکت‌هاب — کربلا',
         ar: 'رسالة من ميدياهاب — كربلاء',
         ur: 'میڈیاہب کربلا کا پیغام',
-        en: 'Message from MediaHub — Karbala',
-        tr: 'MediaHub Kerbela\'dan mesaj',
-        ru: 'Сообщение от MediaHub — Кербела',
-        az: 'MediaHub Kərbaladan mesaj',
+        en: 'Message from BarakatHub — Karbala',
+        tr: 'BarakatHub Kerbela\'dan mesaj',
+        ru: 'Сообщение от BarakatHub — Кербела',
+        az: 'BarakatHub Kərbaladan mesaj',
       },
       text:    { [lang]: fullMessage, fa: greetText + templateFa },
       time:    new Date().toISOString(),

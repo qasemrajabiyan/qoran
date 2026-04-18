@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: admin.js
  * ROLE: داشبورد ادمین — ساختار، آمار، صفحه اصلی
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * ============================================================
  */
@@ -20,7 +20,7 @@ export function requireAdmin() {
 
 export function adminLogin(password) {
   /* در production: API call */
-  const ADMIN_PASS = 'mediahub2026admin'; /* بعداً از سرور */
+  const ADMIN_PASS = 'BarakatHub2026admin'; /* بعداً از سرور */
   if (password === ADMIN_PASS) {
     localStorage.setItem(ADMIN_KEY, 'admin_' + Date.now());
     return true;

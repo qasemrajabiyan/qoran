@@ -3,7 +3,7 @@
  * FILE: notifications.js
  * ROLE: سیستم Push Notification کامل
  *       سایت + PWA + APK — صدا، ویبره، badge، بنر موبایل
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  *
  * نحوه کار:
@@ -302,7 +302,7 @@ export const FirebasePush = {
         body: 'متن پیام',
         icon: '/assets/img/icon-192.png',
         url: '/profile.html',
-        tag: 'mediahub-msg',
+        tag: 'BarakatHub-msg',
         data: { type: 'prayer', orderId: '...' }
       }
     */
@@ -406,7 +406,7 @@ export const NotifCenter = {
           body,
           icon:    '/assets/img/icon-192.png',
           badge:   '/assets/img/icon-192.png',
-          tag:     notif.id ?? 'mediahub',
+          tag:     notif.id ?? 'BarakatHub',
           vibrate: [100, 50, 100],
           data:    { url: notif.url ?? '/' },
         });
@@ -576,7 +576,7 @@ export function renderFirebaseAdminPanel() {
             <label class="admin-label" for="fb-project-id">Project ID</label>
             <input type="text" class="admin-input" id="fb-project-id"
               value="${config?.projectId ?? ''}" dir="ltr"
-              placeholder="mediahub-xxxxx"/>
+              placeholder="BarakatHub-xxxxx"/>
           </div>
           <div class="admin-field">
             <label class="admin-label" for="fb-messaging-id">Messaging Sender ID</label>

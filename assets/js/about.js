@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: about.js
  * ROLE: صفحه درباره ما — کاربر + ادمین
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * ============================================================
  */
@@ -24,11 +24,11 @@ export const AboutContent = {
           fa: 'درباره برکت‌هاب',
           ar: 'عن ميدياهاب',
           ur: 'میڈیاہب کے بارے میں',
-          az: 'MediaHub haqqında',
-          tr: 'MediaHub Hakkında',
-          ru: 'О MediaHub',
-          en: 'About MediaHub',
-          id: 'Tentang MediaHub',
+          az: 'BarakatHub haqqında',
+          tr: 'BarakatHub Hakkında',
+          ru: 'О BarakatHub',
+          en: 'About BarakatHub',
+          id: 'Tentang BarakatHub',
         },
         /* زیرعنوان */
         subtitle: {

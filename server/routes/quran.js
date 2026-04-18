@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: routes/quran.js
  * ROLE: API مسیرهای دانشگاه قرآن — دوبله، صوت، مدیریت
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * ============================================================
  *
  * POST /api/quran/upload-video      — آپلود ویدیو اصلی

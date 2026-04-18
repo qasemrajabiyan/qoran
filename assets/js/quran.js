@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: quran.js
  * ROLE: دانشگاه قرآن — منطق کامل با AI ترجمه، paywall، free reads
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * DEPENDS ON: i18n.js, auth.js
  * ============================================================
@@ -575,7 +575,7 @@ function _setupMediaSession(title, author, avatarUrl = '') {
   navigator.mediaSession.metadata = new MediaMetadata({
     title,
     artist: author,
-    album: 'دانشگاه قرآن — MediaHub کربلا',
+    album: 'دانشگاه قرآن — BarakatHub کربلا',
     artwork: avatarUrl ? [{ src: avatarUrl, sizes: '512x512', type: 'image/png' }] : [],
   });
 }

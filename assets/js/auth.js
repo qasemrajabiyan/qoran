@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: auth.js
  * ROLE: ثبت‌نام، ورود، OTP، Google Login
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * DEPENDS ON: i18n.js, theme.js
  * ============================================================
@@ -30,7 +30,7 @@ const AUTH_COPY = {
   nameRequired:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required' },
   otpInvalid:    { fa:'کد اشتباه است', ar:'الرمز خاطئ', ur:'غلط کوڈ', az:'Kod yanlışdır', tr:'Hatalı kod', ru:'Неверный код', en:'Invalid code' },
   welcomeBack:   { fa:'خوش برگشتید', ar:'مرحباً بعودتك', ur:'خوش آمدید واپس', az:'Xoş gəldiniz', tr:'Tekrar Hoş Geldiniz', ru:'С возвращением', en:'Welcome Back' },
-  visualTitle:   { fa:'به خانواده برکت‌هاب خوش آمدید', ar:'مرحباً بك في عائلة ميدياهاب', ur:'میڈیاہب خاندان میں خوش آمدید', az:'MediaHub ailəsinə xoş gəldiniz', tr:'MediaHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в MediaHub', en:'Welcome to MediaHub Family' },
+  visualTitle:   { fa:'به خانواده برکت‌هاب خوش آمدید', ar:'مرحباً بك في عائلة ميدياهاب', ur:'میڈیاہب خاندان میں خوش آمدید', az:'BarakatHub ailəsinə xoş gəldiniz', tr:'BarakatHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в BarakatHub', en:'Welcome to BarakatHub Family' },
   visualDesc:    { fa:'تدبر در قرآن، دعا، زیارت و ارتباط با کربلا — همه در یک پلتفرم', ar:'التدبر في القرآن والدعاء والزيارة والتواصل مع كربلاء', ur:'قرآن تدبر، دعا، زیارت اور کربلا سے رابطہ', az:'Quran təfəkkürü, dua, ziyarət', tr:'Kuran tefekkürü, dua, ziyaret', ru:'Размышление над Кораном, молитвы, паломничество', en:'Quran reflection, prayer, pilgrimage — all in one platform' },
 };
 

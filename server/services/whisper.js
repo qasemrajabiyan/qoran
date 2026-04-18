@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: services/whisper.js
  * ROLE: استخراج صوت از ویدیو + تبدیل گفتار به متن (Whisper)
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * ============================================================
  *
  * جریان کار:

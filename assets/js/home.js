@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: home.js
  * ROLE: صفحه اصلی — Hero, Ticker, Featured, News Grid, Newsletter
- * PROJECT: MediaHub — پلتفرم رسانه‌ای چندزبانه
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
  * VERSION: 1.0.0
  * DEPENDS ON: i18n.js, theme.js, pwa.js
  * ============================================================
@@ -197,10 +197,10 @@ function _heroDesc() {
     fa: 'برکت‌هاب؛ بستری برای تدبر در قرآن، معارف اهل‌بیت، دعا و ارتباط معنوی با حرم مطهر امام حسین (علیه‌السلام)',
     ar: 'ميدياهاب؛ منصة للتدبر في القرآن ومعارف أهل البيت والدعاء والتواصل الروحي مع الروضة الحسينية',
     ur: 'میڈیاہب؛ قرآن میں تدبر، اہل بیت کی معارف، دعا اور امام حسین کے حرم سے روحانی رابطے کا پلیٹ فارم',
-    az: 'Mediahub; Quranı dərk etmək, Əhli-Beyt biliklərini öyrənmək, dua etmək üçün platforma',
-    tr: 'MediaHub; Kur\'an\'ı düşünmek, Ehl-i Beyt bilgilerini öğrenmek ve dua için platform',
-    ru: 'MediaHub — платформа для размышления над Кораном, знаний Ахл аль-Бейт и духовной связи со святыней',
-    en: 'MediaHub — a platform for Quranic reflection, Ahlul Bayt knowledge, prayer, and spiritual connection with the holy shrine',
+    az: 'BarakatHub; Quranı dərk etmək, Əhli-Beyt biliklərini öyrənmək, dua etmək üçün platforma',
+    tr: 'BarakatHub; Kur\'an\'ı düşünmek, Ehl-i Beyt bilgilerini öğrenmek ve dua için platform',
+    ru: 'BarakatHub — платформа для размышления над Кораном, знаний Ахл аль-Бейт и духовной связи со святыней',
+    en: 'BarakatHub — a platform for Quranic reflection, Ahlul Bayt knowledge, prayer, and spiritual connection with the holy shrine',
   };
   return map[i18n.lang] ?? map.fa;
 }
@@ -635,7 +635,7 @@ function renderServices() {
       gradient: 'linear-gradient(135deg,#0d1f2d,#1a3040)',
       href: '/payment.html',
       title: { fa:'پرداخت', ar:'الدفع', ur:'ادائیگی', az:'Ödəniş', tr:'Ödeme', ru:'Платёж', en:'Payment', id:'Pembayaran' },
-      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة ميدياهاب', ur:'میڈیاہب کو رقم بھیجیں', az:'MediaHub-a ödəniş göndər', tr:'MediaHub'a ödeme gönder', ru:'Отправить платёж в MediaHub', en:'Send payment to MediaHub', id:'Kirim pembayaran ke MediaHub' },
+      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة ميدياهاب', ur:'میڈیاہب کو رقم بھیجیں', az:'BarakatHub-a ödəniş göndər', tr:'BarakatHub'a ödeme gönder', ru:'Отправить платёж в BarakatHub', en:'Send payment to BarakatHub', id:'Kirim pembayaran ke BarakatHub' },
     },
   ];
 

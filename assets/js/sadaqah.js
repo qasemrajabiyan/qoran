@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: sadaqah.js
  * ROLE: سیستم صدقه و هدیه — ارسال وجه نقد داوطلبانه
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  *
  * روش‌های پرداخت:
@@ -119,7 +119,7 @@ export function renderSadaqahPage(container) {
 
   const COPY = {
     pageTitle:    { fa:'پرداخت', ar:'الدفع', ur:'ادائیگی', az:'Ödəniş', tr:'Ödeme', ru:'Платёж', en:'Payment', id:'Pembayaran' },
-    pageDesc:     { fa:'ارسال وجه به پلتفرم برکت‌هاب کربلا', ar:'إرسال مبلغ إلى منصة ميدياهاب كربلاء', ur:'میڈیاہب کربلا کو رقم بھیجیں', az:'MediaHub Kərbəlaya ödəniş göndər', tr:'MediaHub Kerbela platformuna ödeme gönder', ru:'Отправить платёж на платформу MediaHub Кербела', en:'Send payment to MediaHub Karbala platform', id:'Kirim pembayaran ke platform MediaHub Karbala' },
+    pageDesc:     { fa:'ارسال وجه به پلتفرم برکت‌هاب کربلا', ar:'إرسال مبلغ إلى منصة ميدياهاب كربلاء', ur:'میڈیاہب کربلا کو رقم بھیجیں', az:'BarakatHub Kərbəlaya ödəniş göndər', tr:'BarakatHub Kerbela platformuna ödeme gönder', ru:'Отправить платёж на платформу BarakatHub Кербела', en:'Send payment to BarakatHub Karbala platform', id:'Kirim pembayaran ke platform BarakatHub Karbala' },
     intentLabel:  { fa:'موضوع پرداخت', ar:'موضوع الدفع', ur:'ادائیگی کا موضوع', az:'Ödəniş mövzusu', tr:'Ödeme konusu', ru:'Тема платежа', en:'Payment subject', id:'Subjek pembayaran' },
     intentHint:   { fa:'علت یا موضوع این پرداخت را بنویسید (اختیاری)', ar:'اكتب سبب أو موضوع هذا الدفع (اختياري)', ur:'اس ادائیگی کی وجہ یا موضوع لکھیں (اختیاری)', az:'Bu ödənişin mövzusunu yazın (ixtiyari)', tr:'Bu ödemenin konusunu yazın (isteğe bağlı)', ru:'Напишите тему или причину этого платежа (необязательно)', en:'Write the subject or reason for this payment (optional)', id:'Tulis subjek atau alasan pembayaran ini (opsional)' },
     amountLabel:  { fa:'مبلغ', ar:'المبلغ', ur:'رقم', az:'Məbləğ', tr:'Tutar', ru:'Сумма', en:'Amount', id:'Jumlah' },

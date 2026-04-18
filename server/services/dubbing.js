@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: services/dubbing.js
  * ROLE: دوبله ویدیو با صدای استاد — ElevenLabs + Claude
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * ============================================================
  *
  * جریان کار برای هر زبان:

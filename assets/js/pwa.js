@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: pwa.js
  * ROLE: PWA Manager — نصب، آفلاین، نوتیفیکیشن، آپدیت
- * PROJECT: MediaHub — پلتفرم رسانه‌ای چندزبانه
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
  * VERSION: 1.0.0
  *
  * USAGE:
@@ -237,7 +237,7 @@ export class PWA {
   /* ── Helper: ترجمه ── */
   _t(key) {
     const map = {
-      'pwa.installTitle':   { fa: 'برکت‌هاب را نصب کنید', ar: 'ثبّت تطبيق مدياهاب', ur: 'میڈیاہب انسٹال کریں', az: 'MediaHub-u quraşdırın', tr: 'MediaHub\'u Yükle', ru: 'Установить MediaHub', en: 'Install MediaHub' },
+      'pwa.installTitle':   { fa: 'برکت‌هاب را نصب کنید', ar: 'ثبّت تطبيق مدياهاب', ur: 'میڈیاہب انسٹال کریں', az: 'BarakatHub-u quraşdırın', tr: 'BarakatHub\'u Yükle', ru: 'Установить BarakatHub', en: 'Install BarakatHub' },
       'pwa.installDesc':    { fa: 'دسترسی سریع، کار آفلاین، بدون مرورگر', ar: 'وصول سريع وعمل دون إنترنت', ur: 'تیز رسائی، آف لائن کام', az: 'Sürətli giriş, oflayn iş', tr: 'Hızlı erişim, çevrimdışı çalışma', ru: 'Быстрый доступ, работа офлайн', en: 'Fast access, offline support' },
       'pwa.install':        { fa: 'نصب', ar: 'تثبيت', ur: 'انسٹال', az: 'Quraşdır', tr: 'Yükle', ru: 'Установить', en: 'Install' },
       'pwa.installed':      { fa: 'اپ با موفقیت نصب شد', ar: 'تم تثبيت التطبيق', ur: 'ایپ کامیابی سے انسٹال ہوئی', az: 'Proqram quraşdırıldı', tr: 'Uygulama yüklendi', ru: 'Приложение установлено', en: 'App installed successfully' },

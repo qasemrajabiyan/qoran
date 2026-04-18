@@ -2,14 +2,14 @@
  * ============================================================
  * FILE: sw.js  (Service Worker)
  * ROLE: PWA — کش، آفلاین، نوتیفیکیشن
- * PROJECT: MediaHub — پلتفرم رسانه‌ای چندزبانه
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
  * VERSION: 1.0.0
  * قرار دادن: ریشه پروژه (کنار index.html)
  * ============================================================
  */
 
-const STATIC_CACHE  = 'mediahub-static-v1';
-const DYNAMIC_CACHE = 'mediahub-dynamic-v1';
+const STATIC_CACHE  = 'BarakatHub-static-v1';
+const DYNAMIC_CACHE = 'BarakatHub-dynamic-v1';
 
 const STATIC_ASSETS = [
   '/',
@@ -136,7 +136,7 @@ self.addEventListener('push', event => {
       body:    data.body || '',
       icon:    '/assets/img/icon-192.png',
       badge:   '/assets/img/icon-192.png',
-      tag:     data.tag || 'mediahub',
+      tag:     data.tag || 'BarakatHub',
       vibrate: [100, 50, 100],
       data:    { url: data.url || '/' },
       actions: [

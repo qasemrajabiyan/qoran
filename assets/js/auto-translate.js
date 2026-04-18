@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: auto-translate.js
  * ROLE: موتور ترجمه خودکار AI — متن، پیام ادمین، محتوای صفحات
- * PROJECT: MediaHub — پلتفرم رسانه‌ای کربلا
+ * PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
  * VERSION: 1.0.0
  * DEPENDS ON: i18n.js, lang-detect.js
  *

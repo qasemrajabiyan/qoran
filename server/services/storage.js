@@ -2,7 +2,7 @@
  * ============================================================
  * FILE: services/storage.js
  * ROLE: ذخیره و مدیریت فایل — Cloudflare R2 + fallback محلی
- * PROJECT: MediaHub Karbala Backend
+ * PROJECT: BarakatHub Karbala Backend
  * ============================================================
  */
 

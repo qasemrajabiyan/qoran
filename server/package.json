@@ -1,15 +1,15 @@
 {
-  "name": "mediahub-karbala-server",
+  "name": "BarakatHub-karbala-server",
   "version": "2.0.0",
-  "description": "MediaHub Karbala — Backend Server | پلتفرم رسانه‌ای اسلامی کربلا",
+  "description": "BarakatHub Karbala — Backend Server | پلتفرم رسانه‌ای اسلامی کربلا",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start":   "node index.js",
     "dev":     "node --watch index.js",
-    "pm2":     "pm2 start index.js --name mediahub --watch",
-    "logs":    "pm2 logs mediahub",
-    "restart": "pm2 restart mediahub"
+    "pm2":     "pm2 start index.js --name BarakatHub --watch",
+    "logs":    "pm2 logs BarakatHub",
+    "restart": "pm2 restart BarakatHub"
   },
   "dependencies": {
     "express":          "^4.19.2",

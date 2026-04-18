@@ -1,4 +1,4 @@
-# 🕌 MediaHub Karbala — Backend Server
+# 🕌 BarakatHub Karbala — Backend Server
 
 ## راه‌اندازی سریع
 
