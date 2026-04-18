@@ -21,7 +21,7 @@ export const AboutContent = {
       return JSON.parse(localStorage.getItem(ABOUT_KEY) || 'null') || {
         /* عنوان */
         title: {
-          fa: 'درباره مدیاهاب',
+          fa: 'درباره برکت‌هاب',
           ar: 'عن ميدياهاب',
           ur: 'میڈیاہب کے بارے میں',
           az: 'MediaHub haqqında',
@@ -40,7 +40,7 @@ export const AboutContent = {
         },
         /* متن اصلی — ادمین می‌نویسد */
         body: {
-          fa: `مدیاهاب یک پلتفرم رسانه‌ای اسلامی است که با هدف ایجاد ارتباط معنوی میان مسلمانان سراسر جهان و حرم مطهر امام حسین علیه‌السلام در کربلای معلی تأسیس شده است.
+          fa: `برکت‌هاب یک پلتفرم رسانه‌ای اسلامی است که با هدف ایجاد ارتباط معنوی میان مسلمانان سراسر جهان و حرم مطهر امام حسین علیه‌السلام در کربلای معلی تأسیس شده است.
 
 ما با بهره‌گیری از فناوری روز دنیا، خدماتی از قبیل تدبر در قرآن کریم، قرائت دعا و ختم قرآن نیابتی، مشاوره دینی و روانشناختی، استخاره به قرآن کریم و دیدار با شیخ را در اختیار کاربران خود در هشت زبان مختلف قرار می‌دهیم.
 
@@ -297,7 +297,7 @@ export function renderAboutAdminPage(container) {
               <label class="admin-label" for="about-title">عنوان (فارسی)</label>
               <input type="text" class="admin-input" id="about-title"
                 value="${content.title?.fa ?? ''}"
-                placeholder="مثلاً: درباره مدیاهاب"/>
+                placeholder="مثلاً: درباره برکت‌هاب"/>
             </div>
             <div class="admin-field">
               <label class="admin-label" for="about-subtitle">زیرعنوان (فارسی)</label>

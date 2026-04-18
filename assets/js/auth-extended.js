@@ -55,7 +55,7 @@ export function showRegistrationGate(onComplete) {
   `;
 
   const COPY = {
-    title:    { fa:'خوش آمدید به مدیاهاب', ar:'مرحباً بك في ميدياهاب', ur:'میڈیاہب میں خوش آمدید', az:'MediaHub-a xoş gəldiniz', tr:'MediaHub\'a Hoş Geldiniz', ru:'Добро пожаловать в MediaHub', en:'Welcome to MediaHub' },
+    title:    { fa:'خوش آمدید به برکت‌هاب', ar:'مرحباً بك في ميدياهاب', ur:'میڈیاہب میں خوش آمدید', az:'MediaHub-a xoş gəldiniz', tr:'MediaHub\'a Hoş Geldiniz', ru:'Добро пожаловать в MediaHub', en:'Welcome to MediaHub' },
     subtitle: { fa:'برای ادامه لطفاً ثبت‌نام کنید', ar:'يرجى التسجيل للمتابعة', ur:'جاری رکھنے کے لیے رجسٹر کریں', az:'Davam etmək üçün qeydiyyatdan keçin', tr:'Devam etmek için kayıt olun', ru:'Для продолжения пожалуйста зарегистрируйтесь', en:'Please register to continue' },
     name:     { fa:'نام شما', ar:'اسمك', ur:'آپ کا نام', az:'Adınız', tr:'Adınız', ru:'Ваше имя', en:'Your Name' },
     email:    { fa:'ایمیل (اختیاری)', ar:'البريد الإلكتروني (اختياري)', ur:'ای میل (اختیاری)', az:'E-poçt (ixtiyari)', tr:'E-posta (isteğe bağlı)', ru:'Email (необязательно)', en:'Email (Optional)' },

@@ -378,7 +378,7 @@ export const MessageDispatcher = {
       type:    'quran',
       icon:    '📖',
       title:   {
-        fa: 'پیام از مدیاهاب — کربلا',
+        fa: 'پیام از برکت‌هاب — کربلا',
         ar: 'رسالة من ميدياهاب — كربلاء',
         ur: 'میڈیاہب کربلا کا پیغام',
         en: 'Message from MediaHub — Karbala',

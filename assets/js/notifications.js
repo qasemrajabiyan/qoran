@@ -639,7 +639,7 @@ export function bindFirebaseAdminEvents(container) {
     const msg = document.getElementById('test-push-msg')?.value?.trim();
     if (!msg) return;
     FirebasePush.sendToAll({
-      title: 'پیام از مدیاهاب',
+      title: 'پیام از برکت‌هاب',
       body:  msg,
       icon:  '📢',
     });

@@ -141,10 +141,10 @@ export function renderAdminShell(container, initialPage = 'overview') {
         <aside class="admin-sidebar ${_sidebarOpen || window.innerWidth >= 1024 ? '' : ''}" id="admin-sidebar" aria-label="منوی ادمین">
 
           <!-- Logo -->
-          <a href="/" class="admin-sidebar__logo" aria-label="مدیاهاب">
+          <a href="/" class="admin-sidebar__logo" aria-label="برکت‌هاب">
             <div class="admin-sidebar__logo-icon" aria-hidden="true">🕌</div>
             <div class="overflow-hidden">
-              <div class="admin-sidebar__logo-text">مدیاهاب</div>
+              <div class="admin-sidebar__logo-text">برکت‌هاب</div>
               <span class="admin-sidebar__logo-sub">پنل مدیریت</span>
             </div>
           </a>

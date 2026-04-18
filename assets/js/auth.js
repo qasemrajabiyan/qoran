@@ -30,7 +30,7 @@ const AUTH_COPY = {
   nameRequired:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required' },
   otpInvalid:    { fa:'کد اشتباه است', ar:'الرمز خاطئ', ur:'غلط کوڈ', az:'Kod yanlışdır', tr:'Hatalı kod', ru:'Неверный код', en:'Invalid code' },
   welcomeBack:   { fa:'خوش برگشتید', ar:'مرحباً بعودتك', ur:'خوش آمدید واپس', az:'Xoş gəldiniz', tr:'Tekrar Hoş Geldiniz', ru:'С возвращением', en:'Welcome Back' },
-  visualTitle:   { fa:'به خانواده مدیاهاب خوش آمدید', ar:'مرحباً بك في عائلة ميدياهاب', ur:'میڈیاہب خاندان میں خوش آمدید', az:'MediaHub ailəsinə xoş gəldiniz', tr:'MediaHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в MediaHub', en:'Welcome to MediaHub Family' },
+  visualTitle:   { fa:'به خانواده برکت‌هاب خوش آمدید', ar:'مرحباً بك في عائلة ميدياهاب', ur:'میڈیاہب خاندان میں خوش آمدید', az:'MediaHub ailəsinə xoş gəldiniz', tr:'MediaHub Ailesine Hoş Geldiniz', ru:'Добро пожаловать в MediaHub', en:'Welcome to MediaHub Family' },
   visualDesc:    { fa:'تدبر در قرآن، دعا، زیارت و ارتباط با کربلا — همه در یک پلتفرم', ar:'التدبر في القرآن والدعاء والزيارة والتواصل مع كربلاء', ur:'قرآن تدبر، دعا، زیارت اور کربلا سے رابطہ', az:'Quran təfəkkürü, dua, ziyarət', tr:'Kuran tefekkürü, dua, ziyaret', ru:'Размышление над Кораном, молитвы, паломничество', en:'Quran reflection, prayer, pilgrimage — all in one platform' },
 };
 
@@ -194,12 +194,12 @@ export function renderAuthPage(container) {
           <div class="auth-card">
 
             <!-- Logo -->
-            <a href="/" class="auth-card__logo" aria-label="مدیاهاب">
+            <a href="/" class="auth-card__logo" aria-label="برکت‌هاب">
               <svg width="36" height="36" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <rect width="32" height="32" rx="8" fill="var(--color-primary-500)"/>
                 <path d="M8 22V10l8 6 8-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="auth-card__logo-text">مدیاهاب</span>
+              <span class="auth-card__logo-text">برکت‌هاب</span>
             </a>
 
             ${_step === 'form' ? _renderForm() : _renderOTP()}

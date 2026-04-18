@@ -712,7 +712,7 @@ export async function initAdminDashboard(container) {
           <a href="/" class="admin-sidebar__logo" aria-label="بازگشت به سایت">
             <div class="admin-sidebar__logo-icon" aria-hidden="true">🕌</div>
             <div style="overflow:hidden">
-              <div class="admin-sidebar__logo-text">مدیاهاب</div>
+              <div class="admin-sidebar__logo-text">برکت‌هاب</div>
               <span class="admin-sidebar__logo-sub">پنل مدیریت ۲۰۲۶</span>
             </div>
           </a>
@@ -753,7 +753,7 @@ export async function initAdminDashboard(container) {
             <div class="admin-sidebar__avatar" aria-hidden="true">👨‍💼</div>
             <div style="overflow:hidden;flex:1">
               <div class="admin-sidebar__name">ادمین ارشد</div>
-              <div class="admin-sidebar__role">مدیاهاب کربلا</div>
+              <div class="admin-sidebar__role">برکت‌هاب کربلا</div>
             </div>
           </div>
 

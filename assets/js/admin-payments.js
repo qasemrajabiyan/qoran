@@ -598,7 +598,7 @@ export function renderPaymentsAdminPage(container) {
 
       await NotifCenter.send({
         type:'donation', icon:'💳',
-        title:{ fa:'پیام از مدیاهاب', [lang]:'پیام از مدیاهاب' },
+        title:{ fa:'پیام از برکت‌هاب', [lang]:'پیام از برکت‌هاب' },
         text: { fa: greet.fa + text, [lang]: g + body },
         url:  '/messages.html',
       });

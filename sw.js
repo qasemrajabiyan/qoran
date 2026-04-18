@@ -129,10 +129,10 @@ self.addEventListener('push', event => {
   if (!event.data) return;
   let data;
   try { data = event.data.json(); }
-  catch { data = { title: 'مدیاهاب', body: event.data.text() }; }
+  catch { data = { title: 'برکت‌هاب', body: event.data.text() }; }
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'مدیاهاب', {
+    self.registration.showNotification(data.title || 'برکت‌هاب', {
       body:    data.body || '',
       icon:    '/assets/img/icon-192.png',
       badge:   '/assets/img/icon-192.png',

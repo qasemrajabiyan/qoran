@@ -387,7 +387,7 @@ export function renderSadaqahAdminPage(container) {
       await NotifCenter.send({
         type:  'donation',
         icon:  '🤝',
-        title: { fa:'پیام از مدیاهاب', [lang]:'پیام از مدیاهاب' },
+        title: { fa:'پیام از برکت‌هاب', [lang]:'پیام از برکت‌هاب' },
         text:  { fa: greet + text, [lang]: finalText },
         url:   '/profile.html#messages',
       });
