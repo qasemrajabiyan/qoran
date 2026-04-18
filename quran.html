@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>دانشگاه قرآن — برکت هاب</title>
+  <meta name="description" content="تدبر آیه به آیه در کلام الله مجید — دانشگاه قرآن برکت هاب"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://barakathub.com/quran.html"/>
+  <link rel="alternate" hreflang="fa" href="https://barakathub.com/fa/quran"/>
+  <link rel="alternate" hreflang="ar" href="https://barakathub.com/ar/quran"/>
+  <link rel="alternate" hreflang="ur" href="https://barakathub.com/ur/quran"/>
+  <link rel="alternate" hreflang="en" href="https://barakathub.com/en/quran"/>
+  <link rel="alternate" hreflang="az" href="https://barakathub.com/az/quran"/>
+  <link rel="alternate" hreflang="tr" href="https://barakathub.com/tr/quran"/>
+  <link rel="alternate" hreflang="ru" href="https://barakathub.com/ru/quran"/>
+  <link rel="alternate" hreflang="id" href="https://barakathub.com/id/quran"/>
+  <link rel="alternate" hreflang="x-default" href="https://barakathub.com/quran.html"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&family=Gulzar&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;900&family=PT+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <link rel="stylesheet" href="/assets/css/03-layout.css"/>
+  <link rel="stylesheet" href="/assets/css/04-components.css"/>
+  <link rel="stylesheet" href="/assets/css/05-navbar.css"/>
+  <link rel="stylesheet" href="/assets/css/06-footer.css"/>
+  <link rel="stylesheet" href="/assets/css/09-quran.css"/>
+  <style>
+    html { background:#faf9f7; }
+    html[data-theme="dark"] { background:#100d0a; }
+    body { opacity:0; transition:opacity 0.2s; }
+    body.ready { opacity:1; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "دانشگاه قرآن برکت هاب",
+    "description": "تدبر آیه به آیه در قرآن کریم به ۷ زبان",
+    "url": "https://barakathub.com/quran.html",
+    "inLanguage": ["fa","ar","ur","az","tr","ru","en"]
+  }
+  </script>
+</head>
+<body data-lang="fa" data-dir="rtl">
+  <a href="#main-content" class="skip-link">رفتن به محتوای اصلی</a>
+  <div class="reading-progress" aria-hidden="true"><div class="reading-progress__bar"></div></div>
+  <header id="navbar-root" role="banner"></header>
+  <main id="main-content" role="main" tabindex="-1">
+    <div id="quran-root"></div>
+  </main>
+  <footer id="footer-root" role="contentinfo"></footer>
+  <div id="toast-container" aria-live="polite" style="position:fixed;bottom:var(--space-6);inset-inline-end:var(--space-6);display:flex;flex-direction:column;gap:var(--space-3);z-index:var(--z-toast);pointer-events:none;"></div>
+  <script type="module">
+    import { theme } from '/assets/js/theme.js';
+    import { i18n }  from '/assets/js/i18n.js';
+    document.body.classList.add('ready');
+    /* Reading progress */
+    const bar = document.querySelector('.reading-progress__bar');
+    if (bar) window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      bar.style.width = (el.scrollTop / (el.scrollHeight - el.clientHeight) * 100) + '%';
+    }, { passive: true });
+  </script>
+  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module">
+    import { renderQuranPage } from '/assets/js/quran.js';
+    renderQuranPage(document.getElementById('quran-root'));
+  </script>
+</body>
+</html>
