@@ -380,7 +380,7 @@ export const MessageDispatcher = {
       title:   {
         fa: 'پیام از برکت‌هاب — کربلا',
         ar: 'رسالة من ميدياهاب — كربلاء',
-        ur: 'میڈیاہب کربلا کا پیغام',
+        ur: 'برکت‌ہب کربلا کا پیغام',
         en: 'Message from BarakatHub — Karbala',
         tr: 'BarakatHub Kerbela\'dan mesaj',
         ru: 'Сообщение от BarakatHub — Кербела',

@@ -196,7 +196,7 @@ function _heroDesc() {
   const map = {
     fa: 'برکت‌هاب؛ بستری برای تدبر در قرآن، معارف اهل‌بیت، دعا و ارتباط معنوی با حرم مطهر امام حسین (علیه‌السلام)',
     ar: 'ميدياهاب؛ منصة للتدبر في القرآن ومعارف أهل البيت والدعاء والتواصل الروحي مع الروضة الحسينية',
-    ur: 'میڈیاہب؛ قرآن میں تدبر، اہل بیت کی معارف، دعا اور امام حسین کے حرم سے روحانی رابطے کا پلیٹ فارم',
+    ur: 'برکت‌ہب؛ قرآن میں تدبر، اہل بیت کی معارف، دعا اور امام حسین کے حرم سے روحانی رابطے کا پلیٹ فارم',
     az: 'BarakatHub; Quranı dərk etmək, Əhli-Beyt biliklərini öyrənmək, dua etmək üçün platforma',
     tr: 'BarakatHub; Kur\'an\'ı düşünmek, Ehl-i Beyt bilgilerini öğrenmek ve dua için platform',
     ru: 'BarakatHub — платформа для размышления над Кораном, знаний Ахл аль-Бейт и духовной связи со святыней',
@@ -635,7 +635,7 @@ function renderServices() {
       gradient: 'linear-gradient(135deg,#0d1f2d,#1a3040)',
       href: '/payment.html',
       title: { fa:'پرداخت', ar:'الدفع', ur:'ادائیگی', az:'Ödəniş', tr:'Ödeme', ru:'Платёж', en:'Payment', id:'Pembayaran' },
-      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة ميدياهاب', ur:'میڈیاہب کو رقم بھیجیں', az:'BarakatHub-a ödəniş göndər', tr:'BarakatHub'a ödeme gönder', ru:'Отправить платёж в BarakatHub', en:'Send payment to BarakatHub', id:'Kirim pembayaran ke BarakatHub' },
+      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة ميدياهاب', ur:'برکت‌ہب کو رقم بھیجیں', az:'BarakatHub-a ödəniş göndər', tr:'BarakatHub'a ödeme gönder', ru:'Отправить платёж в BarakatHub', en:'Send payment to BarakatHub', id:'Kirim pembayaran ke BarakatHub' },
     },
   ];
 

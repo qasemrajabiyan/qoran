@@ -23,7 +23,7 @@ export const AboutContent = {
         title: {
           fa: 'درباره برکت‌هاب',
           ar: 'عن ميدياهاب',
-          ur: 'میڈیاہب کے بارے میں',
+          ur: 'برکت‌ہب کے بارے میں',
           az: 'BarakatHub haqqında',
           tr: 'BarakatHub Hakkında',
           ru: 'О BarakatHub',
