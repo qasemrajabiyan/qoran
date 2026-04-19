@@ -1009,54 +1009,204 @@ export function renderAdminShell(container, initialPage = 'overview') {
         <div class="admin-page-header">
           <div>
             <h1 class="admin-page-title"><span class="admin-page-title__icon">🎁</span> سیستم جایزه</h1>
-            <p class="admin-page-desc">تنظیم شرایط جایزه و اشتراک رایگان</p>
+            <p class="admin-page-desc">تنظیم شرایط جایزه برای کاربرانی که دوستان معرفی می‌کنند</p>
           </div>
-          <button class="btn btn--primary" id="new-prize-btn">+ جایزه جدید</button>
+          <button class="btn btn--outline btn--sm" id="prizes-refresh-btn">↺ بارگذاری مجدد</button>
         </div>
 
-        <div class="admin-panel">
+        <!-- آمار کلی معرف‌ها -->
+        <div id="prizes-stats-wrap" style="margin-bottom:var(--space-5)">
+          <div style="color:var(--text-muted);font-size:var(--text-sm);padding:12px">در حال بارگذاری آمار...</div>
+        </div>
+
+        <!-- جوایز عمومی — بازدید سایت -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5)">
           <div class="admin-panel__header">
-            <div class="admin-panel__title">⚙️ تنظیم شرایط جایزه</div>
+            <div class="admin-panel__title">🌐 جوایز بازدید — هر X نفر ورودی از طرف کاربر</div>
           </div>
           <div class="admin-panel__body">
-            <div class="grid grid--2" style="gap:var(--space-5)">
-              <div class="admin-field">
-                <label class="admin-label" for="prize-threshold">تعداد عضویت برای جایزه</label>
-                <input type="number" class="admin-input" id="prize-threshold" placeholder="مثلاً: ۱۰۰" min="1"/>
-              </div>
-              <div class="admin-field">
-                <label class="admin-label" for="prize-section">قسمت جایزه‌دهی</label>
-                <select class="admin-input" id="prize-section" aria-label="قسمت جایزه">
-                  <option value="quran">دانشگاه قرآن</option>
-                  <option value="prayer">سفارش دعا</option>
-                  <option value="all">همه قسمت‌ها</option>
-                </select>
-              </div>
-              <div class="admin-field">
-                <label class="admin-label" for="prize-duration">مدت اشتراک رایگان (ماه)</label>
-                <input type="number" class="admin-input" id="prize-duration" placeholder="۱" min="1" max="12"/>
-              </div>
-              <div class="admin-field">
-                <label class="admin-label" for="prize-active">وضعیت</label>
-                <label class="admin-toggle" for="prize-active-toggle">
-                  <input type="checkbox" id="prize-active-toggle"/>
-                  <div class="admin-toggle__track"><div class="admin-toggle__thumb"></div></div>
-                  <span class="admin-toggle__label">جایزه فعال است</span>
-                </label>
-              </div>
-            </div>
-            <div class="admin-field">
-              <label class="admin-label" for="prize-announcement">متن اعلان جایزه در سایت</label>
-              <textarea class="admin-textarea" id="prize-announcement" rows="3"
-                placeholder="به ازای هر ۱۰۰ نفر عضو جدید، یک ماه اشتراک رایگان..."
-                aria-label="متن اعلان جایزه"
-              ></textarea>
-            </div>
-            <button class="btn btn--primary" type="button">💾 ذخیره تنظیمات جایزه</button>
+            <div id="global-prizes-list"></div>
+            <button class="btn btn--outline btn--sm" id="add-global-prize-btn" style="margin-top:12px">+ افزودن جایزه جدید</button>
           </div>
         </div>
+
+        <!-- جوایز بخشی — خرید اشتراک -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5)">
+          <div class="admin-panel__header">
+            <div class="admin-panel__title">📖 جوایز اشتراک — هر X نفر خریدار از طرف کاربر</div>
+          </div>
+          <div class="admin-panel__body">
+            <div id="section-prizes-list"></div>
+            <button class="btn btn--outline btn--sm" id="add-section-prize-btn" style="margin-top:12px">+ افزودن جایزه بخشی</button>
+          </div>
+        </div>
+
+        <button class="btn btn--primary btn--lg" id="save-prizes-btn">💾 ذخیره همه تنظیمات جوایز</button>
       </div>
     `;
+  }
+
+  function _bindPrizesEvents() {
+    const ADMIN_KEY = localStorage.getItem('mh_admin_token') || '';
+    let prizeConfig = { global: [], sections: [] };
+
+    /* بارگذاری تنظیمات -->  */
+    async function _loadPrizes() {
+      try {
+        const res  = await fetch('/api/referral/prizes');
+        const data = await res.json();
+        if (data.success) {
+          prizeConfig = data.prizes;
+          _renderPrizeLists();
+        }
+      } catch { _showAdminToast('خطا در بارگذاری جوایز', false); }
+
+      /* آمار -->  */
+      try {
+        const res  = await fetch('/api/referral/admin/list', {
+          headers: { 'x-api-key': ADMIN_KEY },
+        });
+        const data = await res.json();
+        const wrap = document.getElementById('prizes-stats-wrap');
+        if (wrap && data.success) {
+          wrap.innerHTML = `
+            <div class="admin-stats-grid">
+              ${[
+                { label: 'کل کاربران معرف', num: data.totalUsers,  color: 'teal',   icon: '👥' },
+                { label: 'کل جوایز داده‌شده', num: data.referrals?.reduce((a,r)=>a+r.totalRewards,0)??0, color: 'green', icon: '🎁' },
+                { label: 'کل معرفی‌ها', num: data.referrals?.reduce((a,r)=>a+r.totalReferrals,0)??0, color: 'purple', icon: '🔗' },
+              ].map(s => `
+                <div class="admin-stat-card admin-stat-card--${s.color}">
+                  <div class="admin-stat-card__header">
+                    <span class="admin-stat-card__label">${s.label}</span>
+                    <div class="admin-stat-card__icon">${s.icon}</div>
+                  </div>
+                  <div class="admin-stat-card__num">${s.num}</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      } catch {}
+    }
+
+    function _prizeRow(prize, type) {
+      const sections = { quran: 'دانشگاه قرآن', prayer: 'سفارش دعا', meeting: 'دیدار شیخ' };
+      return `
+        <div class="admin-panel" style="margin-bottom:10px;background:var(--bg-surface-2)" data-prize-id="${prize.id}" data-prize-type="${type}">
+          <div class="admin-panel__body">
+            <div class="grid grid--2" style="gap:var(--space-3);align-items:end">
+              <div class="admin-field">
+                <label class="admin-label">تعداد معرفی برای جایزه</label>
+                <input type="number" class="admin-input prize-threshold" value="${prize.threshold}" min="1" placeholder="مثلاً: ۱۰"/>
+              </div>
+              <div class="admin-field">
+                <label class="admin-label">جایزه (ماه اشتراک رایگان)</label>
+                <input type="number" class="admin-input prize-duration" value="${parseInt(prize.reward.match(/\d+/)?.[0]??'1')}" min="1" max="12" placeholder="۱"/>
+              </div>
+              ${type === 'section' ? `
+                <div class="admin-field">
+                  <label class="admin-label">بخش</label>
+                  <select class="admin-input prize-section">
+                    ${Object.entries(sections).map(([k,v])=>`<option value="${k}" ${prize.section===k?'selected':''}>${v}</option>`).join('')}
+                  </select>
+                </div>
+              ` : ''}
+              <div class="admin-field">
+                <label class="admin-label">وضعیت</label>
+                <label class="admin-toggle">
+                  <input type="checkbox" class="prize-active" ${prize.active ? 'checked' : ''}/>
+                  <div class="admin-toggle__track"><div class="admin-toggle__thumb"></div></div>
+                  <span class="admin-toggle__label">${prize.active ? 'فعال' : 'غیرفعال'}</span>
+                </label>
+              </div>
+              <div style="display:flex;align-items:flex-end">
+                <button class="btn btn--ghost btn--sm remove-prize-btn" style="color:var(--color-error)" data-id="${prize.id}" data-type="${type}">✕ حذف</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function _renderPrizeLists() {
+      const gList = document.getElementById('global-prizes-list');
+      const sList = document.getElementById('section-prizes-list');
+      if (gList) gList.innerHTML = prizeConfig.global.map(p => _prizeRow(p, 'global')).join('') || '<div style="color:var(--text-muted);font-size:13px">جایزه‌ای تعریف نشده</div>';
+      if (sList) sList.innerHTML = prizeConfig.sections.map(p => _prizeRow(p, 'section')).join('') || '<div style="color:var(--text-muted);font-size:13px">جایزه‌ای تعریف نشده</div>';
+      _bindPrizeRowEvents();
+    }
+
+    function _bindPrizeRowEvents() {
+      document.querySelectorAll('.remove-prize-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const { id, type } = btn.dataset;
+          if (type === 'global') prizeConfig.global = prizeConfig.global.filter(p => p.id !== id);
+          else prizeConfig.sections = prizeConfig.sections.filter(p => p.id !== id);
+          _renderPrizeLists();
+        });
+      });
+    }
+
+    function _newId() { return 'p_' + Math.random().toString(36).slice(2, 8); }
+
+    /* افزودن جایزه عمومی -->  */
+    document.getElementById('add-global-prize-btn')?.addEventListener('click', () => {
+      prizeConfig.global.push({ id: _newId(), type: 'visit', threshold: 10, reward: 'premium_1month', section: null, active: true });
+      _renderPrizeLists();
+    });
+
+    /* افزودن جایزه بخشی -->  */
+    document.getElementById('add-section-prize-btn')?.addEventListener('click', () => {
+      prizeConfig.sections.push({ id: _newId(), type: 'purchase', threshold: 3, reward: 'quran_1month', section: 'quran', active: true });
+      _renderPrizeLists();
+    });
+
+    /* ذخیره -->  */
+    document.getElementById('save-prizes-btn')?.addEventListener('click', async () => {
+      /* جمع‌آوری مقادیر از فرم */
+      const updatedGlobal = [];
+      document.querySelectorAll('[data-prize-type="global"]').forEach(row => {
+        const id       = row.dataset.prizeId;
+        const orig     = prizeConfig.global.find(p => p.id === id) ?? {};
+        const threshold = parseInt(row.querySelector('.prize-threshold')?.value ?? '10');
+        const duration  = parseInt(row.querySelector('.prize-duration')?.value ?? '1');
+        const active    = row.querySelector('.prize-active')?.checked ?? true;
+        updatedGlobal.push({ ...orig, threshold, reward: `premium_${duration}month`, active });
+      });
+
+      const updatedSections = [];
+      document.querySelectorAll('[data-prize-type="section"]').forEach(row => {
+        const id       = row.dataset.prizeId;
+        const orig     = prizeConfig.sections.find(p => p.id === id) ?? {};
+        const threshold = parseInt(row.querySelector('.prize-threshold')?.value ?? '3');
+        const duration  = parseInt(row.querySelector('.prize-duration')?.value ?? '1');
+        const section   = row.querySelector('.prize-section')?.value ?? 'quran';
+        const active    = row.querySelector('.prize-active')?.checked ?? true;
+        updatedSections.push({ ...orig, threshold, reward: `${section}_${duration}month`, section, active });
+      });
+
+      try {
+        const res  = await fetch('/api/referral/admin/prizes', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': ADMIN_KEY },
+          body:    JSON.stringify({ global: updatedGlobal, sections: updatedSections }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          prizeConfig = data.prizes;
+          _renderPrizeLists();
+          _showAdminToast('✓ تنظیمات جوایز ذخیره شد');
+        } else {
+          _showAdminToast('خطا در ذخیره', false);
+        }
+      } catch { _showAdminToast('خطای شبکه', false); }
+    });
+
+    /* بارگذاری مجدد -->  */
+    document.getElementById('prizes-refresh-btn')?.addEventListener('click', _loadPrizes);
+
+    _loadPrizes();
   }
 
   /* ────────────────────────────────────────────────────────
@@ -1232,6 +1382,9 @@ export function renderAdminShell(container, initialPage = 'overview') {
 
       _showAdminToast('✓ تدبر با موفقیت منتشر شد', 'success');
     });
+
+    /* prizes page */
+    if (document.getElementById('save-prizes-btn')) _bindPrizesEvents();
   }
 
   /* Mark order as done */
