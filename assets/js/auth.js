@@ -452,7 +452,7 @@ export function renderAuthPage(container) {
       nameEl?.classList.remove('auth-input--error');
     }
 
-    if (!_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(_email)) {
+    if (_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(_email)) {
       if (emailErr) emailErr.style.display = 'flex';
       emailEl?.classList.add('auth-input--error');
       valid = false;
