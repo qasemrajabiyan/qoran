@@ -14,15 +14,20 @@
 
 import express      from 'express';
 import cors         from 'cors';
-import helmet       from 'helmet';
 import morgan       from 'morgan';
-import rateLimit    from 'express-rate-limit';
 import { join }     from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import chalk        from 'chalk';
 
-import { CONFIG, checkConfig } from './config.js';
-import quranRoutes             from './routes/quran.js';
+import { CONFIG, checkConfig }   from './config.js';
+import quranRoutes               from './routes/quran.js';
+import {
+  securityMiddleware,
+  generalLimiter,
+  uploadLimiter,
+  dubbingLimiter,
+  authLimiter,
+} from './middleware/security.js';
 
 /* ── ساخت پوشه‌های موقت ── */
 [CONFIG.UPLOAD.TEMP_DIR, join(process.cwd(), 'uploads')].forEach(dir => {
@@ -34,11 +39,8 @@ import quranRoutes             from './routes/quran.js';
    ──────────────────────────────────────────────────────────── */
 const app = express();
 
-/* ── امنیت ── */
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'cross-origin' },
-  contentSecurityPolicy: false,
-}));
+/* ── لایه امنیتی جامع ── */
+app.use(securityMiddleware);
 
 /* ── CORS ── */
 app.use(cors({
@@ -58,13 +60,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan(CONFIG.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 /* ── Rate limiting عمومی ── */
-app.use('/api/', rateLimit({
-  windowMs: CONFIG.RATE_LIMIT.WINDOW_MS,
-  max:      CONFIG.RATE_LIMIT.MAX_GENERAL,
-  message:  { error: 'درخواست‌های زیادی ارسال شده — لطفاً کمی صبر کنید' },
-  standardHeaders: true,
-  legacyHeaders:   false,
-}));
+app.use('/api/', generalLimiter);
+
+/* ── Rate limiting اختصاصی ── */
+app.use('/api/auth',           authLimiter);
+app.use('/api/quran/upload',   uploadLimiter);
+app.use('/api/quran/dubbing',  dubbingLimiter);
 
 /* ── سرو فایل‌های آپلودشده (محلی) ── */
 app.use('/uploads', express.static(join(process.cwd(), 'uploads'), {
@@ -79,7 +80,7 @@ app.use('/uploads', express.static(join(process.cwd(), 'uploads'), {
    ──────────────────────────────────────────────────────────── */
 app.use('/api/quran', quranRoutes);
 
-/* ── Health check کلی ── */
+/* ── Health check ── */
 app.get('/health', (req, res) => {
   res.json({
     status:    'online',
@@ -117,7 +118,6 @@ app.listen(CONFIG.PORT, () => {
   console.log(chalk.cyan(`  ▶  API:      ${CONFIG.BASE_URL}/api/quran/health`));
   console.log(chalk.green('─'.repeat(56)));
 
-  /* بررسی تنظیمات */
   const warnings = checkConfig();
   if (warnings.length > 0) {
     console.log(chalk.yellow('\n  تنظیمات ناقص:'));
