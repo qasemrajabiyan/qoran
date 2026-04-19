@@ -29,9 +29,16 @@ const TARGET_FILES = [
   'quran.js',
   'auto-translate.js',
   'auth.js',
+  'auth-extended.js',
+  'referral.js',
+  'profile.js',
+  'admin.js',
+  'admin-sadaqah.js',
   'messages.js',
   'meeting.js',
   'audio-player.js',
+  'notifications.js',
+  'lang-detect.js',
 ];
 
 /* فایل‌هایی که obfuscate نمی‌شوند (فقط کپی می‌شوند) */
@@ -217,6 +224,22 @@ async function main() {
   /* کپی assets */
   console.log('\n🖼  کپی assets...');
   copyAssets();
+
+  /* کپی فایل‌های سرور */
+  const serverDir  = path.join(__dirname, 'server');
+  const distServer = path.join(__dirname, 'dist', 'server');
+  if (fs.existsSync(serverDir)) {
+    const copyDir = (src, dest) => {
+      ensureDir(dest);
+      fs.readdirSync(src).forEach(f => {
+        const s = path.join(src, f), d = path.join(dest, f);
+        if (fs.statSync(s).isDirectory()) copyDir(s, d);
+        else fs.copyFileSync(s, d);
+      });
+    };
+    copyDir(serverDir, distServer);
+    console.log('📁 کپی شد: server/');
+  }
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
 
