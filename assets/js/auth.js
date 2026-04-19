@@ -469,17 +469,33 @@ export function renderAuthPage(container) {
       submitBtn.textContent = '...';
     }
 
-    await _sendOTP(_email);
+    await _sendOTP(_email).catch(err => {
+      if (submitBtn) {
+        submitBtn.classList.remove('auth-submit-btn--loading');
+        submitBtn.textContent = tx({ fa:'ارسال کد تأیید', ar:'إرسال رمز التحقق', ur:'تصدیقی کوڈ بھیجیں', en:'Send Verification Code', tr:'Doğrulama Kodu Gönder', ru:'Отправить код', az:'Doğrulama kodu göndər', id:'Kirim Kode' });
+      }
+      if (emailErr) {
+        emailErr.style.display = 'flex';
+        const span = emailErr.querySelector('span');
+        if (span) span.textContent = err.message;
+      }
+      throw err;
+    });
     _step = 'otp';
     _render();
   }
 
   async function _sendOTP(email) {
-    /* اینجا API call واقعی قرار می‌گیرد */
-    console.log(`[Auth] Sending OTP to ${email}`);
-    /* شبیه‌سازی تأخیر */
-    await new Promise(r => setTimeout(r, 800));
-    /* در production: await fetch('/api/auth/send-otp', { method:'POST', body: JSON.stringify({email}) }) */
+    const res = await fetch('/api/auth/send-otp', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, lang: i18n.lang }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || tx({ fa:'خطا در ارسال کد', en:'Failed to send code', ar:'خطأ في إرسال الرمز', ur:'کوڈ بھیجنے میں خطا', tr:'Kod gönderilemedi', ru:'Ошибка отправки кода', az:'Kod göndərilmədi', id:'Gagal kirim kode' }));
+    }
+    return data;
   }
 
   async function _handleOTPVerify(code) {
@@ -499,22 +515,46 @@ export function renderAuthPage(container) {
       verifyBtn.textContent = '...';
     }
 
-    /* شبیه‌سازی تأیید */
-    await new Promise(r => setTimeout(r, 900));
+    /* API call واقعی */
+    let data;
+    try {
+      const res = await fetch('/api/auth/verify-otp', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          email:   _email,
+          code,
+          name:    _name,
+          country: document.getElementById('auth-country')?.value || '',
+        }),
+      });
+      data = await res.json();
 
-    /* در production: const res = await fetch('/api/auth/verify-otp', {...}) */
-    /* شبیه‌سازی موفق */
-    const fakeUser = {
-      id:      'u_' + Math.random().toString(36).slice(2),
-      name:    _name || tx({ fa:'کاربر', ar:'مستخدم', ur:'صارف', en:'User', tr:'Kullanıcı', ru:'Пользователь', az:'İstifadəçi', id:'Pengguna' }),
-      email:   _email,
-      lang:    i18n.lang,
-      country: document.getElementById('auth-country')?.value || '',
-      avatar:  null,
-      joinedAt: new Date().toISOString(),
-    };
-    AuthState.setUser(fakeUser);
-    AuthState.setToken('fake_token_' + Date.now());
+      if (!res.ok) {
+        /* کد اشتباه */
+        inputs.forEach(i => i.classList.add('error'));
+        if (otpErr) {
+          otpErr.style.display = 'flex';
+          otpErr.querySelector?.('span') && (otpErr.querySelector('span').textContent = data.error || tx({ fa:'کد اشتباه است', ar:'الرمز خاطئ', ur:'غلط کوڈ', en:'Invalid code', tr:'Hatalı kod', ru:'Неверный код', az:'Kod yanlışdır', id:'Kode salah' }));
+        }
+        setTimeout(() => inputs.forEach(i => i.classList.remove('error')), 600);
+        if (verifyBtn) {
+          verifyBtn.classList.remove('auth-submit-btn--loading');
+          verifyBtn.textContent = tx({ fa:'تأیید کد', ar:'تأكيد الرمز', ur:'کوڈ تصدیق کریں', en:'Verify Code', tr:'Kodu Doğrula', ru:'Подтвердить', az:'Kodu təsdiqlə', id:'Verifikasi' });
+        }
+        return;
+      }
+    } catch {
+      if (verifyBtn) {
+        verifyBtn.classList.remove('auth-submit-btn--loading');
+        verifyBtn.textContent = tx({ fa:'تأیید کد', ar:'تأكيد الرمز', ur:'کوڈ تصدیق کریں', en:'Verify Code', tr:'Kodu Doğrula', ru:'Подтвердить', az:'Kodu təsdiqlə', id:'Verifikasi' });
+      }
+      return;
+    }
+
+    /* ذخیره توکن و کاربر */
+    AuthState.setToken(data.token);
+    AuthState.setUser({ ...data.user, lang: i18n.lang, avatar: null });
 
     /* ریدایرکت به پروفایل */
     window.location.href = '/profile.html';
