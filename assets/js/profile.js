@@ -10,11 +10,13 @@
 
 import { i18n, timeAgo, formatNum } from './i18n.js';
 import { AuthState, logout, requireAuth } from './auth.js';
+import { renderReferralPanel } from './referral.js';
 
 /* ────────────────────────────────────────────────────────────
    ترجمه‌های پروفایل
    ──────────────────────────────────────────────────────────── */
 const PROFILE_COPY = {
+  myReferral:   { fa:'معرفی دوستان', ar:'إحالة الأصدقاء', ur:'دوستوں کا تعارف', az:'Dostları dəvət et', tr:'Arkadaş Davet Et', ru:'Пригласить друзей', en:'Refer Friends' },
   myProfile:    { fa:'پروفایل من', ar:'ملفي الشخصي', ur:'میرا پروفائل', az:'Profilim', tr:'Profilim', ru:'Мой профиль', en:'My Profile' },
   myOrders:     { fa:'سفارش‌های من', ar:'طلباتي', ur:'میرے آرڈرز', az:'Sifarişlərim', tr:'Siparişlerim', ru:'Мои заказы', en:'My Orders' },
   myMeetings:   { fa:'دیدار با شیخ', ar:'لقاءاتي مع الشيخ', ur:'شیخ سے ملاقات', az:'Şeyxlə görüşüm', tr:'Şeyh ile Görüşmem', ru:'Встречи с шейхом', en:'Sheikh Meetings' , id:'Pertemuan dengan syaikh'},
@@ -154,6 +156,7 @@ export function renderProfilePage(container) {
     { key: 'meetings',      icon: '🕌', label: PROFILE_COPY.myMeetings,    badge: null },
     { key: 'bookmarks',     icon: '🔖', label: PROFILE_COPY.bookmarks,     badge: null },
     { key: 'notifications', icon: '🔔', label: PROFILE_COPY.notifications, badge: _unreadCount || null },
+    { key: 'referral',      icon: '🎁', label: PROFILE_COPY.myReferral,    badge: null },
     { key: 'edit',          icon: '✏️', label: PROFILE_COPY.editProfile,   badge: null },
   ];
 
@@ -254,9 +257,15 @@ export function renderProfilePage(container) {
       case 'meetings':      return _renderMeetings();
       case 'bookmarks':     return _renderBookmarks();
       case 'notifications': return _renderNotifications();
+      case 'referral':      return _renderReferral();
       case 'edit':          return _renderEditProfile();
       default:              return '';
     }
+  }
+
+  /* ── معرفی دوستان ── */
+  function _renderReferral() {
+    return `<div class="profile-panel" id="referral-panel-root"></div>`;
   }
 
   /* ── سفارش‌ها ── */
@@ -520,6 +529,10 @@ export function renderProfilePage(container) {
   }
 
   function _bindPanelEvents() {
+    /* بارگذاری پنل معرف */
+    const referralRoot = document.getElementById('referral-panel-root');
+    if (referralRoot) renderReferralPanel(referralRoot);
+
     /* Mark all read */
     document.getElementById('mark-all-read')?.addEventListener('click', () => {
       container.querySelectorAll('.notif-item--unread').forEach(el => {
