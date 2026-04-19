@@ -10,6 +10,7 @@
 
 import { i18n } from './i18n.js';
 import { AuthState } from './auth.js';
+import { renderReferralInput, applyStoredReferral, initReferral } from './referral.js';
 
 /* ────────────────────────────────────────────────────────────
    1. کشورها (برای dropdown ثبت‌نام)
@@ -171,6 +172,9 @@ export function showRegistrationGate(onComplete) {
           />
         </div>
 
+        <!-- کد معرف اختیاری -->
+        <div id="reg-referral-wrap" style="margin-bottom:16px"></div>
+
         <!-- Submit -->
         <button id="reg-submit-btn" style="
           width:100%;padding:14px;
@@ -190,6 +194,10 @@ export function showRegistrationGate(onComplete) {
 
   document.body.appendChild(overlay);
   _bindRegGateEvents(overlay, onComplete);
+
+  /* راه‌اندازی فیلد کد معرف */
+  renderReferralInput(document.getElementById('reg-referral-wrap'));
+  initReferral();
 
   /* Focus اول فیلد */
   setTimeout(() => document.getElementById('reg-name')?.focus(), 300);
@@ -265,6 +273,9 @@ async function _handleRegSubmit(overlay, onComplete) {
 
   /* بررسی جایزه */
   await _checkPrize(user);
+
+  /* ثبت کد معرف اگر وارد شده */
+  await applyStoredReferral();
 
   /* بستن overlay */
   overlay.style.opacity = '0';
