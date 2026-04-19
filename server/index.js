@@ -21,6 +21,7 @@ import chalk        from 'chalk';
 
 import { CONFIG, checkConfig }   from './config.js';
 import quranRoutes               from './routes/quran.js';
+import authRoutes                from './routes/auth.js';
 import {
   securityMiddleware,
   generalLimiter,
@@ -78,6 +79,7 @@ app.use('/uploads', express.static(join(process.cwd(), 'uploads'), {
 /* ────────────────────────────────────────────────────────────
    مسیرهای API
    ──────────────────────────────────────────────────────────── */
+app.use('/api/auth',  authRoutes);
 app.use('/api/quran', quranRoutes);
 
 /* ── Health check ── */
