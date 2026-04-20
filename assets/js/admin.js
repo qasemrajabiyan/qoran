@@ -1615,7 +1615,6 @@ export function renderAdminShell(container, initialPage = 'overview') {
       startDubBtn.disabled = true;
       startDubBtn.textContent = '⏳ در حال ارسال درخواست...';
 
-      /* TODO: در production این API call را فعال کنید
       fetch('/api/quran/dub-video', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1626,13 +1625,15 @@ export function renderAdminShell(container, initialPage = 'overview') {
           whisperModel: 'whisper-1',
         }),
       }).then(r => r.json()).then(data => {
-        // بعد از موفقیت، لینک‌های دانلود فعال می‌شوند
-        _updateDubbingStatus(data.results);
+        if (data.jobId) {
+          _showAdminToast('✓ دوبله شروع شد — وضعیت را پیگیری کنید', 'success');
+          _pollJobStatus(data.jobId);
+        }
+      }).catch(() => {
+        startDubBtn.disabled = false;
+        startDubBtn.textContent = '🎙 شروع دوبله ۷ زبان';
+        _showAdminToast('⚠ خطا در ارسال درخواست', 'error');
       });
-      */
-
-      /* شبیه‌سازی — در production حذف شود */
-      _showAdminToast('✓ درخواست دوبله ارسال شد — بعد از پردازش لینک دانلود فعال می‌شود', 'success');
     });
 
     /* استخراج صوت از ویدیو */
@@ -1643,24 +1644,54 @@ export function renderAdminShell(container, initialPage = 'overview') {
       extractAudBtn.disabled = true;
       extractAudBtn.textContent = '⏳ در حال استخراج...';
 
-      /* TODO: در production فعال کنید
       fetch('/api/quran/extract-audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ videoUrl }),
       }).then(r => r.json()).then(data => {
-        _activateDownload('fa', null, data.audioUrl);
-        extractAudBtn.textContent = '✓ صوت استخراج شد';
-        _showAdminToast('✓ صوت فارسی استخراج شد', 'success');
-      });
-      */
-
-      setTimeout(() => {
+        if (data.success) {
+          _activateDownload('fa', null, data.audioUrl);
+          extractAudBtn.textContent = '✓ صوت استخراج شد';
+          _showAdminToast('✓ صوت فارسی استخراج شد', 'success');
+        } else {
+          throw new Error(data.error);
+        }
+      }).catch(() => {
         extractAudBtn.textContent = '🔊 استخراج صوت از ویدیو';
         extractAudBtn.disabled = false;
-        _showAdminToast('✓ درخواست استخراج صوت ارسال شد', 'success');
-      }, 1500);
+        _showAdminToast('⚠ خطا در استخراج صوت', 'error');
+      });
     });
+
+    /* پیگیری وضعیت job دوبله */
+    function _pollJobStatus(jobId) {
+      const interval = setInterval(async () => {
+        try {
+          const res  = await fetch(`/api/quran/status/${jobId}`);
+          const data = await res.json();
+          if (!data.success) return;
+
+          /* آپدیت نوار پیشرفت */
+          if (startDubBtn) startDubBtn.textContent = `⏳ دوبله... ${data.percent}%`;
+
+          /* آپدیت وضعیت هر زبان */
+          if (data.progress) _updateDubbingStatus(data.progress, data.results);
+
+          if (data.status === 'completed' || data.status === 'failed') {
+            clearInterval(interval);
+            if (startDubBtn) {
+              startDubBtn.disabled = false;
+              startDubBtn.textContent = '🎙 شروع دوبله ۷ زبان';
+            }
+            if (data.status === 'completed') {
+              _showAdminToast('✅ دوبله همه زبان‌ها کامل شد', 'success');
+            } else {
+              _showAdminToast('⚠ دوبله با خطا مواجه شد', 'error');
+            }
+          }
+        } catch { clearInterval(interval); }
+      }, 5000);
+    }
 
     /* فعال کردن لینک دانلود یک زبان */
     function _activateDownload(lang, videoUrl, audioUrl) {
