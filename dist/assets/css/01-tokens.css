@@ -1,0 +1,246 @@
+/* ============================================================
+   FILE: 01-tokens.css
+   ROLE: Design Tokens — رنگ، فضا، تایپوگرافی، سایه
+   PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
+   VERSION: 1.0.0
+   USAGE: @import این فایل را در ابتدای هر فایل CSS دیگری وارد کنید.
+          هر تغییر رنگ/سایز فقط اینجا انجام می‌شود.
+   ============================================================ */
+
+/* ────────────────────────────────────────────────────────────
+   1. BRAND COLOR PALETTE (Light Mode Default)
+   منبع انتخاب: ترکیب Mocha Mousse + Deep Teal + Warm Amber
+   مطابق ترندهای 2025-2026 (Pantone + Wix + HookAgency research)
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* Primary — Deep Teal (اعتماد، رسانه، حرفه‌ای) */
+  --color-primary-50:  #e6f4f4;
+  --color-primary-100: #c0e4e4;
+  --color-primary-200: #96d2d2;
+  --color-primary-300: #6bbfbf;
+  --color-primary-400: #4aafaf;
+  --color-primary-500: #2a9d8f;   /* Main brand */
+  --color-primary-600: #23867a;
+  --color-primary-700: #1b6e64;
+  --color-primary-800: #13564e;
+  --color-primary-900: #0a3d38;
+
+  /* Secondary — Warm Amber (انرژی، خبر، فوری) */
+  --color-secondary-50:  #fff8e6;
+  --color-secondary-100: #feecc0;
+  --color-secondary-200: #fdde96;
+  --color-secondary-300: #fccf6b;
+  --color-secondary-400: #fbc34a;
+  --color-secondary-500: #f4a261;   /* Main accent */
+  --color-secondary-600: #e07d3a;
+  --color-secondary-700: #c45e1e;
+  --color-secondary-800: #a04210;
+  --color-secondary-900: #7a2c06;
+
+  /* Neutral — Warm Gray (خوانایی، آرامش) */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #faf9f7;
+  --color-neutral-100: #f2f0ec;
+  --color-neutral-200: #e5e2db;
+  --color-neutral-300: #d2cdc3;
+  --color-neutral-400: #b5aea1;
+  --color-neutral-500: #8f877a;
+  --color-neutral-600: #6b6358;
+  --color-neutral-700: #4e4740;
+  --color-neutral-800: #342f2a;
+  --color-neutral-900: #1e1a16;
+  --color-neutral-950: #100d0a;
+
+  /* Semantic Colors */
+  --color-success:  #2d9e6b;
+  --color-warning:  #f4a261;
+  --color-error:    #e63946;
+  --color-info:     #2a9d8f;
+
+  /* ──────────────────────────────────────────────────────────
+     2. SEMANTIC SURFACE TOKENS (Light Mode)
+     هر component به این توکن‌ها ارجاع می‌دهد، نه مستقیم به رنگ
+     ────────────────────────────────────────────────────────── */
+  --bg-base:          var(--color-neutral-50);      /* پس‌زمینه اصلی */
+  --bg-surface:       var(--color-neutral-0);       /* کارت، پنل */
+  --bg-surface-2:     var(--color-neutral-100);     /* سطح دوم */
+  --bg-overlay:       rgba(30, 26, 22, 0.55);       /* مدال، backdrop */
+  --bg-code:          var(--color-neutral-100);
+
+  --border-color:     var(--color-neutral-200);
+  --border-color-strong: var(--color-neutral-300);
+
+  --text-primary:     var(--color-neutral-900);
+  --text-secondary:   var(--color-neutral-600);
+  --text-muted:       var(--color-neutral-500);
+  --text-on-primary:  var(--color-neutral-0);
+  --text-on-dark:     var(--color-neutral-50);
+
+  --link-color:       var(--color-primary-600);
+  --link-hover:       var(--color-primary-700);
+
+  /* ──────────────────────────────────────────────────────────
+     3. TYPOGRAPHY TOKENS
+     ────────────────────────────────────────────────────────── */
+  /* --- فونت فارسی و عربی و اردو (RTL) --- */
+  --font-rtl-display:  'Lalezar', 'Noto Naskh Arabic', serif;
+  --font-rtl-body:     'Vazirmatn', 'Noto Naskh Arabic', 'Gulzar', sans-serif;
+  --font-rtl-ui:       'Vazirmatn', 'Noto Sans Arabic', sans-serif;
+
+  /* --- فونت انگلیسی، ترکی، روسی (LTR / Cyrillic) --- */
+  --font-ltr-display:  'Playfair Display', 'PT Serif', Georgia, serif;
+  --font-ltr-body:     'DM Sans', 'PT Sans', system-ui, sans-serif;
+  --font-ltr-ui:       'DM Sans', system-ui, sans-serif;
+  --font-ltr-mono:     'JetBrains Mono', 'Fira Code', monospace;
+
+  /* --- Scale (1.25 Major Third ratio) --- */
+  --text-xs:    0.64rem;     /* 10.24px */
+  --text-sm:    0.8rem;      /* 12.8px  */
+  --text-base:  1rem;        /* 16px    */
+  --text-md:    1.25rem;     /* 20px    */
+  --text-lg:    1.563rem;    /* 25px    */
+  --text-xl:    1.953rem;    /* 31.25px */
+  --text-2xl:   2.441rem;    /* 39px    */
+  --text-3xl:   3.052rem;    /* 48.8px  */
+  --text-4xl:   3.815rem;    /* 61px    */
+
+  /* --- Line Height --- */
+  --leading-tight:   1.2;
+  --leading-snug:    1.4;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.8;
+  --leading-loose:   2.0;
+  /* RTL زبان‌ها نیاز به line-height بیشتر دارند */
+  --leading-rtl:     2.2;
+  --leading-urdu:    2.6;   /* اردو نستعلیق نیاز به فضای بیشتر دارد */
+
+  /* --- Font Weights --- */
+  --weight-light:     300;
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-black:     900;
+
+  /* ──────────────────────────────────────────────────────────
+     4. SPACING TOKENS (8px base grid)
+     ────────────────────────────────────────────────────────── */
+  --space-1:   0.25rem;   /*  4px */
+  --space-2:   0.5rem;    /*  8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+
+  /* ──────────────────────────────────────────────────────────
+     5. BORDER RADIUS
+     ────────────────────────────────────────────────────────── */
+  --radius-sm:   0.25rem;  /* 4px  - badge, input */
+  --radius-md:   0.5rem;   /* 8px  - button, card */
+  --radius-lg:   1rem;     /* 16px - modal, panel */
+  --radius-xl:   1.5rem;   /* 24px - hero, feature card */
+  --radius-full: 9999px;   /* pill, avatar */
+
+  /* ──────────────────────────────────────────────────────────
+     6. SHADOW TOKENS
+     ────────────────────────────────────────────────────────── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,.06);
+  --shadow-sm:  0 2px 4px rgba(0,0,0,.08);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.10);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,.12);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,.14);
+  --shadow-2xl: 0 24px 64px rgba(0,0,0,.18);
+  --shadow-focus: 0 0 0 3px rgba(42, 157, 143, 0.35);  /* primary focus ring */
+
+  /* ──────────────────────────────────────────────────────────
+     7. TRANSITION & ANIMATION
+     ────────────────────────────────────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+  --transition-spring: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ──────────────────────────────────────────────────────────
+     8. Z-INDEX LAYERS
+     ────────────────────────────────────────────────────────── */
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-fixed:     300;
+  --z-modal:     400;
+  --z-toast:     500;
+  --z-tooltip:   600;
+
+  /* ──────────────────────────────────────────────────────────
+     9. LAYOUT BREAKPOINTS & MAX-WIDTH
+     ────────────────────────────────────────────────────────── */
+  --max-w-content:  1200px;
+  --max-w-wide:     1440px;
+  --max-w-narrow:   760px;
+  --max-w-article:  680px;
+
+  /* ──────────────────────────────────────────────────────────
+     10. NAVBAR & SIDEBAR SIZES
+     ────────────────────────────────────────────────────────── */
+  --navbar-height:   64px;
+  --sidebar-width:   280px;
+  --sidebar-collapsed: 72px;
+}
+
+/* ============================================================
+   DARK MODE TOKENS
+   تغییر فقط توکن‌های semantic — رنگ‌های اصلی دست نمی‌خورند
+   ============================================================ */
+[data-theme="dark"] {
+  --bg-base:          var(--color-neutral-950);
+  --bg-surface:       var(--color-neutral-900);
+  --bg-surface-2:     var(--color-neutral-800);
+  --bg-overlay:       rgba(0, 0, 0, 0.70);
+  --bg-code:          #1a1510;
+
+  --border-color:     var(--color-neutral-800);
+  --border-color-strong: var(--color-neutral-700);
+
+  --text-primary:     var(--color-neutral-50);
+  --text-secondary:   var(--color-neutral-400);
+  --text-muted:       var(--color-neutral-500);
+  --text-on-primary:  var(--color-neutral-0);
+  --text-on-dark:     var(--color-neutral-50);
+
+  --link-color:       var(--color-primary-300);
+  --link-hover:       var(--color-primary-200);
+
+  --shadow-xs:  0 1px 2px rgba(0,0,0,.30);
+  --shadow-sm:  0 2px 4px rgba(0,0,0,.35);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.40);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,.45);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,.50);
+  --shadow-2xl: 0 24px 64px rgba(0,0,0,.60);
+}
+
+/* ============================================================
+   AUTO DARK MODE (System Preference — fallback if no JS toggle)
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-base:          var(--color-neutral-950);
+    --bg-surface:       var(--color-neutral-900);
+    --bg-surface-2:     var(--color-neutral-800);
+    --bg-overlay:       rgba(0, 0, 0, 0.70);
+    --border-color:     var(--color-neutral-800);
+    --border-color-strong: var(--color-neutral-700);
+    --text-primary:     var(--color-neutral-50);
+    --text-secondary:   var(--color-neutral-400);
+    --text-muted:       var(--color-neutral-500);
+    --link-color:       var(--color-primary-300);
+    --link-hover:       var(--color-primary-200);
+  }
+}

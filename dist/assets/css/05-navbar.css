@@ -1,0 +1,202 @@
+/* ============================================================
+   FILE: 05-navbar.css
+   ROLE: Navbar + Search Overlay + Language Selector + Mobile Menu
+   PROJECT: BarakatHub — پلتفرم رسانه‌ای چندزبانه
+   VERSION: 1.0.0
+   DEPENDS ON: 01-tokens.css, 04-components.css
+   ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   NAVBAR
+   ════════════════════════════════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  height: var(--navbar-height);
+  z-index: var(--z-fixed);
+  background-color: var(--bg-base);
+  border-bottom: 1px solid var(--border-color);
+  transition:
+    background-color var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.navbar--scrolled {
+  box-shadow: var(--shadow-md);
+  background-color: var(--bg-surface);
+}
+
+.navbar__inner {
+  height: var(--navbar-height);
+}
+
+/* ── Logo ── */
+.navbar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.navbar__brand {
+  font-family: var(--font-rtl-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary-600);
+  letter-spacing: -0.01em;
+}
+
+:lang(en) .navbar__brand,
+:lang(tr) .navbar__brand,
+:lang(ru) .navbar__brand,
+:lang(az) .navbar__brand {
+  font-family: var(--font-ltr-display);
+}
+
+/* ── Nav Links ── */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.navbar__link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+}
+
+[data-theme="dark"] .navbar__link:hover,
+[data-theme="dark"] .navbar__link--active {
+  background-color: var(--color-primary-900);
+}
+
+/* ── Actions ── */
+.navbar__actions {
+  align-items: center;
+}
+
+/* ── Language Selector ── */
+.lang-selector {
+  position: relative;
+}
+
+.lang-selector__trigger {
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+.lang-selector__dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  inset-inline-end: 0;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  min-width: 200px;
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+  list-style: none;
+  animation: scaleIn 0.2s var(--transition-spring);
+}
+
+.lang-selector__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  text-align: start;
+}
+
+.lang-selector__option:hover {
+  background-color: var(--bg-surface-2);
+  color: var(--text-primary);
+}
+
+.lang-selector__option--active {
+  color: var(--color-primary-600);
+  font-weight: var(--weight-semibold);
+  background-color: var(--color-primary-50);
+}
+
+[data-theme="dark"] .lang-selector__option--active {
+  background-color: var(--color-primary-900);
+}
+
+/* ── Mobile Menu ── */
+.navbar__mobile {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding: var(--space-4) 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.navbar__mobile ul {
+  list-style: none;
+}
+
+.navbar__mobile .navbar__link {
+  display: block;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+  border-radius: 0;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SEARCH OVERLAY
+   ════════════════════════════════════════════════════════════ */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  background-color: var(--bg-base);
+  border-bottom: 2px solid var(--color-primary-500);
+  z-index: calc(var(--z-fixed) + 1);
+  padding-block: var(--space-4);
+  box-shadow: var(--shadow-xl);
+  animation: fadeIn 0.2s ease;
+}
+
+.search-overlay__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.search-overlay__input {
+  flex: 1;
+  font-size: var(--text-lg);
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  outline: none;
+  padding-block: var(--space-3);
+}
+
+.search-overlay__input::placeholder {
+  color: var(--text-muted);
+}

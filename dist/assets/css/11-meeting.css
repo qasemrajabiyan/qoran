@@ -1,0 +1,522 @@
+/* ============================================================
+   FILE: 11-meeting.css
+   ROLE: دیدار با شیخ — طراحی معنوی مدرن ۲۰۲۶
+   PROJECT: BarakatHub — پلتفرم رسانه‌ای کربلا
+   VERSION: 1.0.0
+   DEPENDS ON: 01-tokens.css, 02-reset.css, 03-layout.css, 04-components.css
+   ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   A. MEETING HERO
+   ════════════════════════════════════════════════════════════ */
+.meeting-hero {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(
+    150deg,
+    #0d1f2d 0%,
+    #1a3a2a 35%,
+    #2d4a1e 65%,
+    #1a2d0d 100%
+  );
+  padding-top: var(--navbar-height);
+}
+
+/* الگوی ستاره‌گون */
+.meeting-hero__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.meeting-hero__star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.3); }
+}
+
+.meeting-hero::before {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(42,157,143,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.meeting-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding-block: var(--space-12);
+}
+
+.meeting-hero__dome {
+  font-size: 80px;
+  display: block;
+  margin-bottom: var(--space-5);
+  filter: drop-shadow(0 4px 20px rgba(42,157,143,0.5));
+  animation: float 5s ease-in-out infinite;
+}
+
+.meeting-hero__title {
+  font-family: var(--font-rtl-display);
+  font-size: clamp(1.8rem, 4vw, var(--text-3xl));
+  font-weight: var(--weight-black);
+  color: white;
+  margin-bottom: var(--space-3);
+  animation: fadeIn 0.7s ease 0.1s both;
+}
+
+:lang(en) .meeting-hero__title,
+:lang(ru) .meeting-hero__title,
+:lang(tr) .meeting-hero__title,
+:lang(az) .meeting-hero__title {
+  font-family: var(--font-ltr-display);
+}
+
+.meeting-hero__subtitle {
+  color: rgba(255,255,255,0.68);
+  font-size: var(--text-md);
+  animation: fadeIn 0.7s ease 0.2s both;
+  max-width: 48ch;
+  margin: 0 auto;
+  line-height: var(--leading-relaxed);
+}
+
+/* ════════════════════════════════════════════════════════════
+   B. STATUS BANNER (وضعیت دیدار — فعال/غیرفعال)
+   ════════════════════════════════════════════════════════════ */
+.meeting-status-banner {
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  margin-bottom: var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* وضعیت غیرفعال */
+.meeting-status-banner--inactive {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+}
+
+.meeting-status-banner--inactive::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0,0,0,0.02) 10px,
+    rgba(0,0,0,0.02) 11px
+  );
+}
+
+.meeting-status-banner__inactive-icon {
+  font-size: 56px;
+  display: block;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+}
+
+.meeting-status-banner__inactive-text {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+/* وضعیت فعال */
+.meeting-status-banner--active {
+  background: linear-gradient(135deg, #0d3321 0%, #1a4a2e 100%);
+  border: 1px solid rgba(42,157,143,0.3);
+}
+
+.meeting-active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-4);
+  background: rgba(42,157,143,0.2);
+  border: 1px solid rgba(42,157,143,0.4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: #6ee7b7;
+  margin-bottom: var(--space-5);
+}
+
+.meeting-active-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  animation: pulse 1.5s ease infinite;
+}
+
+/* ════════════════════════════════════════════════════════════
+   C. SLOT CARD (کارت روز دیدار)
+   ════════════════════════════════════════════════════════════ */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.slot-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.slot-card:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-3px);
+}
+
+/* نوار تاریخ بالا */
+.slot-card__date-bar {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-800));
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.slot-card__day-name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: white;
+}
+
+.slot-card__date-num {
+  text-align: center;
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  min-width: 64px;
+}
+
+.slot-card__date-day {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-black);
+  color: white;
+  line-height: 1;
+  display: block;
+}
+
+.slot-card__date-month {
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,0.75);
+  display: block;
+  margin-top: 2px;
+}
+
+/* بدنه کارت */
+.slot-card__body {
+  padding: var(--space-6);
+}
+
+.slot-card__time {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  direction: ltr;
+}
+
+.slot-card__time-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+[data-theme="dark"] .slot-card__time-icon {
+  background: var(--color-primary-900);
+}
+
+/* کانتر حاضران */
+.slot-card__attendees {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.slot-card__attendees-count {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  color: var(--color-primary-600);
+}
+
+/* دکمه‌های پاسخ */
+.slot-card__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.slot-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+/* بله می‌آیم */
+.slot-btn--yes {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: white;
+  border-color: transparent;
+}
+
+.slot-btn--yes:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(22,163,74,0.4);
+}
+
+/* نه نمی‌آیم */
+.slot-btn--no {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+
+.slot-btn--no:hover {
+  border-color: var(--color-error);
+  color: var(--color-error);
+  background: rgba(230,57,70,0.05);
+}
+
+/* وضعیت ثبت‌شده */
+.slot-card--confirmed .slot-card__date-bar {
+  background: linear-gradient(135deg, #15803d, #166534);
+}
+
+.slot-card--declined .slot-card__date-bar {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  opacity: 0.7;
+}
+
+.slot-card__status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  width: 100%;
+  justify-content: center;
+}
+
+.slot-card__status-tag--confirmed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.slot-card__status-tag--declined {
+  background: var(--bg-surface-2);
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .slot-card__status-tag--confirmed {
+  background: rgba(22,163,74,0.15);
+  color: #86efac;
+}
+
+/* ════════════════════════════════════════════════════════════
+   D. CONFIRMATION MESSAGE MODAL
+   ════════════════════════════════════════════════════════════ */
+.meeting-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  animation: fadeIn 0.3s ease;
+}
+
+.meeting-confirm-modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  max-width: 520px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: var(--shadow-2xl);
+  animation: scaleIn 0.4s var(--transition-spring);
+  border: 1px solid var(--border-color);
+}
+
+.meeting-confirm-modal__header {
+  background: linear-gradient(135deg, #0d3321, #1a4a2e);
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  text-align: center;
+}
+
+.meeting-confirm-modal__icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: var(--space-4);
+  animation: float 3s ease-in-out infinite;
+}
+
+.meeting-confirm-modal__title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  color: white;
+  margin-bottom: var(--space-2);
+}
+
+:lang(fa) .meeting-confirm-modal__title,
+:lang(ar) .meeting-confirm-modal__title,
+:lang(ur) .meeting-confirm-modal__title {
+  font-family: var(--font-rtl-display);
+}
+
+.meeting-confirm-modal__body {
+  padding: var(--space-8);
+}
+
+.meeting-confirm-modal__message {
+  font-size: var(--text-base);
+  line-height: var(--leading-rtl);
+  color: var(--text-secondary);
+  white-space: pre-line;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
+  border-inline-start: 4px solid var(--color-primary-500);
+}
+
+:lang(ur) .meeting-confirm-modal__message {
+  font-family: 'Gulzar', var(--font-rtl-body);
+  line-height: var(--leading-urdu);
+  font-size: 1.05rem;
+}
+
+:lang(en) .meeting-confirm-modal__message,
+:lang(ru) .meeting-confirm-modal__message,
+:lang(tr) .meeting-confirm-modal__message,
+:lang(az) .meeting-confirm-modal__message {
+  font-family: var(--font-ltr-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* ════════════════════════════════════════════════════════════
+   E. MEETING PROFILE CARD (در صفحه پروفایل)
+   ════════════════════════════════════════════════════════════ */
+.meeting-profile-card {
+  background: linear-gradient(135deg, #0d3321 0%, #1a4a2e 100%);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.meeting-profile-card::before {
+  content: '🕌';
+  position: absolute;
+  font-size: 100px;
+  opacity: 0.05;
+  inset-inline-end: -10px;
+  top: -10px;
+  pointer-events: none;
+}
+
+.meeting-profile-card__title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: rgba(255,255,255,0.8);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.meeting-profile-card__date {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-black);
+  color: white;
+  margin-bottom: var(--space-2);
+}
+
+.meeting-profile-card__time {
+  font-size: var(--text-base);
+  color: rgba(255,255,255,0.7);
+  direction: ltr;
+  display: inline-block;
+  margin-bottom: var(--space-4);
+}
+
+.meeting-profile-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(110,231,183,0.15);
+  border: 1px solid rgba(110,231,183,0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: #6ee7b7;
+}
+
+/* ════════════════════════════════════════════════════════════
+   F. RESPONSIVE
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .slots-grid { grid-template-columns: 1fr; }
+  .slot-card__actions { grid-template-columns: 1fr; }
+  .meeting-confirm-modal__body { padding: var(--space-5); }
+}

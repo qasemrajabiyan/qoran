@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>آفلاین — برکت‌هاب</title>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-base);
+      font-family: var(--font-rtl-body);
+    }
+    .offline-icon { font-size: 80px; margin-bottom: 1.5rem; }
+    .offline-title { font-size: var(--text-2xl); font-weight: var(--weight-bold); color: var(--text-primary); margin-bottom: 1rem; }
+    .offline-desc  { color: var(--text-secondary); margin-bottom: 2rem; }
+    .offline-btn   {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 2rem; background: var(--color-primary-500); color: #fff;
+      border-radius: 8px; font-weight: 600; cursor: pointer;
+      border: none; font-size: 1rem; text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="offline-icon" aria-hidden="true">📵</div>
+    <h1 class="offline-title" id="title">اتصال اینترنت ندارید</h1>
+    <p class="offline-desc" id="desc">لطفاً اتصال خود را بررسی کرده و دوباره امتحان کنید</p>
+    <button class="offline-btn" onclick="location.reload()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+      <span id="retry">تلاش دوباره</span>
+    </button>
+  </div>
+  <script>
+    /* ترجمه ساده آفلاین */
+    const lang = document.documentElement.lang || 'fa';
+    const msgs = {
+      fa: { title: 'اتصال اینترنت ندارید', desc: 'لطفاً اتصال خود را بررسی کنید', retry: 'تلاش دوباره' },
+      ar: { title: 'لا يوجد اتصال بالإنترنت', desc: 'يرجى التحقق من اتصالك', retry: 'إعادة المحاولة' },
+      ur: { title: 'انٹرنیٹ کنکشن نہیں', desc: 'براہ کرم اپنا کنکشن چیک کریں', retry: 'دوبارہ کوشش' },
+      en: { title: 'No Internet Connection', desc: 'Please check your connection and try again', retry: 'Try Again' },
+      tr: { title: 'İnternet Bağlantısı Yok', desc: 'Lütfen bağlantınızı kontrol edin', retry: 'Tekrar Dene' },
+      ru: { title: 'Нет подключения к интернету', desc: 'Пожалуйста, проверьте соединение', retry: 'Попробовать снова' },
+      az: { title: 'İnternet bağlantısı yoxdur', desc: 'Zəhmət olmasa bağlantınızı yoxlayın', retry: 'Yenidən cəhd et' },
+    };
+    const m = msgs[lang] || msgs.fa;
+    document.getElementById('title').textContent = m.title;
+    document.getElementById('desc').textContent  = m.desc;
+    document.getElementById('retry').textContent = m.retry;
+    document.getElementById('title').closest('div').querySelector('.offline-title').textContent = m.title;
+
+    /* آنلاین شد؟ برگرد */
+    window.addEventListener('online', () => location.reload());
+  </script>
+</body>
+</html>

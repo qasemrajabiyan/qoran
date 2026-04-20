@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>پیام‌های من — برکت‌هاب</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;700&family=Gulzar&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=PT+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <link rel="stylesheet" href="/assets/css/03-layout.css"/>
+  <link rel="stylesheet" href="/assets/css/04-components.css"/>
+  <link rel="stylesheet" href="/assets/css/05-navbar.css"/>
+  <link rel="stylesheet" href="/assets/css/06-footer.css"/>
+  <style>
+    html { background:#faf9f7; }
+    html[data-theme="dark"] { background:#0d1117; }
+    body { opacity:0; transition:opacity 0.2s; }
+    body.ready { opacity:1; }
+    @keyframes scaleIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+  </style>
+</head>
+<body data-lang="fa" data-dir="rtl">
+  <a href="#main-content" class="skip-link">رفتن به محتوای اصلی</a>
+  <header id="navbar-root" role="banner"></header>
+  <main id="main-content" role="main" tabindex="-1">
+    <div id="messages-root"></div>
+  </main>
+  <footer id="footer-root" role="contentinfo"></footer>
+  <div id="toast-container" aria-live="polite" style="
+    position:fixed;bottom:var(--space-6);inset-inline-end:var(--space-6);
+    display:flex;flex-direction:column;gap:var(--space-3);
+    z-index:var(--z-toast);pointer-events:none;
+  "></div>
+  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module">
+    import { renderMessagesPage } from '/assets/js/messages.js';
+    import { initAuthGate }       from '/assets/js/auth-extended.js';
+    import { initNotifications }  from '/assets/js/notifications.js';
+    import { initScheduler }      from '/assets/js/referral-banner.js';
+    document.body.classList.add('ready');
+    initNotifications();
+    initScheduler();
+    initAuthGate(() => {
+      renderMessagesPage(document.getElementById('messages-root'));
+    });
+  </script>
+</body>
+</html>

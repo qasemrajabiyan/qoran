@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ورود / ثبت‌نام — برکت‌هاب</title>
+  <meta name="description" content="ورود یا ثبت‌نام در برکت‌هاب — پلتفرم رسانه‌ای کربلا"/>
+  <meta name="robots" content="noindex"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;700&family=Gulzar&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;900&family=PT+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/01-tokens.css"/>
+  <link rel="stylesheet" href="/assets/css/02-reset.css"/>
+  <link rel="stylesheet" href="/assets/css/03-layout.css"/>
+  <link rel="stylesheet" href="/assets/css/04-components.css"/>
+  <link rel="stylesheet" href="/assets/css/08-auth-profile.css"/>
+  <style>
+    html { background:#faf9f7; }
+    html[data-theme="dark"] { background:#100d0a; }
+    body { opacity:0; transition:opacity 0.2s; }
+    body.ready { opacity:1; }
+  </style>
+</head>
+<body data-lang="fa" data-dir="rtl">
+  <div id="auth-root"></div>
+  <script type="module">
+    import { theme } from '/assets/js/theme.js';
+    import { i18n }  from '/assets/js/i18n.js';
+    import { renderAuthPage } from '/assets/js/auth.js';
+    document.body.classList.add('ready');
+    renderAuthPage(document.getElementById('auth-root'));
+    i18n.onChange(() => renderAuthPage(document.getElementById('auth-root')));
+  </script>
+</body>
+</html>
