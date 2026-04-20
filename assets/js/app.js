@@ -41,6 +41,7 @@ function renderNavbar() {
             <li><a href="./istikhara.html" class="navbar__link">${{fa:'استخاره',ar:'الاستخارة',ur:'استخارہ',en:'Istikhara',id:'Istikharah'}[i18n.lang]??'Istikhara'}</a></li>
             <li><a href="./meeting.html" class="navbar__link">${{fa:'دیدار با شیخ در کربلا',ar:'لقاء الشيخ في كربلاء',ur:'کربلا میں شیخ سے ملاقات',az:'Kərbəlada şeyxlə görüş',tr:'Kerbela\'da Şeyh Görüşmesi',ru:'Встреча с шейхом в Кербеле',en:'Meet the Sheikh in Karbala',id:'Bertemu Syaikh di Karbala'}[i18n.lang]??'Meeting'}</a></li>
             <li><a href="./about.html" class="navbar__link">${{fa:'درباره ما',ar:'من نحن',ur:'ہمارے بارے میں',en:'About',id:'Tentang'}[i18n.lang]??'About'}</a></li>
+            <li><a href="./feedback.html" class="navbar__link">${{fa:'بازخورد',ar:'تواصل معنا',ur:'رائے دیں',az:'Rəy',tr:'Geri Bildirim',ru:'Обратная связь',en:'Feedback',id:'Masukan'}[i18n.lang]??'Feedback'}</a></li>
             <li><a href="./payment.html" class="navbar__link">${{fa:'پرداخت',ar:'الدفع',ur:'ادائیگی',en:'Payment',id:'Pembayaran'}[i18n.lang]??'Payment'}</a></li>
             <li><a href="./messages.html" class="navbar__link" id="notif-badge-link" style="position:relative">${{fa:'پیام‌های من',ar:'رسائلي',ur:'میرے پیغامات',en:'Messages',id:'Pesan'}[i18n.lang]??'Messages'}<span id="notif-badge" style="display:none;position:absolute;top:-6px;inset-inline-end:-8px;background:var(--color-error);color:white;font-size:10px;font-weight:700;padding:1px 5px;border-radius:999px;min-width:16px;text-align:center"></span></a></li>
           </ul>
@@ -81,6 +82,7 @@ function renderNavbar() {
           <li><a href="./istikhara.html" class="navbar__link">${{fa:'استخاره',ar:'الاستخارة',ur:'استخارہ',en:'Istikhara',id:'Istikharah'}[i18n.lang]??'Istikhara'}</a></li>
           <li><a href="./meeting.html" class="navbar__link">${t('nav.meeting')}</a></li>
           <li><a href="./about.html" class="navbar__link">${{fa:'درباره ما',ar:'من نحن',ur:'ہمارے بارے میں',en:'About',id:'Tentang'}[i18n.lang]??'About'}</a></li>
+          <li><a href="./feedback.html" class="navbar__link">${{fa:'بازخورد',ar:'تواصل معنا',ur:'رائے دیں',az:'Rəy',tr:'Geri Bildirim',ru:'Обратная связь',en:'Feedback',id:'Masukan'}[i18n.lang]??'Feedback'}</a></li>
             <li><a href="./payment.html" class="navbar__link">${{fa:'پرداخت',ar:'الدفع',ur:'ادائیگی',en:'Payment',id:'Pembayaran'}[i18n.lang]??'Payment'}</a></li>
         </ul>
       </div>
@@ -172,6 +174,7 @@ function renderFooter() {
             <h3 class="footer__heading">${t('nav.about')}</h3>
             <ul class="footer__list" role="list">
               <li><a href="./about.html" class="footer__link">${t('nav.about')}</a></li>
+              <li><a href="./feedback.html" class="footer__link">${{fa:'بازخورد',ar:'تواصل معنا',ur:'رائے دیں',az:'Rəy',tr:'Geri Bildirim',ru:'Обратная связь',en:'Feedback',id:'Masukan'}[i18n.lang]??'Feedback'}</a></li>
               <li><a href="/contact.html" class="footer__link">${t('nav.contact')}</a></li>
             </ul>
           </div>
