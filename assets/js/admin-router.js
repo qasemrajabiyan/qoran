@@ -2431,21 +2431,11 @@ function _renderGiftsPage(container) {
 }
 
 /* ════════════════════════════════════════════════════════════
-   آپلود به Firebase Storage — از همان Firebase موجود
+   آپلود به Cloudflare R2 — از طریق سرور BarakatHub
    ════════════════════════════════════════════════════════════ */
 window._cloudinaryUpload = async function(inputEl, targetId) {
   const file = inputEl.files?.[0];
   if (!file) return;
-
-  const cfg = (() => { try { return JSON.parse(localStorage.getItem('mh_firebase_config') || '{}'); } catch { return {}; } })();
-  const bucket  = cfg.storageBucket?.trim();
-  const apiKey  = cfg.apiKey?.trim();
-
-  if (!bucket || !apiKey) {
-    alert('⚠️ ابتدا Firebase Storage Bucket و API Key را در تنظیمات وارد کنید.');
-    inputEl.value = '';
-    return;
-  }
 
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -2456,23 +2446,20 @@ window._cloudinaryUpload = async function(inputEl, targetId) {
   target.disabled = true;
 
   try {
-    /* آپلود به Firebase Storage REST API */
-    const fileName    = `barakahub/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-    const encodedPath = encodeURIComponent(fileName);
-    const uploadUrl   = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o?uploadType=media&name=${encodedPath}&key=${apiKey}`;
+    const formData = new FormData();
+    formData.append('file', file);
 
-    const res = await fetch(uploadUrl, {
-      method:  'POST',
-      headers: { 'Content-Type': file.type },
-      body:    file,
+    const res = await fetch('http://localhost:3001/api/upload', {
+      method: 'POST',
+      body:   formData,
     });
 
     if (!res.ok) throw new Error('آپلود ناموفق: ' + res.status);
 
-    const data     = await res.json();
-    const mediaUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodedPath}?alt=media&token=${data.downloadTokens}`;
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'خطای ناشناخته');
 
-    target.value    = mediaUrl;
+    target.value    = data.url;
     target.disabled = false;
     if (label) label.style.opacity = '1';
 
@@ -2483,7 +2470,7 @@ window._cloudinaryUpload = async function(inputEl, targetId) {
     target.value    = '';
     target.disabled = false;
     if (label) label.style.opacity = '1';
-    alert('❌ آپلود ناموفق شد.\n\nمطمئن شوید:\n• Storage Bucket درست است\n• Rules در Firebase Storage روی public تنظیم شده\n\n' + err.message);
+    alert('❌ آپلود ناموفق شد.\n\nمطمئن شوید:\n• سرور BarakatHub روی localhost:3001 در حال اجراست\n• تنظیمات R2 در فایل .env درست است\n\n' + err.message);
   }
 
   inputEl.value = '';

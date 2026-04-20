@@ -18,6 +18,7 @@ import { CONFIG, checkConfig }   from './config.js';
 import quranRoutes               from './routes/quran.js';
 import authRoutes                from './routes/auth.js';
 import referralRoutes            from './routes/referral.js';
+import uploadRoutes              from './routes/upload.js';
 import {
   securityMiddleware,
   generalLimiter,
@@ -64,6 +65,7 @@ app.use('/uploads', express.static(join(process.cwd(), 'uploads'), {
 app.use('/api/auth',     authRoutes);
 app.use('/api/quran',    quranRoutes);
 app.use('/api/referral', referralRoutes);
+app.use('/api/upload',   uploadRoutes);
 
 app.get('/health', (req, res) => {
   res.json({
