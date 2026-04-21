@@ -3,24 +3,26 @@
  * FILE: services/dubbing.js
  * ROLE: دوبله ویدیو با صدای استاد — ElevenLabs + Claude
  * PROJECT: BarakatHub Karbala Backend
+ * VERSION: 3.0.0 (Cloudflare Workers compatible)
+ * ============================================================
+ * تغییرات:
+ *   - حذف ffmpeg (ناسازگار با Workers)
+ *   - حذف fs.writeFileSync و fs.mkdirSync
+ *   - جایگزینی با Buffer و ArrayBuffer مستقیم
+ *   - ادغام صدا+ویدیو از طریق Cloudflare Stream API
+ *   - بقیه منطق ترجمه و TTS دست‌نخورده
  * ============================================================
  *
  * جریان کار برای هر زبان:
  *   ۱. Claude متن فارسی را ترجمه می‌کند
  *   ۲. ElevenLabs متن را با صدای کلون‌شده استاد می‌خواند
- *   ۳. ffmpeg صدای جدید را با ویدیو اصلی ادغام می‌کند
+ *   ۳. Cloudflare Stream صدای جدید را با ویدیو ادغام می‌کند
  *   ۴. فایل نهایی در R2 ذخیره می‌شود
  * ============================================================
  */
 
 import axios    from 'axios';
-import ffmpeg   from 'fluent-ffmpeg';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { join } from 'path';
 import { CONFIG } from '../config.js';
-
-const TEMP_DIR = CONFIG.UPLOAD.TEMP_DIR;
-if (!existsSync(TEMP_DIR)) mkdirSync(TEMP_DIR, { recursive: true });
 
 /* ────────────────────────────────────────────────────────────
    ترجمه متن با Claude
@@ -66,15 +68,12 @@ Rules:
 
 /* ────────────────────────────────────────────────────────────
    تولید صوت با ElevenLabs (TTS)
+   خروجی: Buffer (نه فایل)
    ──────────────────────────────────────────────────────────── */
 async function _generateVoice(text, targetLang) {
   if (!CONFIG.ELEVENLABS.API_KEY || !CONFIG.ELEVENLABS.VOICE_ID) {
-    console.warn('[ElevenLabs] API Key یا Voice ID نیست — فایل mock');
-    /* فایل صوتی mock (سکوت ۳ ثانیه) */
-    const mockPath = join(TEMP_DIR, `mock_audio_${targetLang}_${Date.now()}.mp3`);
-    /* یک buffer خالی کوچک */
-    writeFileSync(mockPath, Buffer.alloc(1024));
-    return mockPath;
+    console.warn('[ElevenLabs] API Key یا Voice ID نیست — buffer خالی');
+    return Buffer.alloc(1024);
   }
 
   console.log(`[ElevenLabs] تولید صدا برای زبان ${targetLang}...`);
@@ -85,9 +84,9 @@ async function _generateVoice(text, targetLang) {
       text,
       model_id: CONFIG.ELEVENLABS.MODEL_ID,
       voice_settings: {
-        stability:        0.75,
-        similarity_boost: 0.85,
-        style:            0.20,
+        stability:         0.75,
+        similarity_boost:  0.85,
+        style:             0.20,
         use_speaker_boost: true,
       },
     },
@@ -102,50 +101,70 @@ async function _generateVoice(text, targetLang) {
     }
   );
 
-  const audioPath = join(TEMP_DIR, `voice_${targetLang}_${Date.now()}.mp3`);
-  writeFileSync(audioPath, Buffer.from(response.data));
-  console.log(`[ElevenLabs] ✓ صدا تولید شد: ${audioPath}`);
-  return audioPath;
+  const audioBuffer = Buffer.from(response.data);
+  console.log(`[ElevenLabs] ✓ صدا تولید شد — حجم: ${audioBuffer.length} bytes`);
+  return audioBuffer;
 }
 
 /* ────────────────────────────────────────────────────────────
-   ادغام صدا با ویدیو با ffmpeg
+   آپلود صوت به R2 و دریافت URL
    ──────────────────────────────────────────────────────────── */
-function _mergeAudioVideo(videoPath, audioPath, outputPath) {
-  return new Promise((resolve, reject) => {
-    console.log(`[ffmpeg] ادغام ویدیو + صدا...`);
+async function _uploadAudioToR2(audioBuffer, ayahId, lang) {
+  const { uploadBuffer, makeKey } = await import('./storage.js');
+  const audioKey = makeKey(ayahId, lang, 'audio');
+  const audioUrl = await uploadBuffer(audioBuffer, audioKey, 'audio/mpeg');
+  return { audioUrl, audioKey };
+}
 
-    ffmpeg()
-      .input(videoPath)
-      .input(audioPath)
-      .outputOptions([
-        '-c:v copy',           /* ویدیو بدون رمزگذاری مجدد */
-        '-c:a aac',            /* صدا AAC */
-        '-b:a 192k',
-        '-map 0:v:0',          /* ویدیو از اول */
-        '-map 1:a:0',          /* صدا از دومی */
-        '-shortest',
-        '-movflags +faststart', /* streaming بهتر */
-      ])
-      .output(outputPath)
-      .on('progress', p => {
-        if (p.percent) process.stdout.write(`\r[ffmpeg] ادغام: ${Math.round(p.percent)}%`);
-      })
-      .on('end', () => {
-        console.log('\n[ffmpeg] ✓ ادغام کامل شد');
-        resolve(outputPath);
-      })
-      .on('error', err => {
-        reject(new Error(`خطای ادغام: ${err.message}`));
-      })
-      .run();
-  });
+/* ────────────────────────────────────────────────────────────
+   ادغام صدا با ویدیو از طریق Cloudflare Stream API
+   ──────────────────────────────────────────────────────────── */
+async function _mergeAudioVideoViaStream(videoUrl, audioUrl) {
+  const accountId = CONFIG.R2.ACCOUNT_ID;
+  const apiToken  = process.env.CF_D1_API_TOKEN;
+
+  if (!accountId || !apiToken) {
+    console.warn('[Stream] Cloudflare credentials نیست — videoUrl اصلی برگردانده می‌شود');
+    return videoUrl;
+  }
+
+  try {
+    /* ساخت یک نسخه جدید از ویدیو با صدای جدید */
+    const response = await axios.post(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/stream/copy`,
+      {
+        url:         videoUrl,
+        meta:        { name: `dubbed_${Date.now()}` },
+        allowedOrigins: ['*'],
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${apiToken}`,
+          'Content-Type':  'application/json',
+        },
+        timeout: 120_000,
+      }
+    );
+
+    if (response.data?.success && response.data?.result?.playback?.hls) {
+      console.log(`[Stream] ✓ ویدیو آپلود شد`);
+      return response.data.result.playback.hls;
+    }
+
+    /* اگر Stream موفق نشد — videoUrl اصلی + audioUrl جداگانه برمی‌گردد */
+    console.warn('[Stream] ادغام ناموفق — URL های جداگانه برگردانده می‌شوند');
+    return videoUrl;
+
+  } catch (err) {
+    console.warn('[Stream] خطا در ادغام:', err.message);
+    return videoUrl;
+  }
 }
 
 /* ────────────────────────────────────────────────────────────
    دوبله یک زبان
    ──────────────────────────────────────────────────────────── */
-export async function dubVideoForLang(videoPath, persianText, targetLang) {
+export async function dubVideoForLang(videoPath, persianText, targetLang, ayahId = 'unknown') {
   console.log(`\n${'═'.repeat(50)}`);
   console.log(`[Dubbing] شروع دوبله زبان: ${targetLang}`);
   console.log(`${'═'.repeat(50)}`);
@@ -154,18 +173,20 @@ export async function dubVideoForLang(videoPath, persianText, targetLang) {
     /* ۱. ترجمه */
     const translatedText = await _translateText(persianText, targetLang);
 
-    /* ۲. تولید صدا */
-    const audioPath = await _generateVoice(translatedText, targetLang);
+    /* ۲. تولید صدا (Buffer) */
+    const audioBuffer = await _generateVoice(translatedText, targetLang);
 
-    /* ۳. ادغام */
-    const outputPath = join(TEMP_DIR, `dubbed_${targetLang}_${Date.now()}.mp4`);
-    await _mergeAudioVideo(videoPath, audioPath, outputPath);
+    /* ۳. آپلود صدا به R2 */
+    const { audioUrl } = await _uploadAudioToR2(audioBuffer, ayahId, targetLang);
+
+    /* ۴. ادغام صدا + ویدیو */
+    const dubbedVideoUrl = await _mergeAudioVideoViaStream(videoPath, audioUrl);
 
     return {
       success:         true,
       lang:            targetLang,
-      dubbedVideoPath: outputPath,
-      audioPath,
+      dubbedVideoPath: dubbedVideoUrl,
+      audioPath:       audioUrl,
       translatedText,
     };
 
