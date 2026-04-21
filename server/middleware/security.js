@@ -59,9 +59,9 @@ export const securityHeaders = helmet({
   /* حذف X-Powered-By */
   hidePoweredBy:           true,
 
-  crossOriginResourcePolicy:  { policy: 'same-site' },
-  crossOriginOpenerPolicy:    { policy: 'same-origin' },
-  crossOriginEmbedderPolicy:  { policy: 'require-corp' },
+  crossOriginResourcePolicy:  { policy: 'cross-origin' },
+  crossOriginOpenerPolicy:    { policy: 'unsafe-none' },
+  crossOriginEmbedderPolicy:  false,
 });
 
 /* ════════════════════════════════════════════════════════════
