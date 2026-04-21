@@ -940,6 +940,22 @@ Silakan masukkan jumlah yang benar.`,
         }
       }
 
+      /* بررسی آپلود رسید — اجباری است */
+      if (!_receiptFile) {
+        const receiptErrors = {
+          fa: '⛔ لطفاً رسید یا اسکرین‌شات پرداخت را آپلود کنید.',
+          ar: '⛔ يرجى رفع إيصال الدفع أو لقطة الشاشة.',
+          ur: '⛔ براہ کرم ادائیگی کی رسید یا اسکرین شاٹ اپلوڈ کریں۔',
+          az: '⛔ Zəhmət olmasa ödəniş qəbzini və ya ekran şəklini yükləyin.',
+          tr: '⛔ Lütfen ödeme makbuzunu veya ekran görüntüsünü yükleyin.',
+          ru: '⛔ Пожалуйста, загрузите квитанцию или скриншот оплаты.',
+          en: '⛔ Please upload a payment receipt or screenshot.',
+          id: '⛔ Silakan unggah tanda terima atau tangkapan layar pembayaran.',
+        };
+        alert(receiptErrors[lang] ?? receiptErrors['en']);
+        return;
+      }
+
       if (btn) { btn.disabled = true; btn.textContent = '⏳ در حال ثبت...'; }
 
       _txId = document.getElementById('txid-input')?.value?.trim() ?? '';
