@@ -113,6 +113,14 @@ export class LangDetector {
 
   /* ── تشخیص نهایی (اصلی) ── */
   static async detect() {
+    /* پاک کردن کش قدیمی اشتباه */
+    try {
+      const cached = JSON.parse(localStorage.getItem('mh_lang_ip_cache') || 'null');
+      if (cached && cached.lang === 'id' && cached.countryCode !== 'ID') {
+        localStorage.removeItem('mh_lang_ip_cache');
+      }
+    } catch {}
+
     /* ۱. انتخاب دستی کاربر — بالاترین اولویت */
     const manual = this._getManual();
     if (manual) return manual;
@@ -235,16 +243,11 @@ export class LangDetector {
       ...(navigator.languages ?? []),
     ].filter(Boolean);
 
-    /* فقط زبان‌های غیر انگلیسی از مرورگر — en را IP تعیین میکنه */
-    const SKIP_BROWSER = ['en', 'en-US', 'en-GB', 'en-AU', 'en-CA'];
-
     for (const lang of langs) {
-      if (SKIP_BROWSER.includes(lang)) continue;
       /* مطابقت کامل */
       if (BROWSER_LANG_MAP[lang]) return BROWSER_LANG_MAP[lang];
       /* مطابقت جزئی (فقط کد دوحرفی) */
       const short = lang.split('-')[0].toLowerCase();
-      if (short === 'en') continue;
       if (BROWSER_LANG_MAP[short]) return BROWSER_LANG_MAP[short];
     }
     return null;
