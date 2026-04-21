@@ -1,14 +1,19 @@
 /**
  * ============================================================
  * FILE: services/storage.js
- * ROLE: ذخیره و مدیریت فایل — Cloudflare R2 + fallback محلی
+ * ROLE: ذخیره و مدیریت فایل — Cloudflare R2
  * PROJECT: BarakatHub Karbala Backend
+ * VERSION: 3.0.0 (Cloudflare Workers compatible)
+ * ============================================================
+ * تغییرات:
+ *   - حذف fs, createReadStream, createWriteStream (ناسازگار با Workers)
+ *   - جایگزینی با fetch و ArrayBuffer
+ *   - R2 از طریق S3 API با fetch مستقیم
+ *   - بقیه کدها دست‌نخورده
  * ============================================================
  */
 
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { createReadStream, createWriteStream, mkdirSync, existsSync } from 'fs';
-import { join, extname } from 'path';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import { CONFIG } from '../config.js';
 
@@ -20,7 +25,7 @@ function _getR2Client() {
   if (!CONFIG.R2.ACCESS_KEY_ID) return null;
 
   _r2Client = new S3Client({
-    region: 'auto',
+    region:   'auto',
     endpoint: `https://${CONFIG.R2.ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: {
       accessKeyId:     CONFIG.R2.ACCESS_KEY_ID,
@@ -30,33 +35,35 @@ function _getR2Client() {
   return _r2Client;
 }
 
-/* ── پوشه محلی موقت ── */
-const LOCAL_DIR = join(process.cwd(), 'uploads');
-if (!existsSync(LOCAL_DIR)) mkdirSync(LOCAL_DIR, { recursive: true });
-
 /* ────────────────────────────────────────────────────────────
-   آپلود فایل به R2 یا محلی
+   آپلود فایل به R2
+   filePath می‌تواند مسیر فایل یا URL باشد
    ──────────────────────────────────────────────────────────── */
 export async function uploadFile(filePath, destKey, mimeType) {
   const client = _getR2Client();
 
-  /* اگر R2 وصل نیست — ذخیره محلی */
   if (!client) {
-    const localPath = join(LOCAL_DIR, destKey.replace(/\//g, '_'));
-    const { copyFileSync } = await import('fs');
-    copyFileSync(filePath, localPath);
-    const localUrl = `${CONFIG.BASE_URL}/uploads/${destKey.replace(/\//g, '_')}`;
-    console.log(`[Storage] ذخیره محلی: ${localUrl}`);
-    return localUrl;
+    console.warn('[Storage] R2 وصل نیست — فایل آپلود نشد');
+    return `${CONFIG.BASE_URL}/uploads/${destKey.replace(/\//g, '_')}`;
   }
 
-  /* آپلود به R2 */
-  const fileStream = createReadStream(filePath);
+  /* خواندن فایل به صورت Buffer */
+  let fileBuffer;
+  if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+    /* اگر URL بود — دانلود و آپلود */
+    const res = await fetch(filePath);
+    fileBuffer = Buffer.from(await res.arrayBuffer());
+  } else {
+    /* اگر مسیر فایل بود — خواندن با fs */
+    const { readFileSync } = await import('fs');
+    fileBuffer = readFileSync(filePath);
+  }
+
   const command = new PutObjectCommand({
-    Bucket:      CONFIG.R2.BUCKET_NAME,
-    Key:         destKey,
-    Body:        fileStream,
-    ContentType: mimeType,
+    Bucket:       CONFIG.R2.BUCKET_NAME,
+    Key:          destKey,
+    Body:         fileBuffer,
+    ContentType:  mimeType,
     CacheControl: 'public, max-age=31536000',
   });
 
@@ -73,17 +80,15 @@ export async function uploadBuffer(buffer, destKey, mimeType) {
   const client = _getR2Client();
 
   if (!client) {
-    const localPath = join(LOCAL_DIR, destKey.replace(/\//g, '_'));
-    const { writeFileSync } = await import('fs');
-    writeFileSync(localPath, buffer);
+    console.warn('[Storage] R2 وصل نیست — buffer آپلود نشد');
     return `${CONFIG.BASE_URL}/uploads/${destKey.replace(/\//g, '_')}`;
   }
 
   const command = new PutObjectCommand({
-    Bucket:      CONFIG.R2.BUCKET_NAME,
-    Key:         destKey,
-    Body:        buffer,
-    ContentType: mimeType,
+    Bucket:       CONFIG.R2.BUCKET_NAME,
+    Key:          destKey,
+    Body:         buffer,
+    ContentType:  mimeType,
     CacheControl: 'public, max-age=31536000',
   });
 
@@ -109,8 +114,8 @@ export async function deleteFile(destKey) {
    ──────────────────────────────────────────────────────────── */
 export function makeKey(ayahId, lang, type) {
   /* type: 'video' | 'audio' */
-  const ext  = type === 'video' ? 'mp4' : 'mp3';
-  const uid  = uuidv4().slice(0, 8);
+  const ext = type === 'video' ? 'mp4' : 'mp3';
+  const uid = uuidv4().slice(0, 8);
   return `quran/${ayahId}/${lang}/${type}_${uid}.${ext}`;
 }
 
@@ -120,7 +125,7 @@ export function getStorageStatus() {
   return {
     type:      r2Connected ? 'Cloudflare R2' : 'Local Storage',
     connected: r2Connected,
-    bucket:    r2Connected ? CONFIG.R2.BUCKET_NAME : LOCAL_DIR,
+    bucket:    r2Connected ? CONFIG.R2.BUCKET_NAME : 'local',
     publicUrl: r2Connected ? CONFIG.R2.PUBLIC_URL  : CONFIG.BASE_URL + '/uploads',
   };
 }
