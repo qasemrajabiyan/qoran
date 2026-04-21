@@ -51,7 +51,7 @@ const COUNTRY_LANG_MAP = {
 
   /* اردو */
   ID: 'id',   /* اندونزی */
-  MY: 'id',   /* مالزی */
+  MY: 'ms',   /* مالزی */
   PK: 'ur',   /* پاکستان */
 
   /* آذری */
@@ -104,7 +104,7 @@ const SUPPORTED_LANGS = ['fa', 'ar', 'ur', 'az', 'tr', 'ru', 'en', 'id'];
 const DEFAULT_LANG    = 'fa';
 const STORAGE_KEY     = 'mh_lang_manual';      /* انتخاب دستی کاربر */
 const CACHE_KEY       = 'mh_lang_ip_cache';    /* کش IP */
-const CACHE_TTL       = 24 * 60 * 60 * 1000;  /* ۲۴ ساعت */
+const CACHE_TTL       = 0;  /* کش غیرفعال — هر بار از IP تازه می‌گیره */
 
 /* ────────────────────────────────────────────────────────────
    3. LANG DETECTOR CLASS
