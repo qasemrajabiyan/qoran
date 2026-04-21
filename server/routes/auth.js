@@ -14,6 +14,7 @@
  */
 
 import { Router }   from 'express';
+import { createHash, randomBytes, timingSafeEqual } from 'crypto';
 import passport     from 'passport';
 import jwt          from 'jsonwebtoken';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
@@ -130,6 +131,88 @@ router.get('/me', (req, res) => {
 ═══════════════════════════════════════ */
 router.post('/logout', (req, res) => {
   res.json({ success: true, message: 'خروج موفق' });
+});
+
+/* ═══════════════════════════════════════
+   توابع کمکی هش رمز ادمین (SHA-256 + salt)
+═══════════════════════════════════════ */
+const ADMIN_PASS_KEY = 'mh_admin_pass_hash';
+const ADMIN_SALT_KEY = 'mh_admin_pass_salt';
+
+/* ذخیره هش رمز در متغیر محیطی runtime (in-memory برای این نسخه) */
+let _adminPassHash = process.env.ADMIN_PASS_HASH || null;
+let _adminSalt     = process.env.ADMIN_PASS_SALT || null;
+
+function _hashPassword(password, salt) {
+  return createHash('sha256').update(salt + password + salt).digest('hex');
+}
+
+function _getAdminHash() {
+  if (_adminPassHash && _adminSalt) return { hash: _adminPassHash, salt: _adminSalt };
+  /* اگر هنوز رمز ست نشده، از ADMIN_API_KEY در .env استفاده می‌کنیم */
+  const defaultPass = process.env.ADMIN_API_KEY || 'BarakatHub2026admin';
+  const salt = randomBytes(16).toString('hex');
+  const hash = _hashPassword(defaultPass, salt);
+  _adminPassHash = hash;
+  _adminSalt     = salt;
+  return { hash, salt };
+}
+
+/* ═══════════════════════════════════════
+   POST /api/auth/admin-login
+═══════════════════════════════════════ */
+router.post('/admin-login', (req, res) => {
+  const { password } = req.body;
+  if (!password) return res.status(400).json({ success: false, error: 'رمز الزامی است' });
+
+  const { hash, salt } = _getAdminHash();
+  const inputHash = _hashPassword(password, salt);
+
+  const isValid = timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(inputHash, 'hex'));
+  if (!isValid) return res.status(401).json({ success: false, error: 'رمز اشتباه است' });
+
+  const token = 'admin_' + randomBytes(32).toString('hex');
+  /* ذخیره توکن در حافظه (TTL: 8 ساعت) */
+  if (!global._adminTokens) global._adminTokens = new Map();
+  global._adminTokens.set(token, Date.now() + 8 * 60 * 60 * 1000);
+
+  res.json({ success: true, token });
+});
+
+/* ═══════════════════════════════════════
+   POST /api/auth/admin-change-password
+═══════════════════════════════════════ */
+router.post('/admin-change-password', (req, res) => {
+  const token = req.headers['x-admin-token'];
+  if (!token) return res.status(401).json({ success: false, error: 'احراز هویت نشده' });
+
+  /* بررسی توکن */
+  const tokens = global._adminTokens;
+  if (!tokens || !tokens.has(token) || tokens.get(token) < Date.now()) {
+    return res.status(401).json({ success: false, error: 'نشست منقضی شده، دوباره وارد شوید' });
+  }
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ success: false, error: 'همه فیلدها الزامی هستند' });
+  }
+  if (newPassword.length < 8) {
+    return res.status(400).json({ success: false, error: 'رمز جدید باید حداقل ۸ کاراکتر باشد' });
+  }
+
+  /* بررسی رمز فعلی */
+  const { hash, salt } = _getAdminHash();
+  const currentHash = _hashPassword(currentPassword, salt);
+  const isValid = timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(currentHash, 'hex'));
+  if (!isValid) return res.status(401).json({ success: false, error: 'رمز فعلی اشتباه است' });
+
+  /* ذخیره رمز جدید (هش‌شده) */
+  const newSalt = randomBytes(16).toString('hex');
+  const newHash = _hashPassword(newPassword, newSalt);
+  _adminPassHash = newHash;
+  _adminSalt     = newSalt;
+
+  res.json({ success: true, message: 'رمز با موفقیت تغییر کرد' });
 });
 
 export default router;

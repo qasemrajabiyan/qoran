@@ -18,14 +18,22 @@ export function requireAdmin() {
   return true;
 }
 
-export function adminLogin(password) {
-  /* در production: API call */
-  const ADMIN_PASS = 'BarakatHub2026admin'; /* بعداً از سرور */
-  if (password === ADMIN_PASS) {
-    localStorage.setItem(ADMIN_KEY, 'admin_' + Date.now());
-    return true;
+export async function adminLogin(password) {
+  try {
+    const res = await fetch('/api/auth/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    const data = await res.json();
+    if (data.success && data.token) {
+      localStorage.setItem(ADMIN_KEY, data.token);
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
   }
-  return false;
 }
 
 export function adminLogout() {
@@ -1246,6 +1254,29 @@ export function renderAdminShell(container, initialPage = 'overview') {
             </div>
           </div>
 
+          <!-- تغییر رمز ادمین -->
+          <div class="admin-panel">
+            <div class="admin-panel__header">
+              <div class="admin-panel__title">🔐 تغییر رمز ادمین</div>
+            </div>
+            <div class="admin-panel__body">
+              <div class="admin-field">
+                <label class="admin-label" for="admin-current-pass">رمز فعلی</label>
+                <input type="password" class="admin-input" id="admin-current-pass" placeholder="رمز فعلی را وارد کنید" autocomplete="off"/>
+              </div>
+              <div class="admin-field">
+                <label class="admin-label" for="admin-new-pass">رمز جدید</label>
+                <input type="password" class="admin-input" id="admin-new-pass" placeholder="حداقل ۸ کاراکتر" autocomplete="off"/>
+              </div>
+              <div class="admin-field">
+                <label class="admin-label" for="admin-confirm-pass">تکرار رمز جدید</label>
+                <input type="password" class="admin-input" id="admin-confirm-pass" placeholder="رمز جدید را دوباره وارد کنید" autocomplete="off"/>
+              </div>
+              <div id="admin-pass-msg" style="font-size:var(--text-sm);margin-bottom:var(--space-3);display:none"></div>
+              <button class="btn btn--primary btn--sm" type="button" id="change-admin-pass-btn">🔐 تغییر رمز</button>
+            </div>
+          </div>
+
           <!-- تنظیمات AI -->
           <div class="admin-panel">
             <div class="admin-panel__header">
@@ -1315,6 +1346,50 @@ export function renderAdminShell(container, initialPage = 'overview') {
   }
 
   function _bindContentEvents() {
+    /* تغییر رمز ادمین */
+    document.getElementById('change-admin-pass-btn')?.addEventListener('click', async () => {
+      const currentPass = document.getElementById('admin-current-pass')?.value ?? '';
+      const newPass     = document.getElementById('admin-new-pass')?.value ?? '';
+      const confirmPass = document.getElementById('admin-confirm-pass')?.value ?? '';
+      const msgEl       = document.getElementById('admin-pass-msg');
+
+      const showMsg = (text, color) => {
+        if (!msgEl) return;
+        msgEl.textContent = text;
+        msgEl.style.color = color;
+        msgEl.style.display = 'block';
+      };
+
+      if (!currentPass || !newPass || !confirmPass) return showMsg('⛔ همه فیلدها را پر کنید', '#e63946');
+      if (newPass.length < 8)                        return showMsg('⛔ رمز جدید باید حداقل ۸ کاراکتر باشد', '#e63946');
+      if (newPass !== confirmPass)                    return showMsg('⛔ رمز جدید و تکرار آن یکسان نیستند', '#e63946');
+
+      const btn = document.getElementById('change-admin-pass-btn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ در حال تغییر...'; }
+
+      try {
+        const token = localStorage.getItem('mh_admin_token') || '';
+        const res = await fetch('/api/auth/admin-change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+          body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          showMsg('✅ رمز با موفقیت تغییر کرد', '#16a34a');
+          document.getElementById('admin-current-pass').value = '';
+          document.getElementById('admin-new-pass').value     = '';
+          document.getElementById('admin-confirm-pass').value = '';
+        } else {
+          showMsg('⛔ ' + (data.error || 'خطا در تغییر رمز'), '#e63946');
+        }
+      } catch {
+        showMsg('⛔ خطا در اتصال به سرور', '#e63946');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '🔐 تغییر رمز'; }
+      }
+    });
+
     /* Mark done single order */
     container.querySelectorAll('.mark-done-btn').forEach(btn => {
       btn.addEventListener('click', () => {
