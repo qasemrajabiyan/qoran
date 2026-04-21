@@ -121,15 +121,15 @@ export class LangDetector {
     const urlLang = this._fromURL();
     if (urlLang) return urlLang;
 
-    /* ۳. IP Geolocation */
+    /* ۳. زبان مرورگر — قبل از IP چک میشه */
+    const browserLang = this._fromBrowser();
+    if (browserLang) return browserLang;
+
+    /* ۴. IP Geolocation */
     try {
       const ipLang = await this._fromIP();
       if (ipLang) return ipLang;
     } catch { /* اگر API در دسترس نبود، ادامه */ }
-
-    /* ۴. زبان مرورگر */
-    const browserLang = this._fromBrowser();
-    if (browserLang) return browserLang;
 
     /* ۵. پیش‌فرض */
     return DEFAULT_LANG;
