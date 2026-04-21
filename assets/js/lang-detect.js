@@ -187,7 +187,7 @@ export class LangDetector {
       try {
         const countryCode = await apiFn();
         if (countryCode) {
-          const lang = COUNTRY_LANG_MAP[countryCode] ?? null;
+          const lang = COUNTRY_LANG_MAP[countryCode] ?? DEFAULT_LANG;
           /* ذخیره در کش */
           try {
             localStorage.setItem(CACHE_KEY, JSON.stringify({
