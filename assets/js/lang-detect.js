@@ -235,11 +235,16 @@ export class LangDetector {
       ...(navigator.languages ?? []),
     ].filter(Boolean);
 
+    /* فقط زبان‌های غیر انگلیسی از مرورگر — en را IP تعیین میکنه */
+    const SKIP_BROWSER = ['en', 'en-US', 'en-GB', 'en-AU', 'en-CA'];
+
     for (const lang of langs) {
+      if (SKIP_BROWSER.includes(lang)) continue;
       /* مطابقت کامل */
       if (BROWSER_LANG_MAP[lang]) return BROWSER_LANG_MAP[lang];
       /* مطابقت جزئی (فقط کد دوحرفی) */
       const short = lang.split('-')[0].toLowerCase();
+      if (short === 'en') continue;
       if (BROWSER_LANG_MAP[short]) return BROWSER_LANG_MAP[short];
     }
     return null;
