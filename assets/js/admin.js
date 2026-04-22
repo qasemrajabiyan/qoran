@@ -11,7 +11,6 @@
    1. ADMIN AUTH GUARD
    ──────────────────────────────────────────────────────────── */
 const ADMIN_KEY = 'mh_admin_token';
-const API_BASE  = 'https://api.barakathub.com';
 
 export function requireAdmin() {
   const token = localStorage.getItem(ADMIN_KEY);
@@ -21,7 +20,7 @@ export function requireAdmin() {
 
 export async function adminLogin(password) {
   try {
-    const res = await fetch(API_BASE + '/api/auth/admin-login', {
+    const res = await fetch('/api/auth/admin-login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
@@ -957,6 +956,57 @@ export function renderAdminShell(container, initialPage = 'overview') {
               ></textarea>
             </div>
 
+            <!-- لوکیشن مکتب شیخ -->
+            <div class="admin-panel" style="margin-top:var(--space-4);background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(42,157,143,0.03));border:1.5px solid rgba(42,157,143,0.2)">
+              <div class="admin-panel__header">
+                <div class="admin-panel__title">📍 لوکیشن مکتب شیخ <span style="font-size:var(--text-sm);color:var(--text-muted);font-weight:normal">برای کاربران نمایش داده می‌شود</span></div>
+              </div>
+              <div class="admin-panel__body" style="display:flex;flex-direction:column;gap:var(--space-4)">
+
+                <div class="admin-field">
+                  <label class="admin-label" for="meeting-location-address">آدرس متنی <span class="admin-label-hint">به زبان فارسی</span></label>
+                  <input type="text" class="admin-input" id="meeting-location-address"
+                    placeholder="مثال: کربلا، خیابان امام حسین، مکتب شیخ..."
+                    aria-label="آدرس متنی لوکیشن"
+                  />
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)">
+                  <div class="admin-field">
+                    <label class="admin-label" for="meeting-location-lat">عرض جغرافیایی (Latitude)</label>
+                    <input type="text" class="admin-input" id="meeting-location-lat"
+                      placeholder="مثال: 32.6157"
+                      dir="ltr"
+                      aria-label="عرض جغرافیایی"
+                    />
+                  </div>
+                  <div class="admin-field">
+                    <label class="admin-label" for="meeting-location-lng">طول جغرافیایی (Longitude)</label>
+                    <input type="text" class="admin-input" id="meeting-location-lng"
+                      placeholder="مثال: 44.0088"
+                      dir="ltr"
+                      aria-label="طول جغرافیایی"
+                    />
+                  </div>
+                </div>
+
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);font-size:var(--text-xs);color:var(--text-muted);line-height:1.7">
+                  💡 برای پیدا کردن مختصات دقیق: در Google Maps روی مکان راست‌کلیک کنید، اولین عدد Latitude و دومی Longitude است.
+                  <br/>
+                  <a href="https://maps.google.com" target="_blank" rel="noopener" style="color:var(--color-primary-400)">باز کردن Google Maps ←</a>
+                </div>
+
+                <!-- پیش‌نمایش لینک -->
+                <div id="location-preview" style="display:none;background:rgba(42,157,143,0.1);border:1px solid rgba(42,157,143,0.25);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4)">
+                  <div style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:var(--space-2)">پیش‌نمایش لینک کاربر:</div>
+                  <a id="location-preview-link" href="#" target="_blank" rel="noopener"
+                    style="color:var(--color-primary-400);font-size:var(--text-sm);word-break:break-all"
+                  ></a>
+                </div>
+
+              </div>
+            </div>
+
             <button class="btn btn--primary" id="save-meeting-settings" type="button">💾 ذخیره تنظیمات</button>
           </div>
         </div>
@@ -1370,7 +1420,7 @@ export function renderAdminShell(container, initialPage = 'overview') {
 
       try {
         const token = localStorage.getItem('mh_admin_token') || '';
-        const res = await fetch(API_BASE + '/api/auth/admin-change-password', {
+        const res = await fetch('/api/auth/admin-change-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
           body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
@@ -1425,8 +1475,80 @@ export function renderAdminShell(container, initialPage = 'overview') {
 
     /* Save meeting settings */
     document.getElementById('save-meeting-settings')?.addEventListener('click', () => {
-      _showAdminToast('✓ تنظیمات دیدار ذخیره شد', 'success');
+      try {
+        const existing = JSON.parse(localStorage.getItem('mh_meeting_config') || 'null') || {};
+
+        /* متن غیرفعال */
+        const inactiveMsg = document.getElementById('inactive-msg')?.value?.trim() ?? '';
+        if (inactiveMsg) {
+          existing.inactiveMessage = existing.inactiveMessage || {};
+          existing.inactiveMessage.fa = inactiveMsg;
+        }
+
+        /* متن تأیید */
+        const confirmMsg = document.getElementById('meeting-confirm-msg')?.value?.trim() ?? '';
+        existing.confirmationMessage = existing.confirmationMessage || {};
+        existing.confirmationMessage.fa = confirmMsg;
+
+        /* لوکیشن */
+        const lat     = document.getElementById('meeting-location-lat')?.value?.trim() ?? '';
+        const lng     = document.getElementById('meeting-location-lng')?.value?.trim() ?? '';
+        const address = document.getElementById('meeting-location-address')?.value?.trim() ?? '';
+
+        existing.location = {
+          lat,
+          lng,
+          address: { fa: address, ar: address, ur: address, az: address, tr: address, ru: address, en: address, id: address },
+        };
+
+        localStorage.setItem('mh_meeting_config', JSON.stringify(existing));
+        _showAdminToast('✓ تنظیمات دیدار ذخیره شد', 'success');
+      } catch {
+        _showAdminToast('⚠ خطا در ذخیره', 'error');
+      }
     });
+
+    /* بارگذاری مقادیر ذخیره‌شده لوکیشن */
+    try {
+      const saved = JSON.parse(localStorage.getItem('mh_meeting_config') || 'null');
+      if (saved?.location) {
+        const latEl  = document.getElementById('meeting-location-lat');
+        const lngEl  = document.getElementById('meeting-location-lng');
+        const addrEl = document.getElementById('meeting-location-address');
+        if (latEl)  latEl.value  = saved.location.lat  || '';
+        if (lngEl)  lngEl.value  = saved.location.lng  || '';
+        if (addrEl) addrEl.value = saved.location.address?.fa || '';
+      }
+    } catch {}
+
+    /* پیش‌نمایش لینک لوکیشن */
+    function _updateLocationPreview() {
+      const lat     = document.getElementById('meeting-location-lat')?.value?.trim() ?? '';
+      const lng     = document.getElementById('meeting-location-lng')?.value?.trim() ?? '';
+      const address = document.getElementById('meeting-location-address')?.value?.trim() ?? '';
+      const preview = document.getElementById('location-preview');
+      const link    = document.getElementById('location-preview-link');
+      if (!preview || !link) return;
+
+      if (lat && lng) {
+        const url = `https://www.google.com/maps?q=${lat},${lng}`;
+        link.href = url;
+        link.textContent = url;
+        preview.style.display = 'block';
+      } else if (address) {
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        link.href = url;
+        link.textContent = url;
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
+    }
+
+    document.getElementById('meeting-location-lat')?.addEventListener('input', _updateLocationPreview);
+    document.getElementById('meeting-location-lng')?.addEventListener('input', _updateLocationPreview);
+    document.getElementById('meeting-location-address')?.addEventListener('input', _updateLocationPreview);
+    _updateLocationPreview();
 
     /* ── ویدیو آپلود و مدیریت دوبله ── */
     _initVideoManager();

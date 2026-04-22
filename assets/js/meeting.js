@@ -27,6 +27,8 @@ const MC = {
   loginRequired:{ fa:'برای ثبت دیدار ابتدا وارد شوید', ar:'يرجى تسجيل الدخول لتأكيد اللقاء', ur:'ملاقات درج کرنے کے لیے پہلے لاگ ان کریں', az:'Görüşü qeyd etmək üçün daxil olun', tr:'Buluşmayı kaydetmek için giriş yapın', ru:'Войдите, чтобы записаться на встречу', en:'Please login to confirm the meeting', id:'Silakan login untuk konfirmasi pertemuan' },
   myMeeting:    { fa:'دیدار من', ar:'لقائي', ur:'میری ملاقات', az:'Mənim görüşüm', tr:'Benim Buluşmam', ru:'Моя встреча', en:'My Meeting', id:'Pertemuan Saya' },
   cancelBtn:    { fa:'انصراف از دیدار', ar:'إلغاء اللقاء', ur:'ملاقات منسوخ کریں', az:'Görüşdən imtina et', tr:'Buluşmayı İptal Et', ru:'Отменить встречу', en:'Cancel Meeting', id:'Batalkan Pertemuan' },
+  locationBtn:   { fa:'مسیریابی به مکتب شیخ', ar:'الاتجاه إلى مكتب الشيخ', ur:'شیخ کے مکتب کا راستہ', az:'Şeyxin məktəbinə yol', tr:'Şeyhin Mektebine Yol Tarifi', ru:'Маршрут к мечети шейха', en:'Navigate to Sheikh's Mosque', id:'Navigasi ke Masjid Syaikh' },
+  locationTitle: { fa:'📍 آدرس مکتب شیخ', ar:'📍 عنوان مكتب الشيخ', ur:'📍 شیخ کے مکتب کا پتہ', az:'📍 Şeyxin məktəbinin ünvanı', tr:'📍 Şeyhin Mektebinin Adresi', ru:'📍 Адрес мечети шейха', en:'📍 Sheikh's Mosque Address', id:'📍 Alamat Masjid Syaikh' },
   cancelConfirm:{ fa:'آیا از انصراف دیدار مطمئن هستید؟', ar:'هل أنت متأكد من إلغاء اللقاء؟', ur:'کیا آپ واقعی ملاقات منسوخ کرنا چاہتے ہیں؟', az:'Görüşdən imtina etmək istədiyinizə əminsiniz?', tr:'Buluşmayı iptal etmek istediğinizden emin misiniz?', ru:'Вы уверены, что хотите отменить встречу?', en:'Are you sure you want to cancel the meeting?', id:'Apakah Anda yakin ingin membatalkan pertemuan?' },
 };
 
@@ -87,6 +89,7 @@ export const MeetingData = {
   isActive()     { return this._getConfig().isActive ?? false; },
   getInactiveMsg(){ return this._getConfig().inactiveMessage ?? {}; },
   getConfirmMsg() { return this._getConfig().confirmationMessage ?? {}; },
+  getLocation()   { return this._getConfig().location ?? { lat: '', lng: '', address: { fa:'کربلا، عراق', en:'Karbala, Iraq', ar:'كربلاء، العراق', ur:'کربلا، عراق', az:'Kərbəla, İraq', tr:'Kerbela, Irak', ru:'Кербела, Ирак', id:'Karbala, Irak' } }; },
 
   /* ثبت پاسخ کاربر */
   saveResponse(slotId, response) {
@@ -399,6 +402,84 @@ export function renderMeetingPage(container) {
     `;
   }
 
+  /* ── کارت لوکیشن ── */
+  function _renderLocationCard() {
+    const loc = MeetingData.getLocation();
+    if (!loc || (!loc.lat && !loc.address)) return '';
+
+    const address = loc.address?.[i18n.lang] ?? loc.address?.['fa'] ?? loc.address?.['en'] ?? '';
+    const hasCoords = loc.lat && loc.lng;
+    const mapsUrl = hasCoords
+      ? `https://www.google.com/maps?q=${loc.lat},${loc.lng}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
+    return `
+      <div style="
+        background: linear-gradient(135deg, rgba(42,157,143,0.12) 0%, rgba(42,157,143,0.06) 100%);
+        border: 1.5px solid rgba(42,157,143,0.3);
+        border-radius: var(--radius-xl);
+        padding: var(--space-4) var(--space-5);
+        margin-bottom: var(--space-4);
+        position: relative;
+        overflow: hidden;
+      ">
+        <!-- خط تزئینی -->
+        <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:linear-gradient(180deg,var(--color-primary-500),var(--color-primary-700));border-radius:0 var(--radius-xl) var(--radius-xl) 0"></div>
+
+        <!-- عنوان -->
+        <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3)">
+          <span style="font-size:1.2rem" aria-hidden="true">📍</span>
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--color-primary-400)">
+            ${tx(MC.locationTitle)}
+          </span>
+        </div>
+
+        <!-- آدرس -->
+        ${address ? `
+          <div style="
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            line-height: 1.6;
+            padding-right: var(--space-1);
+          " lang="${i18n.lang}" dir="${i18n.dir}">
+            ${address}
+          </div>
+        ` : ''}
+
+        <!-- دکمه Google Maps -->
+        <a
+          href="${mapsUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: linear-gradient(135deg, #2a9d8f, #1a7a6e);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: var(--weight-bold);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(42,157,143,0.3);
+          "
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(42,157,143,0.45)'"
+          onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(42,157,143,0.3)'"
+          aria-label="${tx(MC.locationBtn)}"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          ${tx(MC.locationBtn)}
+        </a>
+      </div>
+    `;
+  }
+
   /* ── مودال تأیید ── */
   function _renderConfirmModal(slotId) {
     const slot = MeetingData.getSlots().find(s => s.id === slotId);
@@ -440,6 +521,9 @@ export function renderMeetingPage(container) {
                 ${msgText}
               </div>
             ` : ''}
+
+            <!-- لوکیشن مکتب شیخ -->
+            ${_renderLocationCard()}
 
             <!-- دکمه بستن -->
             <button class="btn btn--primary btn--lg w-full" id="close-confirm-modal" style="margin-top:var(--space-2)">
