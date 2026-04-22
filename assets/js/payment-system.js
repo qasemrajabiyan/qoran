@@ -41,7 +41,12 @@ export const PaymentConfig = {
           ethereum:   '',
         },
         /* Transak */
-        transak: { apiKey: '', environment: 'STAGING' },
+        transak: {
+          apiKey: '',
+          environment: 'STAGING',
+          defaultCrypto: 'USDT',
+          wallets: { usdt_trc20: '', usdt_bep20: '' },
+        },
         /* کی‌کارد عراق */
         kikard: { active: false, accountId: '', phone: '', accountName: '' },
         /* بانک ملی ایران */
@@ -823,9 +828,21 @@ export async function renderPaymentPage(container, usdAmount = 0, serviceId = ''
 
     /* Transak */
     document.getElementById('open-transak')?.addEventListener('click', () => {
-      const cfg = PaymentConfig.get().transak;
-      const env = cfg.environment === 'PRODUCTION' ? 'global' : 'staging-global';
-      const url = `https://${env}.transak.com/?apiKey=${cfg.apiKey}&defaultCryptoCurrency=USDT&network=tron${usdAmount ? '&fiatAmount='+usdAmount+'&fiatCurrency=USD' : ''}`;
+      const cfg  = PaymentConfig.get().transak;
+      const env  = cfg.environment === 'PRODUCTION' ? 'global' : 'staging-global';
+      const crypto    = cfg.defaultCrypto ?? 'USDT';
+      const network   = crypto === 'USDT' ? 'tron' : (crypto === 'BNB' ? 'bsc' : '');
+      const walletAddr = cfg.wallets?.usdt_trc20 ?? cfg.wallets?.usdt_bep20 ?? '';
+
+      const params = new URLSearchParams();
+      params.set('apiKey', cfg.apiKey);
+      params.set('defaultCryptoCurrency', crypto);
+      if (network)   params.set('network', network);
+      if (walletAddr) params.set('walletAddress', walletAddr);
+      if (usdAmount) { params.set('fiatAmount', usdAmount); params.set('fiatCurrency', 'USD'); }
+      params.set('disableWalletAddressForm', walletAddr ? 'true' : 'false');
+
+      const url = `https://${env}.transak.com/?${params.toString()}`;
       window.open(url, '_blank', 'width=460,height=700,resizable=yes');
     });
 
