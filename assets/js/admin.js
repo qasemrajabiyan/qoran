@@ -11,6 +11,7 @@
    1. ADMIN AUTH GUARD
    ──────────────────────────────────────────────────────────── */
 const ADMIN_KEY = 'mh_admin_token';
+const API_BASE  = 'https://api.barakathub.com';
 
 export function requireAdmin() {
   const token = localStorage.getItem(ADMIN_KEY);
@@ -20,7 +21,7 @@ export function requireAdmin() {
 
 export async function adminLogin(password) {
   try {
-    const res = await fetch('/api/auth/admin-login', {
+    const res = await fetch(API_BASE + '/api/auth/admin-login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
@@ -1420,7 +1421,7 @@ export function renderAdminShell(container, initialPage = 'overview') {
 
       try {
         const token = localStorage.getItem('mh_admin_token') || '';
-        const res = await fetch('/api/auth/admin-change-password', {
+        const res = await fetch(API_BASE + '/api/auth/admin-change-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
           body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
