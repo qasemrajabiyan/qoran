@@ -1161,6 +1161,18 @@ function _renderMeetingAdminPage(container) {
               placeholder="خوش آمدید — جزئیات دیدار..."
             >${config?.confirmMsg??''}</textarea>
           </div>
+          <div class="admin-field">
+            <label class="admin-label" for="meeting-location">📍 لوکیشن / آدرس دیدار</label>
+            <input type="text" class="admin-input" id="meeting-location"
+              placeholder="مثلاً: کربلا، خیابان امام حسین، نزدیک حرم"
+              value="${config?.location??''}"/>
+          </div>
+          <div class="admin-field">
+            <label class="admin-label" for="meeting-map-url">🗺️ لینک نقشه (Google Maps)</label>
+            <input type="url" class="admin-input" id="meeting-map-url"
+              placeholder="https://maps.google.com/..."
+              value="${config?.mapUrl??''}"/>
+          </div>
           <button class="btn btn--primary" id="save-meeting-btn">💾 ذخیره</button>
         </div>
       </div>
@@ -1197,6 +1209,8 @@ function _renderMeetingAdminPage(container) {
       active:      document.getElementById('meeting-active')?.checked,
       inactiveMsg: document.getElementById('inactive-msg')?.value,
       confirmMsg:  document.getElementById('confirm-msg')?.value,
+      location:    document.getElementById('meeting-location')?.value,
+      mapUrl:      document.getElementById('meeting-map-url')?.value,
     };
     localStorage.setItem('mh_meeting_config', JSON.stringify(cfg));
     _showToast('✓ تنظیمات ذخیره شد');
