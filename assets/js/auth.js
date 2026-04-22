@@ -291,17 +291,158 @@ export function renderAuthPage(container) {
         <div class="auth-field">
           <label class="auth-label" for="auth-country">${tx(AUTH_COPY.country)}</label>
           <select class="auth-input" id="auth-country" autocomplete="country">
-            <option value="">—</option>
-            <option value="IQ">🇮🇶 العراق</option>
-            <option value="IR">🇮🇷 ایران</option>
-            <option value="PK">🇵🇰 Pakistan</option>
-            <option value="AZ">🇦🇿 Azərbaycan</option>
-            <option value="TR">🇹🇷 Türkiye</option>
-            <option value="RU">🇷🇺 Россия</option>
-            <option value="US">🇺🇸 United States</option>
-            <option value="GB">🇬🇧 United Kingdom</option>
-            <option value="DE">🇩🇪 Deutschland</option>
-            <option value="OTHER">${tx({ fa:'سایر کشورها', ar:'دول أخرى', ur:'دیگر ممالک', en:'Other Countries', tr:'Diğer Ülkeler', ru:'Другие страны', az:'Digər ölkələr' })}</option>
+            <option value="">— ${tx({fa:'کشور را انتخاب کنید',ar:'اختر الدولة',ur:'ملک منتخب کریں',az:'Ölkəni seçin',tr:'Ülke seçin',ru:'Выберите страну',en:'Select country',id:'Pilih negara'})} —</option>
+            ${(()=>{
+              const lang = (typeof i18n !== 'undefined' ? i18n.lang : null) || document.documentElement.lang || 'en';
+              const COUNTRIES = {
+                AF:{fa:'افغانستان',ar:'أفغانستان',ur:'افغانستان',az:'Əfqanıstan',tr:'Afganistan',ru:'Афганистан',en:'Afghanistan',id:'Afghanistan'},
+                AL:{fa:'آلبانی',ar:'ألبانيا',ur:'البانیہ',az:'Albaniya',tr:'Arnavutluk',ru:'Албания',en:'Albania',id:'Albania'},
+                DZ:{fa:'الجزایر',ar:'الجزائر',ur:'الجزائر',az:'Cəzayir',tr:'Cezayir',ru:'Алжир',en:'Algeria',id:'Aljazair'},
+                AD:{fa:'آندورا',ar:'أندورا',ur:'انڈورا',az:'Andorra',tr:'Andorra',ru:'Андорра',en:'Andorra',id:'Andorra'},
+                AO:{fa:'آنگولا',ar:'أنغولا',ur:'انگولا',az:'Anqola',tr:'Angola',ru:'Ангола',en:'Angola',id:'Angola'},
+                AR:{fa:'آرژانتین',ar:'الأرجنتين',ur:'ارجنٹائن',az:'Argentina',tr:'Arjantin',ru:'Аргентина',en:'Argentina',id:'Argentina'},
+                AM:{fa:'ارمنستان',ar:'أرمينيا',ur:'آرمینیا',az:'Ermənistan',tr:'Ermenistan',ru:'Армения',en:'Armenia',id:'Armenia'},
+                AU:{fa:'استرالیا',ar:'أستراليا',ur:'آسٹریلیا',az:'Avstraliya',tr:'Avustralya',ru:'Австралия',en:'Australia',id:'Australia'},
+                AT:{fa:'اتریش',ar:'النمسا',ur:'آسٹریا',az:'Avstriya',tr:'Avusturya',ru:'Австрия',en:'Austria',id:'Austria'},
+                AZ:{fa:'آذربایجان',ar:'أذربيجان',ur:'آذربائیجان',az:'Azərbaycan',tr:'Azerbaycan',ru:'Азербайджан',en:'Azerbaijan',id:'Azerbaijan'},
+                BH:{fa:'بحرین',ar:'البحرين',ur:'بحرین',az:'Bəhreyn',tr:'Bahreyn',ru:'Бахрейн',en:'Bahrain',id:'Bahrain'},
+                BD:{fa:'بنگلادش',ar:'بنغلاديش',ur:'بنگلہ دیش',az:'Banqladeş',tr:'Bangladeş',ru:'Бангладеш',en:'Bangladesh',id:'Bangladesh'},
+                BY:{fa:'بلاروس',ar:'بيلاروسيا',ur:'بیلاروس',az:'Belarus',tr:'Beyaz Rusya',ru:'Беларусь',en:'Belarus',id:'Belarus'},
+                BE:{fa:'بلژیک',ar:'بلجيكا',ur:'بیلجیم',az:'Belçika',tr:'Belçika',ru:'Бельгия',en:'Belgium',id:'Belgia'},
+                BJ:{fa:'بنین',ar:'بنين',ur:'بینن',az:'Benin',tr:'Benin',ru:'Бенин',en:'Benin',id:'Benin'},
+                BO:{fa:'بولیوی',ar:'بوليفيا',ur:'بولیویا',az:'Boliviya',tr:'Bolivya',ru:'Боливия',en:'Bolivia',id:'Bolivia'},
+                BA:{fa:'بوسنی و هرزگوین',ar:'البوسنة والهرسك',ur:'بوسنیا',az:'Bosniya',tr:'Bosna Hersek',ru:'Босния',en:'Bosnia',id:'Bosnia'},
+                BR:{fa:'برزیل',ar:'البرازيل',ur:'برازیل',az:'Braziliya',tr:'Brezilya',ru:'Бразилия',en:'Brazil',id:'Brasil'},
+                BG:{fa:'بلغارستان',ar:'بلغاريا',ur:'بلغاریہ',az:'Bolqarıstan',tr:'Bulgaristan',ru:'Болгария',en:'Bulgaria',id:'Bulgaria'},
+                BF:{fa:'بورکینافاسو',ar:'بوركينا فاسو',ur:'برکینا فاسو',az:'Burkina Faso',tr:'Burkina Faso',ru:'Буркина-Фасо',en:'Burkina Faso',id:'Burkina Faso'},
+                KH:{fa:'کامبوج',ar:'كمبوديا',ur:'کمبوڈیا',az:'Kamboca',tr:'Kamboçya',ru:'Камбоджа',en:'Cambodia',id:'Kamboja'},
+                CM:{fa:'کامرون',ar:'الكاميرون',ur:'کیمرون',az:'Kamerun',tr:'Kamerun',ru:'Камерун',en:'Cameroon',id:'Kamerun'},
+                CA:{fa:'کانادا',ar:'كندا',ur:'کینیڈا',az:'Kanada',tr:'Kanada',ru:'Канада',en:'Canada',id:'Kanada'},
+                TD:{fa:'چاد',ar:'تشاد',ur:'چاڈ',az:'Çad',tr:'Çad',ru:'Чад',en:'Chad',id:'Chad'},
+                CL:{fa:'شیلی',ar:'تشيلي',ur:'چلی',az:'Çili',tr:'Şili',ru:'Чили',en:'Chile',id:'Chili'},
+                CN:{fa:'چین',ar:'الصين',ur:'چین',az:'Çin',tr:'Çin',ru:'Китай',en:'China',id:'China'},
+                CO:{fa:'کلمبیا',ar:'كولومبيا',ur:'کولمبیا',az:'Kolumbiya',tr:'Kolombiya',ru:'Колумбия',en:'Colombia',id:'Kolombia'},
+                CD:{fa:'کنگو دموکراتیک',ar:'الكونغو الديمقراطية',ur:'کانگو',az:'Kongo',tr:'Kongo',ru:'Конго',en:'DR Congo',id:'Kongo'},
+                CR:{fa:'کاستاریکا',ar:'كوستاريكا',ur:'کوسٹا ریکا',az:'Kosta Rika',tr:'Kosta Rika',ru:'Коста-Рика',en:'Costa Rica',id:'Kosta Rika'},
+                HR:{fa:'کرواسی',ar:'كرواتيا',ur:'کروشیا',az:'Xorvatiya',tr:'Hırvatistan',ru:'Хорватия',en:'Croatia',id:'Kroasia'},
+                CU:{fa:'کوبا',ar:'كوبا',ur:'کیوبا',az:'Kuba',tr:'Küba',ru:'Куба',en:'Cuba',id:'Kuba'},
+                CY:{fa:'قبرس',ar:'قبرص',ur:'قبرص',az:'Kipr',tr:'Kıbrıs',ru:'Кипр',en:'Cyprus',id:'Siprus'},
+                CZ:{fa:'جمهوری چک',ar:'التشيك',ur:'چیک',az:'Çexiya',tr:'Çekya',ru:'Чехия',en:'Czech Republic',id:'Ceko'},
+                DK:{fa:'دانمارک',ar:'الدنمارك',ur:'ڈنمارک',az:'Danimarka',tr:'Danimarka',ru:'Дания',en:'Denmark',id:'Denmark'},
+                DO:{fa:'دومینیکن',ar:'الدومينيكان',ur:'ڈومینیکن',az:'Dominikan',tr:'Dominik',ru:'Доминикана',en:'Dominican Rep.',id:'Dominika'},
+                EC:{fa:'اکوادور',ar:'الإكوادور',ur:'ایکواڈور',az:'Ekvador',tr:'Ekvador',ru:'Эквадор',en:'Ecuador',id:'Ekuador'},
+                EG:{fa:'مصر',ar:'مصر',ur:'مصر',az:'Misir',tr:'Mısır',ru:'Египет',en:'Egypt',id:'Mesir'},
+                SV:{fa:'السالوادور',ar:'السلفادور',ur:'ایل سیلواڈور',az:'Salvador',tr:'El Salvador',ru:'Сальвадор',en:'El Salvador',id:'El Salvador'},
+                ET:{fa:'اتیوپی',ar:'إثيوبيا',ur:'ایتھوپیا',az:'Efiopiya',tr:'Etiyopya',ru:'Эфиопия',en:'Ethiopia',id:'Etiopia'},
+                FI:{fa:'فنلاند',ar:'فنلندا',ur:'فن لینڈ',az:'Finlandiya',tr:'Finlandiya',ru:'Финляндия',en:'Finland',id:'Finlandia'},
+                FR:{fa:'فرانسه',ar:'فرنسا',ur:'فرانس',az:'Fransa',tr:'Fransa',ru:'Франция',en:'France',id:'Prancis'},
+                GE:{fa:'گرجستان',ar:'جورجيا',ur:'جارجیا',az:'Gürcüstan',tr:'Gürcistan',ru:'Грузия',en:'Georgia',id:'Georgia'},
+                DE:{fa:'آلمان',ar:'ألمانيا',ur:'جرمنی',az:'Almaniya',tr:'Almanya',ru:'Германия',en:'Germany',id:'Jerman'},
+                GH:{fa:'غنا',ar:'غانا',ur:'گھانا',az:'Qana',tr:'Gana',ru:'Гана',en:'Ghana',id:'Ghana'},
+                GR:{fa:'یونان',ar:'اليونان',ur:'یونان',az:'Yunanıstan',tr:'Yunanistan',ru:'Греция',en:'Greece',id:'Yunani'},
+                GT:{fa:'گواتمالا',ar:'غواتيمالا',ur:'گوئٹے مالا',az:'Qvatemala',tr:'Guatemala',ru:'Гватемала',en:'Guatemala',id:'Guatemala'},
+                HN:{fa:'هندوراس',ar:'هندوراس',ur:'ہنڈوراس',az:'Honduras',tr:'Honduras',ru:'Гондурас',en:'Honduras',id:'Honduras'},
+                HK:{fa:'هنگ کنگ',ar:'هونج كونج',ur:'ہانگ کانگ',az:'Honq Konq',tr:'Hong Kong',ru:'Гонконг',en:'Hong Kong',id:'Hong Kong'},
+                HU:{fa:'مجارستان',ar:'المجر',ur:'ہنگری',az:'Macarıstan',tr:'Macaristan',ru:'Венгрия',en:'Hungary',id:'Hongaria'},
+                IS:{fa:'ایسلند',ar:'آيسلندا',ur:'آئس لینڈ',az:'İslandiya',tr:'İzlanda',ru:'Исландия',en:'Iceland',id:'Islandia'},
+                IN:{fa:'هند',ar:'الهند',ur:'بھارت',az:'Hindistan',tr:'Hindistan',ru:'Индия',en:'India',id:'India'},
+                ID:{fa:'اندونزی',ar:'إندونيسيا',ur:'انڈونیشیا',az:'İndoneziya',tr:'Endonezya',ru:'Индонезия',en:'Indonesia',id:'Indonesia'},
+                IQ:{fa:'عراق',ar:'العراق',ur:'عراق',az:'İraq',tr:'Irak',ru:'Ирак',en:'Iraq',id:'Irak'},
+                IR:{fa:'ایران',ar:'إيران',ur:'ایران',az:'İran',tr:'İran',ru:'Иран',en:'Iran',id:'Iran'},
+                IE:{fa:'ایرلند',ar:'أيرلندا',ur:'آئرلینڈ',az:'İrlandiya',tr:'İrlanda',ru:'Ирландия',en:'Ireland',id:'Irlandia'},
+                IL:{fa:'اسرائیل',ar:'إسرائيل',ur:'اسرائیل',az:'İsrail',tr:'İsrail',ru:'Израиль',en:'Israel',id:'Israel'},
+                IT:{fa:'ایتالیا',ar:'إيطاليا',ur:'اٹلی',az:'İtaliya',tr:'İtalya',ru:'Италия',en:'Italy',id:'Italia'},
+                JM:{fa:'جامائیکا',ar:'جامايكا',ur:'جمیکا',az:'Yamayka',tr:'Jamaika',ru:'Ямайка',en:'Jamaica',id:'Jamaika'},
+                JP:{fa:'ژاپن',ar:'اليابان',ur:'جاپان',az:'Yaponiya',tr:'Japonya',ru:'Япония',en:'Japan',id:'Jepang'},
+                JO:{fa:'اردن',ar:'الأردن',ur:'اردن',az:'İordaniya',tr:'Ürdün',ru:'Иордания',en:'Jordan',id:'Yordania'},
+                KZ:{fa:'قزاقستان',ar:'كازاخستان',ur:'قازقستان',az:'Qazaxıstan',tr:'Kazakistan',ru:'Казахстан',en:'Kazakhstan',id:'Kazakhstan'},
+                KE:{fa:'کنیا',ar:'كينيا',ur:'کینیا',az:'Keniya',tr:'Kenya',ru:'Кения',en:'Kenya',id:'Kenya'},
+                KW:{fa:'کویت',ar:'الكويت',ur:'کویت',az:'Küveyt',tr:'Kuveyt',ru:'Кувейт',en:'Kuwait',id:'Kuwait'},
+                KG:{fa:'قرقیزستان',ar:'قيرغيزستان',ur:'کرغیزستان',az:'Qırğızıstan',tr:'Kırgızistan',ru:'Кыргызстан',en:'Kyrgyzstan',id:'Kirgistan'},
+                LA:{fa:'لائوس',ar:'لاوس',ur:'لاؤس',az:'Laos',tr:'Laos',ru:'Лаос',en:'Laos',id:'Laos'},
+                LV:{fa:'لتونی',ar:'لاتفيا',ur:'لٹویا',az:'Latviya',tr:'Letonya',ru:'Латвия',en:'Latvia',id:'Latvia'},
+                LB:{fa:'لبنان',ar:'لبنان',ur:'لبنان',az:'Livan',tr:'Lübnan',ru:'Ливан',en:'Lebanon',id:'Lebanon'},
+                LY:{fa:'لیبی',ar:'ليبيا',ur:'لیبیا',az:'Liviya',tr:'Libya',ru:'Ливия',en:'Libya',id:'Libya'},
+                LT:{fa:'لیتوانی',ar:'ليتوانيا',ur:'لتھوانیا',az:'Litva',tr:'Litvanya',ru:'Литва',en:'Lithuania',id:'Lituania'},
+                LU:{fa:'لوکزامبورگ',ar:'لوكسمبورغ',ur:'لکسمبرگ',az:'Lüksemburq',tr:'Lüksemburg',ru:'Люксембург',en:'Luxembourg',id:'Luksemburg'},
+                MY:{fa:'مالزی',ar:'ماليزيا',ur:'ملائیشیا',az:'Malayziya',tr:'Malezya',ru:'Малайзия',en:'Malaysia',id:'Malaysia'},
+                MV:{fa:'مالدیو',ar:'المالديف',ur:'مالدیپ',az:'Maldiv',tr:'Maldivler',ru:'Мальдивы',en:'Maldives',id:'Maladewa'},
+                ML:{fa:'مالی',ar:'مالي',ur:'مالی',az:'Mali',tr:'Mali',ru:'Мали',en:'Mali',id:'Mali'},
+                MT:{fa:'مالت',ar:'مالطا',ur:'مالٹا',az:'Malta',tr:'Malta',ru:'Мальта',en:'Malta',id:'Malta'},
+                MR:{fa:'موریتانی',ar:'موريتانيا',ur:'موریطانیہ',az:'Mavritaniya',tr:'Moritanya',ru:'Мавритания',en:'Mauritania',id:'Mauritania'},
+                MX:{fa:'مکزیک',ar:'المكسيك',ur:'میکسیکو',az:'Meksika',tr:'Meksika',ru:'Мексика',en:'Mexico',id:'Meksiko'},
+                MD:{fa:'مولداوی',ar:'مولدوفا',ur:'مالدووا',az:'Moldova',tr:'Moldova',ru:'Молдова',en:'Moldova',id:'Moldova'},
+                MN:{fa:'مغولستان',ar:'منغوليا',ur:'منگولیا',az:'Monqoliya',tr:'Moğolistan',ru:'Монголия',en:'Mongolia',id:'Mongolia'},
+                ME:{fa:'مونته‌نگرو',ar:'الجبل الأسود',ur:'مونٹینیگرو',az:'Monteneqro',tr:'Karadağ',ru:'Черногория',en:'Montenegro',id:'Montenegro'},
+                MA:{fa:'مراکش',ar:'المغرب',ur:'مراکش',az:'Mərakeş',tr:'Fas',ru:'Марокко',en:'Morocco',id:'Maroko'},
+                MZ:{fa:'موزامبیک',ar:'موزمبيق',ur:'موزمبیق',az:'Mozambik',tr:'Mozambik',ru:'Мозамбик',en:'Mozambique',id:'Mozambik'},
+                MM:{fa:'میانمار',ar:'ميانمار',ur:'میانمار',az:'Myanma',tr:'Myanmar',ru:'Мьянма',en:'Myanmar',id:'Myanmar'},
+                NP:{fa:'نپال',ar:'نيبال',ur:'نیپال',az:'Nepal',tr:'Nepal',ru:'Непал',en:'Nepal',id:'Nepal'},
+                NL:{fa:'هلند',ar:'هولندا',ur:'نیدرلینڈ',az:'Niderland',tr:'Hollanda',ru:'Нидерланды',en:'Netherlands',id:'Belanda'},
+                NZ:{fa:'نیوزیلند',ar:'نيوزيلندا',ur:'نیوزی لینڈ',az:'Yeni Zelandiya',tr:'Yeni Zelanda',ru:'Новая Зеландия',en:'New Zealand',id:'Selandia Baru'},
+                NI:{fa:'نیکاراگوئه',ar:'نيكاراغوا',ur:'نکاراگوا',az:'Nikaraqua',tr:'Nikaragua',ru:'Никарагуа',en:'Nicaragua',id:'Nikaragua'},
+                NE:{fa:'نیجر',ar:'النيجر',ur:'نائیجر',az:'Niger',tr:'Nijer',ru:'Нигер',en:'Niger',id:'Niger'},
+                NG:{fa:'نیجریه',ar:'نيجيريا',ur:'نائیجیریا',az:'Nigeriya',tr:'Nijerya',ru:'Нигерия',en:'Nigeria',id:'Nigeria'},
+                NO:{fa:'نروژ',ar:'النرويج',ur:'ناروے',az:'Norveç',tr:'Norveç',ru:'Норвегия',en:'Norway',id:'Norwegia'},
+                OM:{fa:'عمان',ar:'عُمان',ur:'عمان',az:'Oman',tr:'Umman',ru:'Оман',en:'Oman',id:'Oman'},
+                PK:{fa:'پاکستان',ar:'باكستان',ur:'پاکستان',az:'Pakistan',tr:'Pakistan',ru:'Пакистан',en:'Pakistan',id:'Pakistan'},
+                PS:{fa:'فلسطین',ar:'فلسطين',ur:'فلسطین',az:'Fələstin',tr:'Filistin',ru:'Палестина',en:'Palestine',id:'Palestina'},
+                PA:{fa:'پاناما',ar:'بنما',ur:'پانامہ',az:'Panama',tr:'Panama',ru:'Панама',en:'Panama',id:'Panama'},
+                PY:{fa:'پاراگوئه',ar:'باراغواي',ur:'پیراگوئے',az:'Paraqvay',tr:'Paraguay',ru:'Парагвай',en:'Paraguay',id:'Paraguay'},
+                PE:{fa:'پرو',ar:'بيرو',ur:'پیرو',az:'Peru',tr:'Peru',ru:'Перу',en:'Peru',id:'Peru'},
+                PH:{fa:'فیلیپین',ar:'الفلبين',ur:'فلپائن',az:'Filippin',tr:'Filipinler',ru:'Филиппины',en:'Philippines',id:'Filipina'},
+                PL:{fa:'لهستان',ar:'بولندا',ur:'پولینڈ',az:'Polşa',tr:'Polonya',ru:'Польша',en:'Poland',id:'Polandia'},
+                PT:{fa:'پرتغال',ar:'البرتغال',ur:'پرتگال',az:'Portuqaliya',tr:'Portekiz',ru:'Португалия',en:'Portugal',id:'Portugal'},
+                QA:{fa:'قطر',ar:'قطر',ur:'قطر',az:'Qətər',tr:'Katar',ru:'Катар',en:'Qatar',id:'Qatar'},
+                RO:{fa:'رومانی',ar:'رومانيا',ur:'رومانیہ',az:'Rumıniya',tr:'Romanya',ru:'Румыния',en:'Romania',id:'Rumania'},
+                RU:{fa:'روسیه',ar:'روسيا',ur:'روس',az:'Rusiya',tr:'Rusya',ru:'Россия',en:'Russia',id:'Rusia'},
+                SA:{fa:'عربستان سعودی',ar:'المملكة العربية السعودية',ur:'سعودی عرب',az:'Səudiyyə Ərəbistanı',tr:'Suudi Arabistan',ru:'Саудовская Аравия',en:'Saudi Arabia',id:'Arab Saudi'},
+                SN:{fa:'سنگال',ar:'السنغال',ur:'سینیگال',az:'Seneqal',tr:'Senegal',ru:'Сенегал',en:'Senegal',id:'Senegal'},
+                RS:{fa:'صربستان',ar:'صربيا',ur:'سربیا',az:'Serbiya',tr:'Sırbistan',ru:'Сербия',en:'Serbia',id:'Serbia'},
+                SG:{fa:'سنگاپور',ar:'سنغافورة',ur:'سنگاپور',az:'Sinqapur',tr:'Singapur',ru:'Сингапур',en:'Singapore',id:'Singapura'},
+                SK:{fa:'اسلواکی',ar:'سلوفاكيا',ur:'سلوواکیہ',az:'Slovakiya',tr:'Slovakya',ru:'Словакия',en:'Slovakia',id:'Slovakia'},
+                SI:{fa:'اسلوونی',ar:'سلوفينيا',ur:'سلووینیا',az:'Sloveniya',tr:'Slovenya',ru:'Словения',en:'Slovenia',id:'Slovenia'},
+                SO:{fa:'سومالی',ar:'الصومال',ur:'صومالیہ',az:'Somali',tr:'Somali',ru:'Сомали',en:'Somalia',id:'Somalia'},
+                ZA:{fa:'آفریقای جنوبی',ar:'جنوب أفريقيا',ur:'جنوبی افریقہ',az:'Cənubi Afrika',tr:'Güney Afrika',ru:'ЮАР',en:'South Africa',id:'Afrika Selatan'},
+                KR:{fa:'کره جنوبی',ar:'كوريا الجنوبية',ur:'جنوبی کوریا',az:'Cənubi Koreya',tr:'Güney Kore',ru:'Южная Корея',en:'South Korea',id:'Korea Selatan'},
+                ES:{fa:'اسپانیا',ar:'إسبانيا',ur:'ہسپانیہ',az:'İspaniya',tr:'İspanya',ru:'Испания',en:'Spain',id:'Spanyol'},
+                LK:{fa:'سریلانکا',ar:'سريلانكا',ur:'سری لنکا',az:'Şri Lanka',tr:'Sri Lanka',ru:'Шри-Ланка',en:'Sri Lanka',id:'Sri Lanka'},
+                SD:{fa:'سودان',ar:'السودان',ur:'سوڈان',az:'Sudan',tr:'Sudan',ru:'Судан',en:'Sudan',id:'Sudan'},
+                SE:{fa:'سوئد',ar:'السويد',ur:'سویڈن',az:'İsveç',tr:'İsveç',ru:'Швеция',en:'Sweden',id:'Swedia'},
+                CH:{fa:'سوئیس',ar:'سويسرا',ur:'سوئٹزرلینڈ',az:'İsveçrə',tr:'İsviçre',ru:'Швейцария',en:'Switzerland',id:'Swiss'},
+                SY:{fa:'سوریه',ar:'سوريا',ur:'شام',az:'Suriya',tr:'Suriye',ru:'Сирия',en:'Syria',id:'Suriah'},
+                TW:{fa:'تایوان',ar:'تايوان',ur:'تائیوان',az:'Tayvan',tr:'Tayvan',ru:'Тайвань',en:'Taiwan',id:'Taiwan'},
+                TJ:{fa:'تاجیکستان',ar:'طاجيكستان',ur:'تاجکستان',az:'Tacikistan',tr:'Tacikistan',ru:'Таджикистан',en:'Tajikistan',id:'Tajikistan'},
+                TZ:{fa:'تانزانیا',ar:'تنزانيا',ur:'تنزانیہ',az:'Tanzaniya',tr:'Tanzanya',ru:'Танзания',en:'Tanzania',id:'Tanzania'},
+                TH:{fa:'تایلند',ar:'تايلاند',ur:'تھائی لینڈ',az:'Tailand',tr:'Tayland',ru:'Таиланд',en:'Thailand',id:'Thailand'},
+                TN:{fa:'تونس',ar:'تونس',ur:'تیونس',az:'Tunis',tr:'Tunus',ru:'Тунис',en:'Tunisia',id:'Tunisia'},
+                TR:{fa:'ترکیه',ar:'تركيا',ur:'ترکی',az:'Türkiyə',tr:'Türkiye',ru:'Турция',en:'Turkey',id:'Turki'},
+                TM:{fa:'ترکمنستان',ar:'تركمانستان',ur:'ترکمانستان',az:'Türkmənistan',tr:'Türkmenistan',ru:'Туркменистан',en:'Turkmenistan',id:'Turkmenistan'},
+                UG:{fa:'اوگاندا',ar:'أوغندا',ur:'یوگنڈا',az:'Uqanda',tr:'Uganda',ru:'Уганда',en:'Uganda',id:'Uganda'},
+                UA:{fa:'اوکراین',ar:'أوكرانيا',ur:'یوکرین',az:'Ukrayna',tr:'Ukrayna',ru:'Украина',en:'Ukraine',id:'Ukraina'},
+                AE:{fa:'امارات متحده عربی',ar:'الإمارات العربية المتحدة',ur:'متحدہ عرب امارات',az:'BƏƏ',tr:'BAE',ru:'ОАЭ',en:'UAE',id:'UEA'},
+                GB:{fa:'انگلستان',ar:'المملكة المتحدة',ur:'برطانیہ',az:'Böyük Britaniya',tr:'İngiltere',ru:'Великобритания',en:'United Kingdom',id:'Inggris'},
+                US:{fa:'آمریکا',ar:'الولايات المتحدة',ur:'امریکہ',az:'ABŞ',tr:'ABD',ru:'США',en:'United States',id:'Amerika Serikat'},
+                UY:{fa:'اروگوئه',ar:'أوروغواي',ur:'یوراگوئے',az:'Uruqvay',tr:'Uruguay',ru:'Уругвай',en:'Uruguay',id:'Uruguay'},
+                UZ:{fa:'ازبکستان',ar:'أوزبكستان',ur:'ازبکستان',az:'Özbəkistan',tr:'Özbekistan',ru:'Узбекистан',en:'Uzbekistan',id:'Uzbekistan'},
+                VE:{fa:'ونزوئلا',ar:'فنزويلا',ur:'وینزویلا',az:'Venesuela',tr:'Venezuela',ru:'Венесуэла',en:'Venezuela',id:'Venezuela'},
+                VN:{fa:'ویتنام',ar:'فيتنام',ur:'ویتنام',az:'Vyetnam',tr:'Vietnam',ru:'Вьетнам',en:'Vietnam',id:'Vietnam'},
+                YE:{fa:'یمن',ar:'اليمن',ur:'یمن',az:'Yəmən',tr:'Yemen',ru:'Йемен',en:'Yemen',id:'Yaman'},
+                ZM:{fa:'زامبیا',ar:'زامبيا',ur:'زیمبیا',az:'Zambiya',tr:'Zambiya',ru:'Замбия',en:'Zambia',id:'Zambia'},
+                ZW:{fa:'زیمبابوه',ar:'زيمبابوي',ur:'زمبابوے',az:'Zimbabve',tr:'Zimbabve',ru:'Зимбабве',en:'Zimbabwe',id:'Zimbabwe'},
+              };
+              const FLAGS = {AF:'🇦🇫',AL:'🇦🇱',DZ:'🇩🇿',AD:'🇦🇩',AO:'🇦🇴',AR:'🇦🇷',AM:'🇦🇲',AU:'🇦🇺',AT:'🇦🇹',AZ:'🇦🇿',BH:'🇧🇭',BD:'🇧🇩',BY:'🇧🇾',BE:'🇧🇪',BJ:'🇧🇯',BO:'🇧🇴',BA:'🇧🇦',BR:'🇧🇷',BG:'🇧🇬',BF:'🇧🇫',KH:'🇰🇭',CM:'🇨🇲',CA:'🇨🇦',TD:'🇹🇩',CL:'🇨🇱',CN:'🇨🇳',CO:'🇨🇴',CD:'🇨🇩',CR:'🇨🇷',HR:'🇭🇷',CU:'🇨🇺',CY:'🇨🇾',CZ:'🇨🇿',DK:'🇩🇰',DO:'🇩🇴',EC:'🇪🇨',EG:'🇪🇬',SV:'🇸🇻',ET:'🇪🇹',FI:'🇫🇮',FR:'🇫🇷',GE:'🇬🇪',DE:'🇩🇪',GH:'🇬🇭',GR:'🇬🇷',GT:'🇬🇹',HN:'🇭🇳',HK:'🇭🇰',HU:'🇭🇺',IS:'🇮🇸',IN:'🇮🇳',ID:'🇮🇩',IQ:'🇮🇶',IR:'🇮🇷',IE:'🇮🇪',IL:'🇮🇱',IT:'🇮🇹',JM:'🇯🇲',JP:'🇯🇵',JO:'🇯🇴',KZ:'🇰🇿',KE:'🇰🇪',KW:'🇰🇼',KG:'🇰🇬',LA:'🇱🇦',LV:'🇱🇻',LB:'🇱🇧',LY:'🇱🇾',LT:'🇱🇹',LU:'🇱🇺',MY:'🇲🇾',MV:'🇲🇻',ML:'🇲🇱',MT:'🇲🇹',MR:'🇲🇷',MX:'🇲🇽',MD:'🇲🇩',MN:'🇲🇳',ME:'🇲🇪',MA:'🇲🇦',MZ:'🇲🇿',MM:'🇲🇲',NP:'🇳🇵',NL:'🇳🇱',NZ:'🇳🇿',NI:'🇳🇮',NE:'🇳🇪',NG:'🇳🇬',NO:'🇳🇴',OM:'🇴🇲',PK:'🇵🇰',PS:'🇵🇸',PA:'🇵🇦',PY:'🇵🇾',PE:'🇵🇪',PH:'🇵🇭',PL:'🇵🇱',PT:'🇵🇹',QA:'🇶🇦',RO:'🇷🇴',RU:'🇷🇺',SA:'🇸🇦',SN:'🇸🇳',RS:'🇷🇸',SG:'🇸🇬',SK:'🇸🇰',SI:'🇸🇮',SO:'🇸🇴',ZA:'🇿🇦',KR:'🇰🇷',ES:'🇪🇸',LK:'🇱🇰',SD:'🇸🇩',SE:'🇸🇪',CH:'🇨🇭',SY:'🇸🇾',TW:'🇹🇼',TJ:'🇹🇯',TZ:'🇹🇿',TH:'🇹🇭',TN:'🇹🇳',TR:'🇹🇷',TM:'🇹🇲',UG:'🇺🇬',UA:'🇺🇦',AE:'🇦🇪',GB:'🇬🇧',US:'🇺🇸',UY:'🇺🇾',UZ:'🇺🇿',VE:'🇻🇪',VN:'🇻🇳',YE:'🇾🇪',ZM:'🇿🇲',ZW:'🇿🇼'};
+              /* کشورهای اولویت‌دار بالای لیست */
+              const PRIORITY = ['IQ','IR','PK','AZ','TR','RU','AF','TJ','UZ','SA','AE','KW','QA','BH','OM','SY','LB','JO','EG','MA'];
+              const allCodes = Object.keys(COUNTRIES);
+              const rest = allCodes.filter(c => !PRIORITY.includes(c)).sort((a,b) => (COUNTRIES[a][lang]||COUNTRIES[a].en).localeCompare(COUNTRIES[b][lang]||COUNTRIES[b].en));
+              const ordered = [...PRIORITY.filter(c=>COUNTRIES[c]), ...rest];
+              return ordered.map(code => {
+                const name = COUNTRIES[code][lang] || COUNTRIES[code].en;
+                const flag = FLAGS[code] || '🌐';
+                return `<option value="${code}">${flag} ${name}</option>`;
+              }).join('');
+            })()}
           </select>
         </div>
       ` : ''}
