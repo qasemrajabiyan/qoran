@@ -74,6 +74,7 @@ const LANG_INFO = {
 const METHOD_META = {
   bankMelli: { label:'بانک ملی',    icon:'🏦', color:'#16a34a' },
   kikard:    { label:'کی‌کارد',     icon:'🇮🇶', color:'#2563eb' },
+  transak:   { label:'Transak',     icon:'🌐', color:'#6366f1' },
   onramper:  { label:'OnRamper',    icon:'🌐', color:'#7c3aed' },
   crypto:    { label:'ارز دیجیتال', icon:'₿',  color:'#f59e0b' },
 };
@@ -381,6 +382,130 @@ export function renderPaymentsAdminPage(container) {
           </div>
         </div>
 
+        <!-- Transak -->
+        <div class="admin-panel" style="margin-bottom:var(--space-5);border:1px solid rgba(99,102,241,0.3);box-shadow:0 0 0 1px rgba(99,102,241,0.1),0 4px 24px rgba(99,102,241,0.08)">
+          <div class="admin-panel__header" style="background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04));border-bottom:1px solid rgba(99,102,241,0.15)">
+            <div style="display:flex;align-items:center;gap:var(--space-3)">
+              <div style="
+                width:40px;height:40px;border-radius:var(--radius-md);
+                background:linear-gradient(135deg,#6366f1,#4f46e5);
+                display:flex;align-items:center;justify-content:center;
+                font-size:20px;box-shadow:0 4px 12px rgba(99,102,241,0.4);
+              ">🌐</div>
+              <div>
+                <div class="admin-panel__title" style="color:var(--text-primary);margin:0">Transak — درگاه جهانی</div>
+                <div style="font-size:var(--text-xs);color:var(--text-muted);margin-top:2px">کارت بانکی · Google Pay · Apple Pay · ۱۰۰+ روش پرداخت</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-2)">
+              <span style="
+                font-size:var(--text-xs);padding:3px 10px;border-radius:999px;font-weight:600;
+                background:${config.transak?.apiKey ? 'rgba(22,163,74,0.15)' : 'rgba(234,179,8,0.15)'};
+                color:${config.transak?.apiKey ? '#16a34a' : '#ca8a04'};
+                border:1px solid ${config.transak?.apiKey ? 'rgba(22,163,74,0.3)' : 'rgba(234,179,8,0.3)'};
+              ">${config.transak?.apiKey ? '✓ فعال' : '⚠ تنظیم نشده'}</span>
+            </div>
+          </div>
+          <div class="admin-panel__body">
+
+            <!-- راهنما -->
+            <div style="
+              background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(99,102,241,0.03));
+              border:1px solid rgba(99,102,241,0.15);
+              border-radius:var(--radius-md);
+              padding:var(--space-3) var(--space-4);
+              margin-bottom:var(--space-5);
+              display:flex;gap:var(--space-3);align-items:flex-start;
+            ">
+              <span style="font-size:20px;flex-shrink:0;margin-top:1px">💡</span>
+              <div style="font-size:var(--text-sm);color:var(--text-secondary);line-height:1.6">
+                برای دریافت API Key به
+                <a href="https://dashboard.transak.com" target="_blank" rel="noopener"
+                   style="color:#6366f1;text-decoration:none;font-weight:600">dashboard.transak.com</a>
+                مراجعه کنید. آدرس کیف پول USDT TRC20 وارد کنید تا پول مستقیم به آن واریز شود.
+              </div>
+            </div>
+
+            <div class="grid grid--2" style="gap:var(--space-4)">
+
+              <!-- API Key -->
+              <div class="admin-field" style="grid-column:span 2">
+                <label class="admin-label" for="transak-api-key" style="display:flex;align-items:center;gap:6px">
+                  🔑 API Key
+                  <span style="font-size:var(--text-xs);color:var(--text-muted);font-weight:400">(از داشبورد Transak)</span>
+                </label>
+                <div style="position:relative">
+                  <input type="password" class="admin-input" id="transak-api-key"
+                    value="${config.transak?.apiKey??''}" dir="ltr"
+                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    style="padding-inline-end:44px"/>
+                  <button type="button" id="toggle-transak-key" style="
+                    position:absolute;inset-inline-end:12px;top:50%;transform:translateY(-50%);
+                    background:none;border:none;cursor:pointer;font-size:16px;color:var(--text-muted);
+                    padding:4px;
+                  " title="نمایش/پنهان">👁</button>
+                </div>
+              </div>
+
+              <!-- آدرس کیف پول USDT TRC20 -->
+              <div class="admin-field">
+                <label class="admin-label" for="transak-wallet-usdt-trc20" style="display:flex;align-items:center;gap:6px">
+                  <span style="color:#26a17b">💚</span> آدرس USDT TRC20
+                  <span style="font-size:var(--text-xs);color:var(--text-muted);font-weight:400">(اصلی)</span>
+                </label>
+                <input type="text" class="admin-input" id="transak-wallet-usdt-trc20"
+                  value="${config.transak?.wallets?.usdt_trc20??''}" dir="ltr"
+                  placeholder="TXxx..." autocomplete="off"
+                  style="font-family:'JetBrains Mono',monospace;font-size:var(--text-sm)"/>
+              </div>
+
+              <!-- آدرس کیف پول USDT BEP20 -->
+              <div class="admin-field">
+                <label class="admin-label" for="transak-wallet-usdt-bep20" style="display:flex;align-items:center;gap:6px">
+                  <span style="color:#f0b90b">💛</span> آدرس USDT BEP20
+                  <span style="font-size:var(--text-xs);color:var(--text-muted);font-weight:400">(اختیاری)</span>
+                </label>
+                <input type="text" class="admin-input" id="transak-wallet-usdt-bep20"
+                  value="${config.transak?.wallets?.usdt_bep20??''}" dir="ltr"
+                  placeholder="0x..." autocomplete="off"
+                  style="font-family:'JetBrains Mono',monospace;font-size:var(--text-sm)"/>
+              </div>
+
+              <!-- محیط -->
+              <div class="admin-field">
+                <label class="admin-label" for="transak-env">محیط اجرا</label>
+                <select class="admin-input" id="transak-env">
+                  <option value="STAGING"    ${(config.transak?.environment??'STAGING')==='STAGING'   ?'selected':''}>🧪 Staging (تست)</option>
+                  <option value="PRODUCTION" ${config.transak?.environment==='PRODUCTION'?'selected':''}>🚀 Production (واقعی)</option>
+                </select>
+              </div>
+
+              <!-- ارز پیش‌فرض -->
+              <div class="admin-field">
+                <label class="admin-label" for="transak-default-crypto">ارز دیجیتال پیش‌فرض</label>
+                <select class="admin-input" id="transak-default-crypto">
+                  <option value="USDT" ${(config.transak?.defaultCrypto??'USDT')==='USDT'?'selected':''}>💚 USDT (Tether)</option>
+                  <option value="BTC"  ${config.transak?.defaultCrypto==='BTC' ?'selected':''}>🟠 Bitcoin (BTC)</option>
+                  <option value="ETH"  ${config.transak?.defaultCrypto==='ETH' ?'selected':''}>🔷 Ethereum (ETH)</option>
+                  <option value="BNB"  ${config.transak?.defaultCrypto==='BNB' ?'selected':''}>💛 BNB</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- پیش‌نمایش URL -->
+            ${config.transak?.apiKey ? `
+            <div style="margin-top:var(--space-4);background:var(--bg-base);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4)">
+              <div style="font-size:var(--text-xs);color:var(--text-muted);margin-bottom:6px;font-weight:600">🔗 URL پرداخت (پیش‌نمایش)</div>
+              <code style="font-size:11px;color:var(--text-secondary);direction:ltr;display:block;word-break:break-all;font-family:'JetBrains Mono',monospace">
+                https://${(config.transak?.environment??'STAGING')==='PRODUCTION'?'global':'staging-global'}.transak.com/?apiKey=${config.transak.apiKey.slice(0,8)}...&defaultCryptoCurrency=${config.transak?.defaultCrypto??'USDT'}&network=tron&walletAddress=${config.transak?.wallets?.usdt_trc20?config.transak.wallets.usdt_trc20.slice(0,8)+'...':'[آدرس کیف پول]'}
+              </code>
+            </div>
+            ` : ''}
+
+          </div>
+        </div>
+
         <!-- OnRamper -->
         <div class="admin-panel" style="margin-bottom:var(--space-5)">
           <div class="admin-panel__header">
@@ -607,6 +732,13 @@ export function renderPaymentsAdminPage(container) {
       _replyId = null; _render();
     });
 
+    /* نمایش/پنهان API Key ترانزک */
+    document.getElementById('toggle-transak-key')?.addEventListener('click', () => {
+      const inp = document.getElementById('transak-api-key');
+      if (!inp) return;
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    });
+
     /* ذخیره تنظیمات */
     document.getElementById('save-payment-settings')?.addEventListener('click', () => {
       const wallets = {};
@@ -615,6 +747,15 @@ export function renderPaymentsAdminPage(container) {
       });
       PaymentConfig.set({
         wallets,
+        transak: {
+          apiKey:        document.getElementById('transak-api-key')?.value?.trim() ?? '',
+          environment:   document.getElementById('transak-env')?.value ?? 'STAGING',
+          defaultCrypto: document.getElementById('transak-default-crypto')?.value ?? 'USDT',
+          wallets: {
+            usdt_trc20: document.getElementById('transak-wallet-usdt-trc20')?.value?.trim() ?? '',
+            usdt_bep20: document.getElementById('transak-wallet-usdt-bep20')?.value?.trim() ?? '',
+          },
+        },
         onramper: {
           apiKey:        document.getElementById('onramper-key')?.value?.trim() ?? '',
           walletAddress: document.getElementById('onramper-wallet')?.value?.trim() ?? '',

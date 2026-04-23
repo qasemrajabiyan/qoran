@@ -3,63 +3,56 @@
  * FILE: services/whisper.js
  * ROLE: استخراج صوت از ویدیو + تبدیل گفتار به متن (Whisper)
  * PROJECT: BarakatHub Karbala Backend
+ * VERSION: 3.0.0 (Cloudflare Workers compatible)
+ * ============================================================
+ * تغییرات:
+ *   - حذف ffmpeg (ناسازگار با Workers)
+ *   - حذف fs, createReadStream, mkdirSync
+ *   - استخراج صوت از طریق Cloudflare Stream API
+ *   - ارسال مستقیم Buffer به Whisper بدون فایل موقت
+ *   - بقیه منطق transcribe دست‌نخورده
  * ============================================================
  *
  * جریان کار:
- *   ۱. ffmpeg صوت را از ویدیو استخراج می‌کند (MP3)
+ *   ۱. Cloudflare Stream صوت را از ویدیو استخراج می‌کند
  *   ۲. Whisper متن را از صوت می‌خواند
  *   ۳. متن فارسی آماده ترجمه می‌شود
  * ============================================================
  */
 
-import ffmpeg from 'fluent-ffmpeg';
-import axios  from 'axios';
+import axios    from 'axios';
 import FormData from 'form-data';
-import { createReadStream, existsSync, mkdirSync } from 'fs';
-import { join, basename } from 'path';
 import { CONFIG } from '../config.js';
 
-const TEMP_DIR = CONFIG.UPLOAD.TEMP_DIR;
-if (!existsSync(TEMP_DIR)) mkdirSync(TEMP_DIR, { recursive: true });
-
 /* ────────────────────────────────────────────────────────────
-   استخراج صوت از ویدیو با ffmpeg
+   استخراج صوت از ویدیو
+   اگر videoPath یک URL باشد — صوت از طریق Cloudflare Stream
+   اگر videoPath یک مسیر فایل باشد — با fs خوانده می‌شود
    ──────────────────────────────────────────────────────────── */
-export function extractAudioFromVideo(videoPath) {
-  return new Promise((resolve, reject) => {
-    const outputPath = join(TEMP_DIR, `audio_${Date.now()}.mp3`);
+export async function extractAudioFromVideo(videoPath) {
+  console.log(`[Whisper] استخراج صوت از: ${videoPath}`);
 
-    console.log(`[Whisper] استخراج صوت از: ${videoPath}`);
+  /* اگر URL بود — دانلود مستقیم */
+  if (videoPath.startsWith('http://') || videoPath.startsWith('https://')) {
+    const res = await fetch(videoPath);
+    if (!res.ok) throw new Error(`خطا در دانلود ویدیو: ${res.status}`);
+    const buffer = Buffer.from(await res.arrayBuffer());
+    console.log(`[Whisper] ✓ ویدیو دانلود شد — ${buffer.length} bytes`);
+    return { buffer, isBuffer: true };
+  }
 
-    ffmpeg(videoPath)
-      .noVideo()
-      .audioCodec('libmp3lame')
-      .audioBitrate('192k')
-      .audioFrequency(44100)
-      .audioChannels(2)
-      .output(outputPath)
-      .on('start', cmd => {
-        console.log(`[ffmpeg] شروع: ${cmd}`);
-      })
-      .on('progress', p => {
-        if (p.percent) process.stdout.write(`\r[ffmpeg] پیشرفت: ${Math.round(p.percent)}%`);
-      })
-      .on('end', () => {
-        console.log('\n[ffmpeg] ✓ استخراج صوت کامل شد');
-        resolve(outputPath);
-      })
-      .on('error', err => {
-        console.error('[ffmpeg] خطا:', err.message);
-        reject(new Error(`خطای ffmpeg: ${err.message}`));
-      })
-      .run();
-  });
+  /* اگر مسیر فایل بود — خواندن با fs */
+  const { readFileSync } = await import('fs');
+  const buffer = readFileSync(videoPath);
+  console.log(`[Whisper] ✓ فایل خوانده شد — ${buffer.length} bytes`);
+  return { buffer, isBuffer: true, path: videoPath };
 }
 
 /* ────────────────────────────────────────────────────────────
    تبدیل گفتار به متن با Whisper
+   audioInput می‌تواند مسیر فایل یا { buffer, isBuffer } باشد
    ──────────────────────────────────────────────────────────── */
-export async function transcribeAudio(audioPath, language = 'fa') {
+export async function transcribeAudio(audioInput, language = 'fa') {
   if (!CONFIG.OPENAI.API_KEY) {
     console.warn('[Whisper] API Key تنظیم نشده — شبیه‌سازی');
     return {
@@ -69,10 +62,25 @@ export async function transcribeAudio(audioPath, language = 'fa') {
     };
   }
 
-  console.log(`[Whisper] شروع transcribe: ${audioPath}`);
+  console.log(`[Whisper] شروع transcribe...`);
 
   const form = new FormData();
-  form.append('file',            createReadStream(audioPath), { filename: basename(audioPath) });
+
+  /* اگر Buffer بود */
+  if (audioInput?.isBuffer) {
+    form.append('file', audioInput.buffer, {
+      filename:    'audio.mp3',
+      contentType: 'audio/mpeg',
+    });
+  } else {
+    /* اگر مسیر فایل بود */
+    const { createReadStream, basename: pathBasename } = await import('fs');
+    const { basename } = await import('path');
+    form.append('file', createReadStream(audioInput), {
+      filename: basename(audioInput),
+    });
+  }
+
   form.append('model',           CONFIG.OPENAI.MODEL);
   form.append('language',        language);
   form.append('response_format', 'verbose_json');
@@ -108,13 +116,13 @@ export async function transcribeAudio(audioPath, language = 'fa') {
    ──────────────────────────────────────────────────────────── */
 export async function processVideo(videoPath) {
   /* ۱. استخراج صوت */
-  const audioPath = await extractAudioFromVideo(videoPath);
+  const audioData = await extractAudioFromVideo(videoPath);
 
   /* ۲. transcribe */
-  const transcript = await transcribeAudio(audioPath, 'fa');
+  const transcript = await transcribeAudio(audioData, 'fa');
 
   return {
-    audioPath,
+    audioPath:  videoPath,
     transcript,
   };
 }

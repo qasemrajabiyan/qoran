@@ -153,15 +153,19 @@
   <script type="module">
     import { adminLogin } from '/assets/js/admin.js';
     document.body.classList.add('ready');
-    document.getElementById('login-form')?.addEventListener('submit', (e) => {
+    document.getElementById('login-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const pass = document.getElementById('admin-pass')?.value;
-      if (adminLogin(pass)) {
+      const btn  = document.querySelector('.login-btn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ در حال ورود...'; }
+      const ok = await adminLogin(pass);
+      if (ok) {
         window.location.href = '/admin.html';
       } else {
         const err = document.getElementById('login-error');
         if (err) err.style.display = 'block';
         document.getElementById('admin-pass').style.borderColor = '#f87171';
+        if (btn) { btn.disabled = false; btn.textContent = 'ورود به پنل مدیریت'; }
       }
     });
   </script>

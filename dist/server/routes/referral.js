@@ -1,63 +1,30 @@
 /**
  * ============================================================
- * FILE: routes/referral.js
+ * FILE: server/routes/referral.js
  * ROLE: سیستم معرف — کد معرف، جوایز، آمار
  * PROJECT: BarakatHub Karbala Backend
- * VERSION: 1.0.0
- *
- * POST /api/referral/register      — ثبت کد معرف هنگام ثبت‌نام
- * GET  /api/referral/stats         — آمار معرف‌های کاربر
- * GET  /api/referral/code          — دریافت کد معرف کاربر
- * GET  /api/referral/prizes        — تنظیمات جوایز (از ادمین)
- * POST /api/referral/admin/prizes  — ذخیره تنظیمات جوایز (ادمین)
- * GET  /api/referral/admin/list    — لیست همه معرف‌ها (ادمین)
+ * VERSION: 2.0.0  (D1 integration)
+ * ============================================================
+ * تغییرات نسبت به نسخه قبل:
+ *   - تمام Map های حافظه‌ای جایگزین D1 شدند
+ *   - داده‌ها پایدار هستند و با restart پاک نمی‌شوند
+ *   - تنظیمات جوایز در جدول prize_configs ذخیره می‌شود
+ * API و منطق تجاری دست‌نخورده باقی مانده.
  * ============================================================
  */
 
 import { Router } from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import { requireApiKey } from '../middleware/security.js';
+import { dbGet, dbAll, dbRun, dbBatch } from '../db/client.js';
 
 const router = Router();
 
 /* ════════════════════════════════════════════════════════════
-   ۱. ذخیره در حافظه — در production از دیتابیس استفاده کنید
+   ۱. ابزارهای کمکی
    ════════════════════════════════════════════════════════════ */
 
-/* کاربران و کدهای معرف */
-const USERS_DB = new Map();
-/* {
-     userId: {
-       code:        'BRK-A7K2',
-       referredBy:  'BRK-X9Z1' | null,
-       referrals:   [ { userId, joinedAt, type:'visit'|'purchase', section:null|'quran' } ],
-       rewards:     [ { type, section, grantedAt, expiresAt } ],
-       joinedAt:    ISO string,
-     }
-   }
-*/
-
-/* تنظیمات جوایز — ادمین تغییر می‌دهد */
-let PRIZE_CONFIG = {
-  global: [
-    /* هر x نفر ورودی از طرف کاربر → دسترسی ویژه */
-    { id: 'g1', type: 'visit',    threshold: 10, reward: 'premium_1month',  section: null,    active: true },
-    { id: 'g2', type: 'visit',    threshold: 25, reward: 'premium_3month',  section: null,    active: true },
-    { id: 'g3', type: 'visit',    threshold: 50, reward: 'premium_6month',  section: null,    active: true },
-  ],
-  sections: [
-    /* دانشگاه قرآنی — هر x نفر خریدار → ۱ ماه رایگان */
-    { id: 's1', type: 'purchase', threshold: 3,  reward: 'quran_1month',    section: 'quran', active: true },
-    { id: 's2', type: 'purchase', threshold: 10, reward: 'quran_3month',    section: 'quran', active: true },
-  ],
-  updatedAt: new Date().toISOString(),
-};
-
-/* ════════════════════════════════════════════════════════════
-   ۲. ابزارهای کمکی
-   ════════════════════════════════════════════════════════════ */
-
-/* تولید کد معرف یکتا */
+/** تولید کد معرف یکتا */
 function generateReferralCode() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code = 'BRK-';
@@ -65,275 +32,346 @@ function generateReferralCode() {
   return code;
 }
 
-/* دریافت یا ساخت کاربر */
-function getOrCreateUser(userId) {
-  if (!USERS_DB.has(userId)) {
-    let code;
-    let attempts = 0;
-    do {
-      code = generateReferralCode();
-      attempts++;
-    } while ([...USERS_DB.values()].some(u => u.code === code) && attempts < 100);
+/** دریافت یا ساخت رکورد کد معرف برای کاربر */
+async function getOrCreateReferralCode(userId) {
+  let row = await dbGet(
+    'SELECT code, referred_by FROM referral_codes WHERE user_id = ?',
+    [userId]
+  );
 
-    USERS_DB.set(userId, {
-      code,
-      referredBy:  null,
-      referrals:   [],
-      rewards:     [],
-      joinedAt:    new Date().toISOString(),
-    });
-  }
-  return USERS_DB.get(userId);
+  if (row) return row;
+
+  /* ساخت کد یکتا */
+  let code;
+  let attempts = 0;
+  do {
+    code = generateReferralCode();
+    const existing = await dbGet('SELECT 1 FROM referral_codes WHERE code = ?', [code]);
+    if (!existing) break;
+    attempts++;
+  } while (attempts < 10);
+
+  await dbRun(
+    'INSERT OR IGNORE INTO referral_codes (user_id, code) VALUES (?, ?)',
+    [userId, code]
+  );
+
+  return { code, referred_by: null };
 }
 
-/* پیدا کردن کاربر با کد معرف */
-function findUserByCode(code) {
-  for (const [userId, data] of USERS_DB.entries()) {
-    if (data.code === code.toUpperCase().trim()) return { userId, ...data };
-  }
-  return null;
-}
+/** اعطای جوایز بر اساس تعداد معرفی‌ها */
+async function checkAndGrantRewards(referrerId) {
+  const configs = await dbAll('SELECT * FROM prize_configs WHERE active = 1');
 
-/* بررسی و اعطای جایزه */
-function checkAndGrantRewards(referrerId) {
-  const referrer = USERS_DB.get(referrerId);
-  if (!referrer) return;
-
-  const allConfigs = [...PRIZE_CONFIG.global, ...PRIZE_CONFIG.sections];
-
-  for (const config of allConfigs) {
-    if (!config.active) continue;
-
-    /* شمارش معرف‌های مرتبط */
-    const count = referrer.referrals.filter(r =>
-      r.type === config.type &&
-      (config.section === null || r.section === config.section)
-    ).length;
-
-    /* بررسی اینکه آیا این جایزه قبلاً داده شده */
-    const alreadyGranted = referrer.rewards.some(
-      r => r.configId === config.id && r.atCount === config.threshold
+  for (const cfg of configs) {
+    const count = await dbGet(
+      `SELECT COUNT(*) AS cnt FROM referral_entries
+       WHERE referrer_id = ? AND type = ?
+         AND (? IS NULL OR section = ?)`,
+      [referrerId, cfg.type, cfg.section, cfg.section]
     );
 
-    if (count >= config.threshold && !alreadyGranted) {
-      const now     = new Date();
-      const months  = parseInt(config.reward.match(/\d+/)?.[0] ?? '1');
-      const expires = new Date(now);
+    const alreadyGranted = await dbGet(
+      'SELECT 1 FROM referral_rewards WHERE user_id = ? AND config_id = ? AND at_count = ?',
+      [referrerId, cfg.id, cfg.threshold]
+    );
+
+    if ((count?.cnt ?? 0) >= cfg.threshold && !alreadyGranted) {
+      const months  = parseInt(cfg.reward.match(/\d+/)?.[0] ?? '1');
+      const expires = new Date();
       expires.setMonth(expires.getMonth() + months);
 
-      referrer.rewards.push({
-        configId:  config.id,
-        atCount:   config.threshold,
-        type:      config.reward,
-        section:   config.section,
-        grantedAt: now.toISOString(),
-        expiresAt: expires.toISOString(),
-      });
+      await dbRun(
+        `INSERT OR IGNORE INTO referral_rewards
+           (user_id, config_id, at_count, reward_type, section, expires_at)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [referrerId, cfg.id, cfg.threshold, cfg.reward, cfg.section ?? null, expires.toISOString()]
+      );
 
-      console.log(`[Referral] 🎁 جایزه ${config.reward} به کاربر ${referrerId} اعطا شد`);
+      console.log(`[Referral] 🎁 جایزه ${cfg.reward} به کاربر ${referrerId} اعطا شد`);
     }
   }
 }
 
 /* ════════════════════════════════════════════════════════════
-   ۳. POST /api/referral/register
+   ۲. POST /api/referral/register
    ثبت کد معرف هنگام ثبت‌نام کاربر جدید
    ════════════════════════════════════════════════════════════ */
-router.post('/register', requireAuth, (req, res) => {
-  const { referralCode, type = 'visit', section = null } = req.body;
-  const newUserId = req.user.id;
+router.post('/register', requireAuth, async (req, res) => {
+  try {
+    const { referralCode, type = 'visit', section = null } = req.body;
+    const newUserId = req.user.id;
 
-  /* ساخت پروفایل معرف برای کاربر جدید */
-  const newUser = getOrCreateUser(newUserId);
+    /* ساخت یا دریافت پروفایل معرف */
+    const newUserRef = await getOrCreateReferralCode(newUserId);
 
-  /* اگه کدی وارد نشده */
-  if (!referralCode) {
-    return res.json({
-      success: true,
-      code:    newUser.code,
-      message: 'پروفایل معرف ساخته شد',
+    if (!referralCode) {
+      return res.json({
+        success: true,
+        code:    newUserRef.code,
+        message: 'پروفایل معرف ساخته شد',
+      });
+    }
+
+    /* پیدا کردن معرف */
+    const referrerRow = await dbGet(
+      'SELECT user_id FROM referral_codes WHERE code = ?',
+      [referralCode.toUpperCase().trim()]
+    );
+
+    if (!referrerRow) {
+      return res.status(400).json({
+        success: false,
+        error:   'کد معرف معتبر نیست',
+        code:    'INVALID_REFERRAL_CODE',
+      });
+    }
+
+    /* جلوگیری از معرفی خود */
+    if (referrerRow.user_id === newUserId) {
+      return res.status(400).json({
+        success: false,
+        error:   'نمی‌توانید خودتان را معرفی کنید',
+        code:    'SELF_REFERRAL',
+      });
+    }
+
+    /* بررسی اینکه قبلاً با کدی ثبت نشده */
+    if (newUserRef.referred_by) {
+      return res.status(400).json({
+        success: false,
+        error:   'قبلاً با یک کد معرف ثبت‌نام کرده‌اید',
+        code:    'ALREADY_REFERRED',
+      });
+    }
+
+    /* ثبت در دیتابیس (transaction) */
+    await dbBatch([
+      {
+        sql:    'UPDATE referral_codes SET referred_by = ? WHERE user_id = ?',
+        params: [referralCode.toUpperCase().trim(), newUserId],
+      },
+      {
+        sql:    `INSERT OR IGNORE INTO referral_entries
+                   (referrer_id, referred_id, type, section)
+                 VALUES (?, ?, ?, ?)`,
+        params: [referrerRow.user_id, newUserId, type, section ?? null],
+      },
+    ]);
+
+    /* بررسی جوایز */
+    await checkAndGrantRewards(referrerRow.user_id);
+
+    res.json({
+      success:    true,
+      code:       newUserRef.code,
+      referredBy: referralCode.toUpperCase().trim(),
+      message:    'کد معرف با موفقیت ثبت شد',
     });
+
+  } catch (err) {
+    console.error('[/referral/register]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
   }
-
-  /* پیدا کردن معرف */
-  const referrer = findUserByCode(referralCode);
-
-  if (!referrer) {
-    return res.status(400).json({
-      success: false,
-      error:   'کد معرف معتبر نیست',
-      code:    'INVALID_REFERRAL_CODE',
-    });
-  }
-
-  /* جلوگیری از معرفی خود */
-  if (referrer.userId === newUserId) {
-    return res.status(400).json({
-      success: false,
-      error:   'نمی‌توانید خودتان را معرفی کنید',
-      code:    'SELF_REFERRAL',
-    });
-  }
-
-  /* بررسی اینکه قبلاً با کد دیگری ثبت‌نام نکرده */
-  if (newUser.referredBy) {
-    return res.status(400).json({
-      success: false,
-      error:   'قبلاً با یک کد معرف ثبت‌نام کرده‌اید',
-      code:    'ALREADY_REFERRED',
-    });
-  }
-
-  /* ثبت معرف */
-  newUser.referredBy = referralCode;
-
-  /* اضافه کردن به لیست معرف‌های referrer */
-  const referrerData = USERS_DB.get(referrer.userId);
-  referrerData.referrals.push({
-    userId:   newUserId,
-    joinedAt: new Date().toISOString(),
-    type,
-    section,
-  });
-
-  /* بررسی جوایز */
-  checkAndGrantRewards(referrer.userId);
-
-  res.json({
-    success:    true,
-    code:       newUser.code,
-    referredBy: referralCode,
-    message:    'کد معرف با موفقیت ثبت شد',
-  });
 });
 
 /* ════════════════════════════════════════════════════════════
-   ۴. GET /api/referral/code
+   ۳. GET /api/referral/code
    دریافت کد معرف کاربر جاری
    ════════════════════════════════════════════════════════════ */
-router.get('/code', requireAuth, (req, res) => {
-  const user = getOrCreateUser(req.user.id);
+router.get('/code', requireAuth, async (req, res) => {
+  try {
+    const ref = await getOrCreateReferralCode(req.user.id);
 
-  res.json({
-    success:     true,
-    code:        user.code,
-    referralUrl: `${process.env.BASE_URL || 'https://barakathub.com'}/?ref=${user.code}`,
-  });
+    res.json({
+      success:     true,
+      code:        ref.code,
+      referralUrl: `${process.env.BASE_URL || 'https://barakathub.com'}/?ref=${ref.code}`,
+    });
+  } catch (err) {
+    console.error('[/referral/code]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
+  }
 });
 
 /* ════════════════════════════════════════════════════════════
-   ۵. GET /api/referral/stats
+   ۴. GET /api/referral/stats
    آمار معرف‌های کاربر جاری
    ════════════════════════════════════════════════════════════ */
-router.get('/stats', requireAuth, (req, res) => {
-  const user = getOrCreateUser(req.user.id);
+router.get('/stats', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const ref    = await getOrCreateReferralCode(userId);
 
-  const totalVisits   = user.referrals.filter(r => r.type === 'visit').length;
-  const totalPurchases = user.referrals.filter(r => r.type === 'purchase').length;
-  const quranPurchases = user.referrals.filter(r => r.type === 'purchase' && r.section === 'quran').length;
+    /* شمارش‌ها */
+    const [totalRow, purchaseRow, quranRow] = await Promise.all([
+      dbGet('SELECT COUNT(*) AS cnt FROM referral_entries WHERE referrer_id = ? AND type = ?',    [userId, 'visit']),
+      dbGet('SELECT COUNT(*) AS cnt FROM referral_entries WHERE referrer_id = ? AND type = ?',    [userId, 'purchase']),
+      dbGet('SELECT COUNT(*) AS cnt FROM referral_entries WHERE referrer_id = ? AND type = ? AND section = ?', [userId, 'purchase', 'quran']),
+    ]);
 
-  /* جوایز فعال */
-  const now           = new Date();
-  const activeRewards = user.rewards.filter(r => new Date(r.expiresAt) > now);
+    const totalVisits    = totalRow?.cnt    ?? 0;
+    const totalPurchases = purchaseRow?.cnt ?? 0;
+    const quranPurchases = quranRow?.cnt    ?? 0;
 
-  /* پیشرفت تا جایزه بعدی */
-  const nextPrizes = [];
-  const allConfigs  = [...PRIZE_CONFIG.global, ...PRIZE_CONFIG.sections];
+    /* جوایز فعال */
+    const now = new Date().toISOString();
+    const activeRewards = await dbAll(
+      'SELECT * FROM referral_rewards WHERE user_id = ? AND expires_at > ?',
+      [userId, now]
+    );
+    const allRewards = await dbAll(
+      'SELECT * FROM referral_rewards WHERE user_id = ?',
+      [userId]
+    );
 
-  for (const config of allConfigs) {
-    if (!config.active) continue;
-    const count = user.referrals.filter(r =>
-      r.type === config.type &&
-      (config.section === null || r.section === config.section)
-    ).length;
-    if (count < config.threshold) {
-      nextPrizes.push({
-        configId:  config.id,
-        reward:    config.reward,
-        section:   config.section,
-        threshold: config.threshold,
-        current:   count,
-        remaining: config.threshold - count,
-      });
-      break; /* فقط نزدیک‌ترین جایزه */
+    /* پیشرفت تا جایزه بعدی */
+    const configs    = await dbAll('SELECT * FROM prize_configs WHERE active = 1 ORDER BY threshold ASC');
+    const nextPrizes = [];
+
+    for (const cfg of configs) {
+      const count = cfg.scope === 'global'
+        ? (cfg.type === 'visit' ? totalVisits : totalPurchases)
+        : quranPurchases;
+
+      if (count < cfg.threshold) {
+        nextPrizes.push({
+          configId:  cfg.id,
+          reward:    cfg.reward,
+          section:   cfg.section,
+          threshold: cfg.threshold,
+          current:   count,
+          remaining: cfg.threshold - count,
+        });
+        break;
+      }
     }
-  }
 
-  res.json({
-    success: true,
-    stats: {
-      code:           user.code,
-      referralUrl:    `${process.env.BASE_URL || 'https://barakathub.com'}/?ref=${user.code}`,
-      totalReferrals: user.referrals.length,
-      totalVisits,
-      totalPurchases,
-      quranPurchases,
-      activeRewards,
-      nextPrizes,
-      allRewards:     user.rewards,
-    },
-  });
+    res.json({
+      success: true,
+      stats: {
+        code:           ref.code,
+        referralUrl:    `${process.env.BASE_URL || 'https://barakathub.com'}/?ref=${ref.code}`,
+        totalReferrals: totalVisits + totalPurchases,
+        totalVisits,
+        totalPurchases,
+        quranPurchases,
+        activeRewards,
+        nextPrizes,
+        allRewards,
+      },
+    });
+  } catch (err) {
+    console.error('[/referral/stats]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
+  }
 });
 
 /* ════════════════════════════════════════════════════════════
-   ۶. GET /api/referral/prizes
+   ۵. GET /api/referral/prizes
    تنظیمات جوایز — عمومی
    ════════════════════════════════════════════════════════════ */
-router.get('/prizes', (req, res) => {
-  res.json({
-    success: true,
-    prizes:  PRIZE_CONFIG,
-  });
+router.get('/prizes', async (req, res) => {
+  try {
+    const all = await dbAll('SELECT * FROM prize_configs ORDER BY scope, threshold');
+
+    res.json({
+      success: true,
+      prizes: {
+        global:   all.filter(c => c.scope === 'global'),
+        sections: all.filter(c => c.scope === 'section'),
+      },
+    });
+  } catch (err) {
+    console.error('[/referral/prizes]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
+  }
 });
 
 /* ════════════════════════════════════════════════════════════
-   ۷. POST /api/referral/admin/prizes — فقط ادمین
+   ۶. POST /api/referral/admin/prizes — فقط ادمین
    ذخیره تنظیمات جوایز
    ════════════════════════════════════════════════════════════ */
-router.post('/admin/prizes', requireApiKey, (req, res) => {
-  const { global: globalPrizes, sections: sectionPrizes } = req.body;
+router.post('/admin/prizes', requireApiKey, async (req, res) => {
+  try {
+    const { global: globalPrizes, sections: sectionPrizes } = req.body;
 
-  if (!Array.isArray(globalPrizes) || !Array.isArray(sectionPrizes)) {
-    return res.status(422).json({
-      success: false,
-      error:   'فرمت داده نامعتبر است',
-      code:    'INVALID_FORMAT',
+    if (!Array.isArray(globalPrizes) || !Array.isArray(sectionPrizes)) {
+      return res.status(422).json({
+        success: false,
+        error:   'فرمت داده نامعتبر است',
+        code:    'INVALID_FORMAT',
+      });
+    }
+
+    const allConfigs = [
+      ...globalPrizes.map(c  => ({ ...c, scope: 'global' })),
+      ...sectionPrizes.map(c => ({ ...c, scope: 'section' })),
+    ];
+
+    /* به‌روزرسانی در دیتابیس */
+    const queries = allConfigs.map(c => ({
+      sql: `INSERT INTO prize_configs (id, scope, type, threshold, reward, section, active, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+            ON CONFLICT(id) DO UPDATE SET
+              scope      = excluded.scope,
+              type       = excluded.type,
+              threshold  = excluded.threshold,
+              reward     = excluded.reward,
+              section    = excluded.section,
+              active     = excluded.active,
+              updated_at = excluded.updated_at`,
+      params: [c.id, c.scope, c.type, c.threshold, c.reward, c.section ?? null, c.active ? 1 : 0],
+    }));
+
+    await dbBatch(queries);
+
+    res.json({
+      success: true,
+      message: 'تنظیمات جوایز ذخیره شد',
     });
+  } catch (err) {
+    console.error('[/referral/admin/prizes]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
   }
-
-  PRIZE_CONFIG = {
-    global:    globalPrizes,
-    sections:  sectionPrizes,
-    updatedAt: new Date().toISOString(),
-  };
-
-  res.json({
-    success: true,
-    message: 'تنظیمات جوایز ذخیره شد',
-    prizes:  PRIZE_CONFIG,
-  });
 });
 
 /* ════════════════════════════════════════════════════════════
-   ۸. GET /api/referral/admin/list — فقط ادمین
+   ۷. GET /api/referral/admin/list — فقط ادمین
    لیست همه معرف‌ها و آمار کلی
    ════════════════════════════════════════════════════════════ */
-router.get('/admin/list', requireApiKey, (req, res) => {
-  const list = [...USERS_DB.entries()].map(([userId, data]) => ({
-    userId,
-    code:           data.code,
-    referredBy:     data.referredBy,
-    totalReferrals: data.referrals.length,
-    totalRewards:   data.rewards.length,
-    joinedAt:       data.joinedAt,
-  }));
+router.get('/admin/list', requireApiKey, async (req, res) => {
+  try {
+    const list = await dbAll(
+      `SELECT
+         rc.user_id,
+         rc.code,
+         rc.referred_by,
+         rc.created_at AS joined_at,
+         COUNT(DISTINCT re.referred_id) AS total_referrals,
+         COUNT(DISTINCT rw.id)          AS total_rewards
+       FROM referral_codes rc
+       LEFT JOIN referral_entries re ON re.referrer_id = rc.user_id
+       LEFT JOIN referral_rewards rw ON rw.user_id     = rc.user_id
+       GROUP BY rc.user_id
+       ORDER BY total_referrals DESC`
+    );
 
-  res.json({
-    success:      true,
-    totalUsers:   list.length,
-    prizeConfig:  PRIZE_CONFIG,
-    referrals:    list,
-  });
+    const configs = await dbAll('SELECT * FROM prize_configs ORDER BY scope, threshold');
+
+    res.json({
+      success:    true,
+      totalUsers: list.length,
+      prizeConfig: {
+        global:   configs.filter(c => c.scope === 'global'),
+        sections: configs.filter(c => c.scope === 'section'),
+      },
+      referrals: list,
+    });
+  } catch (err) {
+    console.error('[/referral/admin/list]', err);
+    res.status(500).json({ success: false, error: 'خطای داخلی سرور' });
+  }
 });
 
 export default router;
