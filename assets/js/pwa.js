@@ -31,6 +31,149 @@ const log = {
   e: (...a) =>               console.error('%c[PWA]', 'color:#e76f51;font-weight:700', ...a),
 };
 
+/* ── i18n — ۸ زبان ── */
+const MSGS = {
+  fa: {
+    installTitle:  'برکت‌هاب را نصب کن',
+    installSub:    'دسترسی سریع‌تر · حتی بدون اینترنت',
+    installBtn:    'نصب',
+    updateMsg:     'نسخه جدید برکت‌هاب آماده است',
+    updateBtn:     'به‌روزرسانی',
+    installed:     '✅ برکت‌هاب با موفقیت نصب شد!',
+    online:        '🌐 اتصال اینترنت برقرار شد',
+    offline:       '📵 اتصال قطع شد — حالت آفلاین فعال است',
+    offlinePill:   '📵  آفلاین',
+    iosTitle:      'نصب برکت‌هاب روی iPhone',
+    iosStep1:      'روی Share در Safari بزن',
+    iosStep2:      'گزینه «Add to Home Screen» را انتخاب کن',
+    iosStep3:      'روی Add بزن — تمام!',
+    iosArrow:      'نوار ابزار Safari در پایین',
+    later:         'بعداً',
+    close:         'بستن',
+  },
+  ar: {
+    installTitle:  'ثبِّت بركة هاب',
+    installSub:    'وصول أسرع · حتى بدون إنترنت',
+    installBtn:    'تثبيت',
+    updateMsg:     'إصدار جديد من بركة هاب متاح',
+    updateBtn:     'تحديث',
+    installed:     '✅ تم تثبيت بركة هاب بنجاح!',
+    online:        '🌐 تم استعادة الاتصال بالإنترنت',
+    offline:       '📵 انقطع الاتصال — وضع عدم الاتصال نشط',
+    offlinePill:   '📵  غير متصل',
+    iosTitle:      'تثبيت بركة هاب على iPhone',
+    iosStep1:      'اضغط على Share في Safari',
+    iosStep2:      'اختر «Add to Home Screen»',
+    iosStep3:      'اضغط Add — تم!',
+    iosArrow:      'شريط أدوات Safari في الأسفل',
+    later:         'لاحقاً',
+    close:         'إغلاق',
+  },
+  ur: {
+    installTitle:  'BarakaHub انسٹال کریں',
+    installSub:    'تیز رسائی · انٹرنیٹ کے بغیر بھی',
+    installBtn:    'انسٹال',
+    updateMsg:     'BarakaHub کا نیا ورژن تیار ہے',
+    updateBtn:     'اپ ڈیٹ',
+    installed:     '✅ BarakaHub کامیابی سے انسٹال ہو گیا!',
+    online:        '🌐 انٹرنیٹ کنکشن بحال ہو گیا',
+    offline:       '📵 کنکشن منقطع — آف لائن موڈ فعال',
+    offlinePill:   '📵  آف لائن',
+    iosTitle:      'iPhone پر BarakaHub انسٹال کریں',
+    iosStep1:      'Safari میں Share دبائیں',
+    iosStep2:      '«Add to Home Screen» منتخب کریں',
+    iosStep3:      'Add دبائیں — ہو گیا!',
+    iosArrow:      'نیچے Safari ٹول بار',
+    later:         'بعد میں',
+    close:         'بند',
+  },
+  en: {
+    installTitle:  'Install BarakaHub',
+    installSub:    'Faster access · Works offline too',
+    installBtn:    'Install',
+    updateMsg:     'A new version of BarakaHub is ready',
+    updateBtn:     'Update',
+    installed:     '✅ BarakaHub installed successfully!',
+    online:        '🌐 Internet connection restored',
+    offline:       '📵 Connection lost — Offline mode active',
+    offlinePill:   '📵  Offline',
+    iosTitle:      'Install BarakaHub on iPhone',
+    iosStep1:      'Tap Share in Safari',
+    iosStep2:      'Choose «Add to Home Screen»',
+    iosStep3:      'Tap Add — Done!',
+    iosArrow:      'Safari toolbar at the bottom',
+    later:         'Later',
+    close:         'Close',
+  },
+  tr: {
+    installTitle:  'BarakaHub\'u Yükle',
+    installSub:    'Daha hızlı erişim · Çevrimdışı da çalışır',
+    installBtn:    'Yükle',
+    updateMsg:     'BarakaHub\'un yeni sürümü hazır',
+    updateBtn:     'Güncelle',
+    installed:     '✅ BarakaHub başarıyla yüklendi!',
+    online:        '🌐 İnternet bağlantısı yeniden kuruldu',
+    offline:       '📵 Bağlantı kesildi — Çevrimdışı mod aktif',
+    offlinePill:   '📵  Çevrimdışı',
+    iosTitle:      'iPhone\'a BarakaHub Yükle',
+    iosStep1:      'Safari\'de Share\'e dokun',
+    iosStep2:      '«Add to Home Screen» seç',
+    iosStep3:      'Add\'e dokun — Tamam!',
+    iosArrow:      'Altta Safari araç çubuğu',
+    later:         'Sonra',
+    close:         'Kapat',
+  },
+  ru: {
+    installTitle:  'Установить BarakaHub',
+    installSub:    'Быстрый доступ · Работает офлайн',
+    installBtn:    'Установить',
+    updateMsg:     'Доступна новая версия BarakaHub',
+    updateBtn:     'Обновить',
+    installed:     '✅ BarakaHub успешно установлен!',
+    online:        '🌐 Подключение к интернету восстановлено',
+    offline:       '📵 Соединение потеряно — Офлайн режим активен',
+    offlinePill:   '📵  Офлайн',
+    iosTitle:      'Установить BarakaHub на iPhone',
+    iosStep1:      'Нажмите Share в Safari',
+    iosStep2:      'Выберите «Add to Home Screen»',
+    iosStep3:      'Нажмите Add — Готово!',
+    iosArrow:      'Панель Safari внизу',
+    later:         'Позже',
+    close:         'Закрыть',
+  },
+  az: {
+    installTitle:  'BarakaHub\'u Quraşdır',
+    installSub:    'Daha sürətli giriş · Oflayn işləyir',
+    installBtn:    'Quraşdır',
+    updateMsg:     'BarakaHub\'un yeni versiyası hazırdır',
+    updateBtn:     'Yenilə',
+    installed:     '✅ BarakaHub uğurla quraşdırıldı!',
+    online:        '🌐 İnternet bağlantısı bərpa edildi',
+    offline:       '📵 Bağlantı kəsildi — Oflayn rejim aktivdir',
+    offlinePill:   '📵  Oflayn',
+    iosTitle:      'iPhone\'a BarakaHub Quraşdır',
+    iosStep1:      'Safari\'də Share\'ə toxun',
+    iosStep2:      '«Add to Home Screen» seç',
+    iosStep3:      'Add\'ə toxun — Hazır!',
+    iosArrow:      'Aşağıda Safari alət çubuğu',
+    later:         'Sonra',
+    close:         'Bağla',
+  },
+  /* گوجراتی / هندی fallback → en */
+};
+
+/** زبان فعلی صفحه را می‌خواند */
+function _getLang() {
+  const lang = document.documentElement.lang?.slice(0, 2) ||
+               document.body.dataset.lang?.slice(0, 2) || 'fa';
+  return MSGS[lang] ? lang : 'fa';
+}
+
+/** ترجمه کلید */
+function _t(key) {
+  return MSGS[_getLang()]?.[key] ?? MSGS['fa'][key] ?? key;
+}
+
 /* ── STATE ── */
 let _deferredPrompt = null;
 let _swReg          = null;
@@ -96,7 +239,7 @@ function _initInstall() {
     log.i('اپ نصب شد ✓');
     _deferredPrompt = null;
     _removeBanner('pwa-install-banner');
-    _toast('\u2705 برکت‌هاب با موفقیت نصب شد!', 'success');
+    _toast(_t('installed'), 'success');
     localStorage.setItem('pwa_installed', '1');
     _track('pwa_installed');
   });
@@ -119,9 +262,20 @@ export async function triggerInstall() {
 ═══════════════════════════════════════════════ */
 function _initNetwork() {
   const root = document.documentElement;
-  window.addEventListener('online',  () => { root.removeAttribute('data-offline'); _toast('\uD83C\uDF10 اتصال اینترنت برقرار شد', 'success'); _track('network_online'); });
-  window.addEventListener('offline', () => { root.setAttribute('data-offline',''); _toast('\uD83D\uDCF5 اتصال قطع شد — حالت آفلاین فعال است', 'warning', 6000); _track('network_offline'); });
-  if (!navigator.onLine) root.setAttribute('data-offline', '');
+
+  /* ساخت pill آفلاین */
+  const pill = _el('div', { class: 'pwa-offline-pill', 'aria-live': 'polite', 'aria-atomic': 'true' });
+  document.body.appendChild(pill);
+
+  const showPill = () => {
+    pill.textContent = _t('offlinePill');
+    requestAnimationFrame(() => pill.classList.add('pwa-in'));
+  };
+  const hidePill = () => pill.classList.remove('pwa-in');
+
+  window.addEventListener('online',  () => { root.removeAttribute('data-offline'); hidePill(); _toast(_t('online'), 'success'); _track('network_online'); });
+  window.addEventListener('offline', () => { root.setAttribute('data-offline',''); showPill(); _toast(_t('offline'), 'warning', 6000); _track('network_offline'); });
+  if (!navigator.onLine) { root.setAttribute('data-offline', ''); showPill(); }
 }
 
 /* ═══════════════════════════════════════════════
@@ -138,11 +292,11 @@ function _showUpdateBanner(worker) {
           <path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
           <path d="M16 16h5v5"/>
         </svg>
-        نسخه جدید برکت‌هاب آماده است
+        ${_t('updateMsg')}
       </span>
       <div class="pu-btns">
-        <button class="pb pb-primary" id="pu-apply">به‌روزرسانی</button>
-        <button class="pb pb-ghost"   id="pu-dismiss" aria-label="بستن">
+        <button class="pb pb-primary" id="pu-apply">${_t('updateBtn')}</button>
+        <button class="pb pb-ghost"   id="pu-dismiss" aria-label="${_t('close')}">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -163,14 +317,14 @@ function _showInstallBanner() {
   const el = _el('div', { id:'pwa-install-banner', role:'complementary', 'aria-label':'نصب اپلیکیشن' });
   el.innerHTML = `
     <div class="pi-inner">
-      <img src="/assets/img/icon-192.png" class="pi-icon" alt="آیکون برکت‌هاب" width="52" height="52" loading="lazy"/>
+      <img src="/assets/img/icon-192.png" class="pi-icon" alt="BarakaHub" width="52" height="52" loading="lazy"/>
       <div class="pi-text">
-        <strong class="pi-title">برکت‌هاب را نصب کن</strong>
-        <span class="pi-sub">دسترسی سریع‌تر · حتی بدون اینترنت</span>
+        <strong class="pi-title">${_t('installTitle')}</strong>
+        <span class="pi-sub">${_t('installSub')}</span>
       </div>
       <div class="pi-btns">
-        <button class="pb pb-install" id="pi-trigger">نصب</button>
-        <button class="pb pb-ghost"   id="pi-dismiss" aria-label="بعداً">
+        <button class="pb pb-install" id="pi-trigger">${_t('installBtn')}</button>
+        <button class="pb pb-ghost"   id="pi-dismiss" aria-label="${_t('later')}">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -192,21 +346,21 @@ function _showIOSGuide() {
     <div class="ig-backdrop"></div>
     <div class="ig-sheet">
       <div class="ig-head">
-        <strong>نصب برکت‌هاب روی iPhone</strong>
-        <button class="pb pb-ghost" id="ig-close" aria-label="بستن">
+        <strong>${_t('iosTitle')}</strong>
+        <button class="pb pb-ghost" id="ig-close" aria-label="${_t('close')}">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
       <ol class="ig-steps">
-        <li><span class="ig-num">۱</span><span>روی <svg class="ig-share" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2" width="17" height="17" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> <strong>Share</strong> در Safari بزن</span></li>
-        <li><span class="ig-num">۲</span><span>گزینه <strong>«Add to Home Screen»</strong> را انتخاب کن</span></li>
-        <li><span class="ig-num">۳</span><span>روی <strong>Add</strong> بزن — تمام!</span></li>
+        <li><span class="ig-num">1</span><span>${_t('iosStep1')} <svg class="ig-share" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="2" width="17" height="17" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span></li>
+        <li><span class="ig-num">2</span><span>${_t('iosStep2')}</span></li>
+        <li><span class="ig-num">3</span><span>${_t('iosStep3')}</span></li>
       </ol>
       <div class="ig-arrow" aria-hidden="true">
         <svg viewBox="0 0 24 32" width="24" height="32" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="12" y1="0" x2="12" y2="24"/><polyline points="6,18 12,24 18,18"/>
         </svg>
-        <span>نوار ابزار Safari در پایین</span>
+        <span>${_t('iosArrow')}</span>
       </div>
     </div>`;
   document.body.appendChild(el);
@@ -316,8 +470,9 @@ function _injectStyles() {
 .pwa-toast--info{background:rgba(59,130,246,.93)}
 .pwa-toast--error{background:rgba(239,68,68,.93)}
 
-/* Offline pill */
-[data-offline] body::before{content:'📵  آفلاین';position:fixed;top:10px;left:50%;transform:translateX(-50%);background:rgba(239,68,68,.92);color:#fff;font-family:var(--font-ui,'Vazirmatn',sans-serif);font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:999px;z-index:9998;pointer-events:none;backdrop-filter:blur(8px);white-space:nowrap}
+/* Offline pill — متن از JS تنظیم می‌شه */
+.pwa-offline-pill{position:fixed;top:10px;left:50%;transform:translateX(-50%);background:rgba(239,68,68,.92);color:#fff;font-family:var(--font-ui,'Vazirmatn',sans-serif);font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:999px;z-index:9998;pointer-events:none;backdrop-filter:blur(8px);white-space:nowrap;opacity:0;transition:opacity .3s ease}
+.pwa-offline-pill.pwa-in{opacity:1}
 
 /* Reduced motion */
 @media(prefers-reduced-motion:reduce){[id^="pwa-"],.pwa-toast,.ig-arrow{transition:none!important;animation:none!important}}
