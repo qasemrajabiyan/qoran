@@ -28,7 +28,6 @@ const TARGET_FILES = [
   'prayer.js',
   'quran.js',
   'auto-translate.js',
-  'auth.js',
   'auth-extended.js',
   'referral.js',
   'profile.js',
@@ -44,6 +43,7 @@ const TARGET_FILES = [
 /* فایل‌هایی که obfuscate نمی‌شوند (فقط کپی می‌شوند) */
 const COPY_ONLY = [
   'app.js',
+  'auth.js',
   'i18n.js',
   'theme.js',
   'seo-config.js',
