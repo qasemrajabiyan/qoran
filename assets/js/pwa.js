@@ -159,7 +159,24 @@ const MSGS = {
     later:         'Sonra',
     close:         'Bağla',
   },
-  /* گوجراتی / هندی fallback → en */
+  id: {
+    installTitle:  'Pasang BarakaHub',
+    installSub:    'Akses lebih cepat · Bekerja tanpa internet',
+    installBtn:    'Pasang',
+    updateMsg:     'Versi baru BarakaHub tersedia',
+    updateBtn:     'Perbarui',
+    installed:     '✅ BarakaHub berhasil dipasang!',
+    online:        '🌐 Koneksi internet pulih',
+    offline:       '📵 Koneksi terputus — Mode offline aktif',
+    offlinePill:   '📵  Offline',
+    iosTitle:      'Pasang BarakaHub di iPhone',
+    iosStep1:      'Ketuk Share di Safari',
+    iosStep2:      'Pilih «Add to Home Screen»',
+    iosStep3:      'Ketuk Add — Selesai!',
+    iosArrow:      'Bilah alat Safari di bawah',
+    later:         'Nanti',
+    close:         'Tutup',
+  },
 };
 
 /** زبان فعلی صفحه را می‌خواند */
