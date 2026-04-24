@@ -19,8 +19,8 @@ const SAMPLE_ARTICLES = [
   {
     id: 1,
     title: { fa: 'تدبر در آیات قرآن کریم — سوره بقره', ar: 'التدبر في آيات القرآن الكريم', ur: 'قرآن کریم کی آیات میں تدبر', az: 'Qurani-Kərim ayələrinin tədəbbürü', tr: 'Kur\'an-ı Kerim Ayetlerini Tefekkür', ru: 'Размышление над аятами Корана', en: 'Contemplating Verses of the Holy Quran' , id:'Merenungkan ayat-ayat Al-Quran — Surah Al-Baqarah'},
-    excerpt: { fa: 'در این مقاله به تدبر و تأمل در آیات ابتدایی سوره بقره می‌پردازیم...', ar: 'في هذا المقال نتدبر في الآيات الأولى من سورة البقرة...', ur: 'اس مضمون میں سورۃ البقرہ کی ابتدائی آیات پر غور کریں گے...', en: 'In this article, we contemplate the opening verses of Surah Al-Baqarah...' , az:'Bu məqalədə Bəqərə surəsinin ilk ayələrini tədəbbür edirik...', tr:'Bu makalede Bakara suresinin ilk ayetlerini tefekkür edeceğiz...', ru:'В этой статье мы размышляем над начальными аятами суры Аль-Бакара...', id:'Dalam artikel ini kami merenungkan ayat-ayat awal surah Al-Baqarah...'},
-    category: { fa: 'تدبر', ar: 'تدبر', ur: 'تدبر', en: 'Reflection', az:'Tədəbbür', tr:'Tefekkür', ru:'Размышление', id:'Refleksi' },
+    excerpt: { fa: 'در این مقاله به تدبر و تأمل در آیات ابتدایی سوره بقره می‌پردازیم...', ar: 'في هذا المقال نتدبر في الآيات الأولى من سورة البقرة...', ur: 'اس مضمون میں سورۃ البقرہ کی ابتدائی آیات پر غور کریں گے...', en: 'In this article, we contemplate the opening verses of Surah Al-Baqarah...' , az:'Bu məqalədə Bəqərə surəsinin ilk ayələrini tədəbbür edirik...', tr:"Bu makalede Bakara suresinin ilk ayetlerini tefekkür edeceğiz...", ru:'В этой статье мы размышляем над начальными аятами суры Аль-Бакара...', id:'Dalam artikel ini kami merenungkan ayat-ayat awal surah Al-Baqarah...'},
+    category: { fa: 'تدبر', ar: 'تدبر', ur: 'تدبر', en: 'Reflection', az:'Tədəbbür', tr:"Tefekkür", ru:'Размышление', id:'Refleksi' },
     image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80',
     author: 'شیخ احمد',
     date: new Date(Date.now() - 2 * 60 * 60 * 1000),
@@ -30,9 +30,9 @@ const SAMPLE_ARTICLES = [
   },
   {
     id: 2,
-    title: { fa: 'اهمیت زیارت امام حسین (ع) در کربلای معلی', ar: 'أهمية زيارة الإمام الحسين في كربلاء', ur: 'کربلا میں امام حسین کی زیارت کی اہمیت', en: 'Importance of Visiting Imam Hussein in Karbala' , az:'İmam Hüseynin (ə) Kərbəlada ziyarətinin əhəmiyyəti', tr:'İmam Hüseyin\'in (as) Kerbela\'da ziyaretinin önemi', ru:'Важность посещения Имама Хусейна (а) в Кербеле', id:'Pentingnya ziarah Imam Hussein (as) di Karbala'},
-    excerpt: { fa: 'کربلا، سرزمین عشق و فداکاری، همواره مقصد عاشقان اهل‌بیت بوده است...', en: 'Karbala, the land of love and sacrifice, has always been the destination of lovers of Ahlul Bayt...' , ar:'كربلاء، أرض الحب والتضحية، دائمًا ما كانت وجهة محبي أهل البيت...', ur:'کربلا، محبت اور قربانی کی سرزمین، ہمیشہ اہل بیت کے چاہنے والوں کی منزل رہی ہے...', az:'Kərbəla, sevgi və fədakarlıq diyarı, həmişə Əhli-Beyt aşiqlərinin məqsədi olmuşdur...', tr:'Kerbela, sevgi ve fedakarlık diyarı, her zaman Ehlibeyt sevdalılarının hedefi olmuştur...', ru:'Кербела, земля любви и жертвенности, всегда была целью любящих Ахл аль-Бейт...', id:'Karbala, tanah cinta dan pengorbanan, selalu menjadi tujuan para pecinta Ahlul Bayt...'},
-    category: { fa: 'معارف', ar: 'معارف', ur:'معارف', az:'Mərifət', tr:'Marifet', ru:'Знание', en: 'Knowledge', id:'Pengetahuan', tr:'Marifet', ru:'Знание', id:'Pengetahuan' },
+    title: { fa: 'اهمیت زیارت امام حسین (ع) در کربلای معلی', ar: 'أهمية زيارة الإمام الحسين في كربلاء', ur: 'کربلا میں امام حسین کی زیارت کی اہمیت', en: 'Importance of Visiting Imam Hussein in Karbala' , az:'İmam Hüseynin (ə) Kərbəlada ziyarətinin əhəmiyyəti', tr:"İmam Hüseyin\\"in (as) Kerbela\\'da ziyaretinin önemi', ru:'Важность посещения Имама Хусейна (а) в Кербеле', id:'Pentingnya ziarah Imam Hussein (as) di Karbala'},
+    excerpt: { fa: 'کربلا، سرزمین عشق و فداکاری، همواره مقصد عاشقان اهل‌بیت بوده است...', en: 'Karbala, the land of love and sacrifice, has always been the destination of lovers of Ahlul Bayt...' , ar:'كربلاء، أرض الحب والتضحية، دائمًا ما كانت وجهة محبي أهل البيت...', ur:'کربلا، محبت اور قربانی کی سرزمین، ہمیشہ اہل بیت کے چاہنے والوں کی منزل رہی ہے...', az:'Kərbəla, sevgi və fədakarlıq diyarı, həmişə Əhli-Beyt aşiqlərinin məqsədi olmuşdur...', tr:"Kerbela, sevgi ve fedakarlık diyarı, her zaman Ehlibeyt sevdalılarının hedefi olmuştur...", ru:'Кербела, земля любви и жертвенности, всегда была целью любящих Ахл аль-Бейт...', id:'Karbala, tanah cinta dan pengorbanan, selalu menjadi tujuan para pecinta Ahlul Bayt...'},
+    category: { fa: 'معارف', ar: 'معارف', ur:'معارف', az:'Mərifət', tr:"Marifet", ru:'Знание', en: 'Knowledge', id:'Pengetahuan', tr:"Marifet", ru:'Знание', id:'Pengetahuan' },
     image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=800&q=80',
     author: 'استاد محمدی',
     date: new Date(Date.now() - 5 * 60 * 60 * 1000),
@@ -42,9 +42,9 @@ const SAMPLE_ARTICLES = [
   },
   {
     id: 3,
-    title: { fa: 'ختم قرآن نیابتی — راهنمای کامل', ar: 'ختم القرآن نيابةً — دليل شامل', ur: 'نیابتی ختم قرآن — مکمل رہنما', en: 'Proxy Quran Completion — Complete Guide' , az:'Niyabət Quran xətmi — Tam bələdçi', tr:'Vekalet Kuran hatmi — Tam kılavuz', ru:'Завершение Корана по доверенности — Полное руководство', id:'Khatam Quran perwakilan — Panduan lengkap'},
-    excerpt: { fa: 'ختم قرآن نیابتی به معنای قرائت قرآن از طرف دیگری است...', en: 'Proxy Quran completion means reciting the Quran on behalf of another person...' , ar:'ختم القرآن نيابةً يعني قراءة القرآن بالنيابة عن شخص آخر...', ur:'نیابتی ختم قرآن کا مطلب ہے کسی دوسرے کی طرف سے قرآن پڑھنا...', az:'Niyabət Quran xətmi başqası adından Quran oxumaq deməkdir...', tr:'Vekalet Kuran hatmi, başkası adına Kuran okumak anlamına gelir...', ru:'Завершение Корана по доверенности означает чтение Корана от имени другого...', id:'Khatam Quran perwakilan berarti membaca Quran atas nama orang lain...'},
-    category: { fa: 'قرآن', ar: 'قرآن', ur:'قرآن', az:'Quran', tr:'Kuran', ru:'Коран', en: 'Quran', id:'Quran', tr:'Kuran', ru:'Коран', id:'Quran' },
+    title: { fa: 'ختم قرآن نیابتی — راهنمای کامل', ar: 'ختم القرآن نيابةً — دليل شامل', ur: 'نیابتی ختم قرآن — مکمل رہنما', en: 'Proxy Quran Completion — Complete Guide' , az:'Niyabət Quran xətmi — Tam bələdçi', tr:"Vekalet Kuran hatmi — Tam kılavuz", ru:'Завершение Корана по доверенности — Полное руководство', id:'Khatam Quran perwakilan — Panduan lengkap'},
+    excerpt: { fa: 'ختم قرآن نیابتی به معنای قرائت قرآن از طرف دیگری است...', en: 'Proxy Quran completion means reciting the Quran on behalf of another person...' , ar:'ختم القرآن نيابةً يعني قراءة القرآن بالنيابة عن شخص آخر...', ur:'نیابتی ختم قرآن کا مطلب ہے کسی دوسرے کی طرف سے قرآن پڑھنا...', az:'Niyabət Quran xətmi başqası adından Quran oxumaq deməkdir...', tr:"Vekalet Kuran hatmi, başkası adına Kuran okumak anlamına gelir...", ru:'Завершение Корана по доверенности означает чтение Корана от имени другого...', id:'Khatam Quran perwakilan berarti membaca Quran atas nama orang lain...'},
+    category: { fa: 'قرآن', ar: 'قرآن', ur:'قرآن', az:'Quran', tr:"Kuran", ru:'Коран', en: 'Quran', id:'Quran', tr:"Kuran", ru:'Коран', id:'Quran' },
     image: 'https://images.unsplash.com/photo-1585036156171-384164a8c675?w=800&q=80',
     author: 'قاری یوسف',
     date: new Date(Date.now() - 12 * 60 * 60 * 1000),
@@ -53,9 +53,9 @@ const SAMPLE_ARTICLES = [
   },
   {
     id: 4,
-    title: { fa: 'دعا و نیایش در محضر امام (ع)', ar: 'الدعاء والمناجاة في حضرة الإمام', ur: 'امام کی بارگاہ میں دعا و مناجات', en: 'Prayer and Supplication in the Presence of the Imam' , az:'İmamın (ə) hüzurunda dua', tr:'İmam\'ın (as) huzurunda dua', ru:'Молитва и мольба в присутствии Имама (а)', id:'Doa dan permohonan di hadapan Imam (as)'},
-    excerpt: { fa: 'دعا خواندن در اماکن مقدس از جمله اعمال مستحب بسیار مؤکد است...', en: 'Supplication in holy places is among the highly recommended acts...' , ar:'قراءة الدعاء في الأماكن المقدسة من الأعمال المستحبة المؤكدة جدًا...', ur:'مقدس مقامات میں دعا پڑھنا انتہائی مستحب اعمال میں سے ہے...', az:'Müqəddəs yerlərdə dua oxumaq çox tövsiyə edilən əməllərdəndir...', tr:'Kutsal yerlerde dua okumak son derece tavsiye edilen amellerdendir...', ru:'Чтение молитв в священных местах является очень рекомендуемым делом...', id:'Membaca doa di tempat-tempat suci termasuk amalan yang sangat dianjurkan...'},
-    category: { fa: 'دعا', ar: 'دعاء', ur:'دعا', az:'Dua', tr:'Dua', ru:'Молитва', en: 'Prayer', id:'Doa', tr:'Dua', ru:'Молитва', id:'Doa' },
+    title: { fa: 'دعا و نیایش در محضر امام (ع)', ar: 'الدعاء والمناجاة في حضرة الإمام', ur: 'امام کی بارگاہ میں دعا و مناجات', en: 'Prayer and Supplication in the Presence of the Imam' , az:'İmamın (ə) hüzurunda dua', tr:"İmam\\"ın (as) huzurunda dua', ru:'Молитва и мольба в присутствии Имама (а)', id:'Doa dan permohonan di hadapan Imam (as)'},
+    excerpt: { fa: 'دعا خواندن در اماکن مقدس از جمله اعمال مستحب بسیار مؤکد است...', en: 'Supplication in holy places is among the highly recommended acts...' , ar:'قراءة الدعاء في الأماكن المقدسة من الأعمال المستحبة المؤكدة جدًا...', ur:'مقدس مقامات میں دعا پڑھنا انتہائی مستحب اعمال میں سے ہے...', az:'Müqəddəs yerlərdə dua oxumaq çox tövsiyə edilən əməllərdəndir...', tr:"Kutsal yerlerde dua okumak son derece tavsiye edilen amellerdendir...", ru:'Чтение молитв в священных местах является очень рекомендуемым делом...', id:'Membaca doa di tempat-tempat suci termasuk amalan yang sangat dianjurkan...'},
+    category: { fa: 'دعا', ar: 'دعاء', ur:'دعا', az:'Dua', tr:"Dua", ru:'Молитва', en: 'Prayer', id:'Doa', tr:"Dua", ru:'Молитва', id:'Doa' },
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
     author: 'علامه رضوی',
     date: new Date(Date.now() - 24 * 60 * 60 * 1000),
@@ -64,9 +64,9 @@ const SAMPLE_ARTICLES = [
   },
   {
     id: 5,
-    title: { fa: 'برنامه دیدار با شیخ در ماه محرم', ar: 'برنامج لقاء الشيخ في شهر المحرم', ur: 'محرم میں شیخ سے ملاقات کا پروگرام', en: 'Schedule for Meeting with Sheikh in Muharram' , az:'Məhərrəm ayında şeyxlə görüş proqramı', tr:'Muharrem ayında şeyh buluşma programı', ru:'Программа встречи с шейхом в месяц Мухаррам', id:'Program pertemuan dengan syaikh di bulan Muharram'},
-    excerpt: { fa: 'در ماه محرم فرصت ویژه‌ای برای دیدار با شیخ فراهم شده است...', en: 'A special opportunity has been arranged to meet with the Sheikh during Muharram...' , ar:'في شهر محرم أُتيحت فرصة خاصة للقاء الشيخ...', ur:'محرم کے مہینے میں شیخ سے ملاقات کا خصوصی موقع فراہم کیا گیا ہے...', az:'Məhərrəm ayında şeyxlə görüşmək üçün xüsusi imkan yaradılmışdır...', tr:'Muharrem ayında şeyh ile buluşma için özel bir fırsat sunulmuştur...', ru:'В месяц Мухаррам предоставляется особая возможность встретиться с шейхом...', id:'Di bulan Muharram telah disediakan kesempatan khusus untuk bertemu syaikh...'},
-    category: { fa: 'دیدار', ar: 'لقاء', ur:'ملاقات', az:'Görüş', tr:'Buluşma', ru:'Встреча', en: 'Meeting', id:'Pertemuan', tr:'Buluşma', ru:'Встреча', id:'Pertemuan' },
+    title: { fa: 'برنامه دیدار با شیخ در ماه محرم', ar: 'برنامج لقاء الشيخ في شهر المحرم', ur: 'محرم میں شیخ سے ملاقات کا پروگرام', en: 'Schedule for Meeting with Sheikh in Muharram' , az:'Məhərrəm ayında şeyxlə görüş proqramı', tr:"Muharrem ayında şeyh buluşma programı", ru:'Программа встречи с шейхом в месяц Мухаррам', id:'Program pertemuan dengan syaikh di bulan Muharram'},
+    excerpt: { fa: 'در ماه محرم فرصت ویژه‌ای برای دیدار با شیخ فراهم شده است...', en: 'A special opportunity has been arranged to meet with the Sheikh during Muharram...' , ar:'في شهر محرم أُتيحت فرصة خاصة للقاء الشيخ...', ur:'محرم کے مہینے میں شیخ سے ملاقات کا خصوصی موقع فراہم کیا گیا ہے...', az:'Məhərrəm ayında şeyxlə görüşmək üçün xüsusi imkan yaradılmışdır...', tr:"Muharrem ayında şeyh ile buluşma için özel bir fırsat sunulmuştur...", ru:'В месяц Мухаррам предоставляется особая возможность встретиться с шейхом...', id:'Di bulan Muharram telah disediakan kesempatan khusus untuk bertemu syaikh...'},
+    category: { fa: 'دیدار', ar: 'لقاء', ur:'ملاقات', az:'Görüş', tr:"Buluşma", ru:'Встреча', en: 'Meeting', id:'Pertemuan', tr:"Buluşma", ru:'Встреча', id:'Pertemuan' },
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
     author: 'دفتر شیخ',
     date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
@@ -75,9 +75,9 @@ const SAMPLE_ARTICLES = [
   },
   {
     id: 6,
-    title: { fa: 'آداب زیارت در حرم مطهر امام حسین (ع)', ar: 'آداب الزيارة في الروضة الحسينية', ur: 'حرم امام حسین میں زیارت کے آداب', en: 'Etiquette of Visiting the Holy Shrine of Imam Hussein' , az:'İmam Hüseynin (ə) müqəddəs hərəmini ziyarət ədəbləri', tr:'İmam Hüseyin\'in (as) kutsal türbesini ziyaret adabı', ru:'Этикет посещения священной усыпальницы Имама Хусейна (а)', id:'Adab berziarah ke makam suci Imam Hussein (as)'},
-    excerpt: { fa: 'آداب زیارت در حرم مطهر شامل مجموعه‌ای از اعمال و رفتارهاست...', en: 'The etiquette of visiting the holy shrine includes a set of acts and behaviors...' , ar:'آداب الزيارة في الروضة المطهرة تشمل مجموعة من الأعمال والسلوكيات...', ur:'مقدس حرم میں زیارت کے آداب اعمال اور رویوں کا مجموعہ ہیں...', az:'Müqəddəs hərəmdə ziyarətin ədəbləri əməl və davranışlar toplusudur...', tr:'Kutsal türbede ziyaretin adabı, bir dizi amel ve davranışı kapsar...', ru:'Этикет посещения священной усыпальницы включает ряд деяний и поведений...', id:'Adab ziarah di makam suci mencakup serangkaian amalan dan perilaku...'},
-    category: { fa: 'زیارت', ar: 'زيارة', ur:'زیارت', az:'Ziyarət', tr:'Ziyaret', ru:'Паломничество', en: 'Pilgrimage', id:'Ziarah', tr:'Ziyaret', ru:'Паломничество', id:'Ziarah' },
+    title: { fa: 'آداب زیارت در حرم مطهر امام حسین (ع)', ar: 'آداب الزيارة في الروضة الحسينية', ur: 'حرم امام حسین میں زیارت کے آداب', en: 'Etiquette of Visiting the Holy Shrine of Imam Hussein' , az:'İmam Hüseynin (ə) müqəddəs hərəmini ziyarət ədəbləri', tr:"İmam Hüseyin\\"in (as) kutsal türbesini ziyaret adabı', ru:'Этикет посещения священной усыпальницы Имама Хусейна (а)', id:'Adab berziarah ke makam suci Imam Hussein (as)'},
+    excerpt: { fa: 'آداب زیارت در حرم مطهر شامل مجموعه‌ای از اعمال و رفتارهاست...', en: 'The etiquette of visiting the holy shrine includes a set of acts and behaviors...' , ar:'آداب الزيارة في الروضة المطهرة تشمل مجموعة من الأعمال والسلوكيات...', ur:'مقدس حرم میں زیارت کے آداب اعمال اور رویوں کا مجموعہ ہیں...', az:'Müqəddəs hərəmdə ziyarətin ədəbləri əməl və davranışlar toplusudur...', tr:"Kutsal türbede ziyaretin adabı, bir dizi amel ve davranışı kapsar...", ru:'Этикет посещения священной усыпальницы включает ряд деяний и поведений...', id:'Adab ziarah di makam suci mencakup serangkaian amalan dan perilaku...'},
+    category: { fa: 'زیارت', ar: 'زيارة', ur:'زیارت', az:'Ziyarət', tr:"Ziyaret", ru:'Паломничество', en: 'Pilgrimage', id:'Ziarah', tr:"Ziyaret", ru:'Паломничество', id:'Ziarah' },
     image: 'https://images.unsplash.com/photo-1544986581-efac5e5d99a2?w=800&q=80',
     author: 'استاد حسینی',
     date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
@@ -88,17 +88,17 @@ const SAMPLE_ARTICLES = [
 
 const CATEGORIES = [
   { key: 'all',        label: { fa: 'همه', ar: 'الكل', ur: 'سب', az: 'Hamısı', tr: 'Tümü', ru: 'Все', en: 'All' } },
-  { key: 'quran',      label: { fa: 'قرآن', ar: 'قرآن', ur: 'قرآن', en: 'Quran', az:'Quran', tr:'Kuran', ru:'Коран', id:'Quran' } },
-  { key: 'prayer',     label: { fa: 'دعا', ar: 'دعاء', ur: 'دعا', en: 'Prayer', az:'Dua', tr:'Dua', ru:'Молитва', id:'Doa' } },
-  { key: 'pilgrimage', label: { fa: 'زیارت', ar: 'زيارة', ur: 'زیارت', en: 'Pilgrimage', az:'Ziyarət', tr:'Ziyaret', ru:'Паломничество', id:'Ziarah' } },
-  { key: 'knowledge',  label: { fa: 'معارف', ar: 'معارف', ur: 'معارف', en: 'Knowledge', az:'Mərifət', tr:'Marifet', ru:'Знание', id:'Pengetahuan' } },
-  { key: 'meeting',    label: { fa: 'دیدار', ar: 'لقاء', ur: 'ملاقات', en: 'Meeting', az:'Görüş', tr:'Buluşma', ru:'Встреча', id:'Pertemuan' } },
+  { key: 'quran',      label: { fa: 'قرآن', ar: 'قرآن', ur: 'قرآن', en: 'Quran', az:'Quran', tr:"Kuran", ru:'Коран', id:'Quran' } },
+  { key: 'prayer',     label: { fa: 'دعا', ar: 'دعاء', ur: 'دعا', en: 'Prayer', az:'Dua', tr:"Dua", ru:'Молитва', id:'Doa' } },
+  { key: 'pilgrimage', label: { fa: 'زیارت', ar: 'زيارة', ur: 'زیارت', en: 'Pilgrimage', az:'Ziyarət', tr:"Ziyaret", ru:'Паломничество', id:'Ziarah' } },
+  { key: 'knowledge',  label: { fa: 'معارف', ar: 'معارف', ur: 'معارف', en: 'Knowledge', az:'Mərifət', tr:"Marifet", ru:'Знание', id:'Pengetahuan' } },
+  { key: 'meeting',    label: { fa: 'دیدار', ar: 'لقاء', ur: 'ملاقات', en: 'Meeting', az:'Görüş', tr:"Buluşma", ru:'Встреча', id:'Pertemuan' } },
 ];
 
 const STATS = [
-  { key: 'articles', num: 1240, label: { fa: 'مقاله', ar: 'مقالة', ur: 'مضمون', en: 'Articles', az:'Məqalə', tr:'Makale', ru:'Статья', id:'Artikel' } },
-  { key: 'readers',  num: 82000, label: { fa: 'خواننده', ar: 'قارئ', ur: 'قاری', en: 'Readers' , az:'Oxucu', tr:'Okuyucu', ru:'Читатель', id:'Pembaca'} },
-  { key: 'langs',    num: 7, label: { fa: 'زبان', ar: 'لغة', ur: 'زبان', en: 'Languages' , az:'Dil', tr:'Dil', ru:'Язык', id:'Bahasa'} },
+  { key: 'articles', num: 1240, label: { fa: 'مقاله', ar: 'مقالة', ur: 'مضمون', en: 'Articles', az:'Məqalə', tr:"Makale", ru:'Статья', id:'Artikel' } },
+  { key: 'readers',  num: 82000, label: { fa: 'خواننده', ar: 'قارئ', ur: 'قاری', en: 'Readers' , az:'Oxucu', tr:"Okuyucu", ru:'Читатель', id:'Pembaca'} },
+  { key: 'langs',    num: 7, label: { fa: 'زبان', ar: 'لغة', ur: 'زبان', en: 'Languages' , az:'Dil', tr:"Dil", ru:'Язык', id:'Bahasa'} },
 ];
 
 /* ────────────────────────────────────────────────────────────
@@ -246,10 +246,10 @@ function renderFeatured() {
       <div class="container">
         <div class="section-header">
           <h2 id="featured-heading" class="section-header__title">
-            ${{ fa:'ویژه', ar:'مميز', ur:'خصوصی', az:'Seçilmiş', tr:'Öne Çıkan', ru:'Избранное', en:'Featured' }[i18n.lang] ?? 'Featured'}
+            ${{ fa:'ویژه', ar:'مميز', ur:'خصوصی', az:'Seçilmiş', tr:"Öne Çıkan", ru:'Избранное', en:'Featured' }[i18n.lang] ?? 'Featured'}
           </h2>
           <a href="/news" class="section-header__more">
-            ${{ fa:'همه اخبار', ar:'كل الأخبار', ur:'تمام خبریں', en:'All News' , az:'Bütün xəbərlər', tr:'Tüm haberler', ru:'Все новости', id:'Semua berita'}[i18n.lang] ?? 'All News'}
+            ${{ fa:'همه اخبار', ar:'كل الأخبار', ur:'تمام خبریں', en:'All News' , az:'Bütün xəbərlər', tr:"Tüm haberler", ru:'Все новости', id:'Semua berita'}[i18n.lang] ?? 'All News'}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="${i18n.isRTL ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}"/>
             </svg>
@@ -334,7 +334,7 @@ function renderNewsSection() {
         <!-- Load More -->
         <div style="text-align:center; margin-top: var(--space-10);">
           <button class="btn btn--outline btn--lg" id="load-more-btn">
-            ${{ fa:'مشاهده بیشتر', ar:'عرض المزيد', ur:'مزید دیکھیں', az:'Daha çox', tr:'Daha Fazla', ru:'Показать ещё', en:'Load More' }[i18n.lang] ?? 'Load More'}
+            ${{ fa:'مشاهده بیشتر', ar:'عرض المزيد', ur:'مزید دیکھیں', az:'Daha çox', tr:"Daha Fazla", ru:'Показать ещё', en:'Load More' }[i18n.lang] ?? 'Load More'}
           </button>
         </div>
 
@@ -436,7 +436,7 @@ function renderMostRead() {
   el.innerHTML = `
     <aside aria-labelledby="most-read-heading">
       <h3 id="most-read-heading" class="section-header__title" style="margin-bottom: var(--space-4);">
-        ${{ fa:'پربازدیدترین', ar:'الأكثر قراءة', ur:'سب سے زیادہ پڑھا گیا', az:'Ən çox oxunan', tr:'En Çok Okunan', ru:'Самые читаемые', en:'Most Read' }[i18n.lang] ?? 'Most Read'}
+        ${{ fa:'پربازدیدترین', ar:'الأكثر قراءة', ur:'سب سے زیادہ پڑھا گیا', az:'Ən çox oxunan', tr:"En Çok Okunan", ru:'Самые читаемые', en:'Most Read' }[i18n.lang] ?? 'Most Read'}
       </h3>
       <div role="list">
         ${sorted.map((a, i) => `
@@ -463,10 +463,10 @@ function renderNewsletter() {
 
   const copy = {
     title: { fa: 'همراه ما باشید', ar: 'كن معنا', ur: 'ہمارے ساتھ رہیں', az: 'Bizimlə olun', tr: 'Bizimle Kalın', ru: 'Оставайтесь с нами', en: 'Stay With Us' },
-    desc:  { fa: 'مقالات و اخبار جدید را اول از همه دریافت کنید', ar: 'احصل على المقالات والأخبار الجديدة أولاً', ur: 'نئے مضامین اور خبریں سب سے پہلے پائیں', en: 'Get new articles and news first' , az:'Yeni məqalələri və xəbərləri ilk siz alın', tr:'Yeni makaleleri ve haberleri ilk siz alın', ru:'Получайте новые статьи и новости первыми', id:'Dapatkan artikel dan berita baru pertama kali'},
-    btn:   { fa: 'عضویت رایگان', ar: 'اشتراك مجاني', ur: 'مفت رکنیت', en: 'Subscribe Free' , az:'Pulsuz üzvlük', tr:'Ücretsiz üyelik', ru:'Бесплатное членство', id:'Keanggotaan gratis'},
-    email: { fa: 'آدرس ایمیل شما', ar: 'بريدك الإلكتروني', ur: 'آپ کا ای میل', en: 'Your email address' , az:'E-poçt ünvanınız', tr:'E-posta adresiniz', ru:'Ваш email', id:'Alamat email Anda'},
-    success: { fa: '✓ با موفقیت عضو شدید!', ar: '✓ تم الاشتراك بنجاح!', ur: '✓ کامیابی سے رکن بن گئے!', en: '✓ Successfully subscribed!' , az:'✓ Uğurla üzv oldunuz!', tr:'✓ Başarıyla üye oldunuz!', ru:'✓ Вы успешно подписались!', id:'✓ Berhasil berlangganan!'},
+    desc:  { fa: 'مقالات و اخبار جدید را اول از همه دریافت کنید', ar: 'احصل على المقالات والأخبار الجديدة أولاً', ur: 'نئے مضامین اور خبریں سب سے پہلے پائیں', en: 'Get new articles and news first' , az:'Yeni məqalələri və xəbərləri ilk siz alın', tr:"Yeni makaleleri ve haberleri ilk siz alın", ru:'Получайте новые статьи и новости первыми', id:'Dapatkan artikel dan berita baru pertama kali'},
+    btn:   { fa: 'عضویت رایگان', ar: 'اشتراك مجاني', ur: 'مفت رکنیت', en: 'Subscribe Free' , az:'Pulsuz üzvlük', tr:"Ücretsiz üyelik", ru:'Бесплатное членство', id:'Keanggotaan gratis'},
+    email: { fa: 'آدرس ایمیل شما', ar: 'بريدك الإلكتروني', ur: 'آپ کا ای میل', en: 'Your email address' , az:'E-poçt ünvanınız', tr:"E-posta adresiniz", ru:'Ваш email', id:'Alamat email Anda'},
+    success: { fa: '✓ با موفقیت عضو شدید!', ar: '✓ تم الاشتراك بنجاح!', ur: '✓ کامیابی سے رکن بن گئے!', en: '✓ Successfully subscribed!' , az:'✓ Uğurla üzv oldunuz!', tr:"✓ Başarıyla üye oldunuz!", ru:'✓ Вы успешно подписались!', id:'✓ Berhasil berlangganan!'},
   };
 
   el.innerHTML = `
@@ -589,8 +589,8 @@ function renderServices() {
       color: 'teal',
       gradient: 'linear-gradient(135deg,#0a3d2e,#1a6b50)',
       href: '/quran.html',
-      title: { fa:'دانشگاه قرآن', ar:'جامعة القرآن', ur:'یونیورسٹی قرآن', az:'Quran Universiteti', tr:'Kuran Üniversitesi', ru:'Университет Корана', en:'Quran University', id:'Universitas Quran' },
-      desc:  { fa:'آموزش گام به گام تدبر و فهم قرآن', ar:'تعلم التدبر وفهم القرآن خطوة بخطوة', ur:'قرآن فہمی کی مرحلہ وار تعلیم', az:'Quranı addım-addım dərk etmə', tr:'Adım adım Kuran tefekkürü', ru:'Пошаговое изучение Корана', en:'Step-by-step Quran reflection', id:'Memahami Al-Quran langkah demi langkah' },
+      title: { fa:'دانشگاه قرآن', ar:'جامعة القرآن', ur:'یونیورسٹی قرآن', az:'Quran Universiteti', tr:"Kuran Üniversitesi", ru:'Университет Корана', en:'Quran University', id:'Universitas Quran' },
+      desc:  { fa:'آموزش گام به گام تدبر و فهم قرآن', ar:'تعلم التدبر وفهم القرآن خطوة بخطوة', ur:'قرآن فہمی کی مرحلہ وار تعلیم', az:'Quranı addım-addım dərk etmə', tr:"Adım adım Kuran tefekkürü", ru:'Пошаговое изучение Корана', en:'Step-by-step Quran reflection', id:'Memahami Al-Quran langkah demi langkah' },
     },
     {
       id: 'prayer',
@@ -598,8 +598,8 @@ function renderServices() {
       color: 'amber',
       gradient: 'linear-gradient(135deg,#3d2000,#7a4000)',
       href: '/prayer.html',
-      title: { fa:'دعا و ختم قرآن نیابتی', ar:'الدعاء وختم القرآن نيابةً', ur:'نیابتی دعا و ختم قرآن', az:'Dua və Quran xətmi', tr:'Dua ve Hatim', ru:'Молитва и хатм Корана', en:'Prayer & Quran Khatm', id:'Doa & Khatam Quran' },
-      desc:  { fa:'در حرم مطهر امام حسین (ع)', ar:'في الروضة الحسينية المقدسة', ur:'امام حسین کے حرم میں', az:'İmam Hüseynin müqəddəs hərəmində', tr:'İmam Hüseyin'in kutsal türbesinde', ru:'В святыне Имама Хусейна', en:'At the Holy Shrine of Imam Hussein', id:'Di Makam Suci Imam Hussein' },
+      title: { fa:'دعا و ختم قرآن نیابتی', ar:'الدعاء وختم القرآن نيابةً', ur:'نیابتی دعا و ختم قرآن', az:'Dua və Quran xətmi', tr:"Dua ve Hatim", ru:'Молитва и хатм Корана', en:'Prayer & Quran Khatm', id:'Doa & Khatam Quran' },
+      desc:  { fa:'در حرم مطهر امام حسین (ع)', ar:'في الروضة الحسينية المقدسة', ur:'امام حسین کے حرم میں', az:'İmam Hüseynin müqəddəs hərəmində', tr:"İmam Hüseyin'in kutsal türbesinde", ru:'В святыне Имама Хусейна', en:'At the Holy Shrine of Imam Hussein', id:'Di Makam Suci Imam Hussein' },
     },
     {
       id: 'consultation',
@@ -607,8 +607,8 @@ function renderServices() {
       color: 'blue',
       gradient: 'linear-gradient(135deg,#0d1f2d,#1a3040)',
       href: '/consultation.html',
-      title: { fa:'مشاوره با شیخ', ar:'الاستشارة مع الشيخ', ur:'شیخ سے مشاورہ', az:'Şeyxlə məsləhət', tr:'Şeyh ile Danışmanlık', ru:'Консультация с шейхом', en:'Consultation with Sheikh', id:'Konsultasi dengan Syaikh' },
-      desc:  { fa:'پاسخ روانشناسانه، اجتماعی و دینی', ar:'إجابات نفسية واجتماعية ودينية', ur:'نفسیاتی، سماجی اور دینی جواب', az:'Psixoloji, sosial və dini cavablar', tr:'Psikolojik, sosyal ve dini cevaplar', ru:'Психологические, социальные и религиозные ответы', en:'Psychological, social, and religious answers', id:'Jawaban psikologis, sosial, dan agama' },
+      title: { fa:'مشاوره با شیخ', ar:'الاستشارة مع الشيخ', ur:'شیخ سے مشاورہ', az:'Şeyxlə məsləhət', tr:"Şeyh ile Danışmanlık", ru:'Консультация с шейхом', en:'Consultation with Sheikh', id:'Konsultasi dengan Syaikh' },
+      desc:  { fa:'پاسخ روانشناسانه، اجتماعی و دینی', ar:'إجابات نفسية واجتماعية ودينية', ur:'نفسیاتی، سماجی اور دینی جواب', az:'Psixoloji, sosial və dini cavablar', tr:"Psikolojik, sosyal ve dini cevaplar", ru:'Психологические, социальные и религиозные ответы', en:'Psychological, social, and religious answers', id:'Jawaban psikologis, sosial, dan agama' },
     },
     {
       id: 'istikhara',
@@ -616,8 +616,8 @@ function renderServices() {
       color: 'purple',
       gradient: 'linear-gradient(135deg,#1a0a2e,#2d1b4e)',
       href: '/istikhara.html',
-      title: { fa:'استخاره', ar:'الاستخارة', ur:'استخارہ', az:'İstixarə', tr:'İstihare', ru:'Истихара', en:'Istikhara', id:'Istikharah' },
-      desc:  { fa:'استخاره به قرآن کریم — رایگان و تخصصی', ar:'الاستخارة بالقرآن — مجانية ومتخصصة', ur:'قرآن سے استخارہ — مفت اور تخصصی', az:'Quranla istixarə — pulsuz və xüsusi', tr:'Kuran ile istihare — ücretsiz ve özel', ru:'Истихара по Корану — бесплатная и специальная', en:'Quran Istikhara — free and specialized', id:'Istikharah dengan Al-Quran — gratis dan khusus' },
+      title: { fa:'استخاره', ar:'الاستخارة', ur:'استخارہ', az:'İstixarə', tr:"İstihare", ru:'Истихара', en:'Istikhara', id:'Istikharah' },
+      desc:  { fa:'استخاره به قرآن کریم — رایگان و تخصصی', ar:'الاستخارة بالقرآن — مجانية ومتخصصة', ur:'قرآن سے استخارہ — مفت اور تخصصی', az:'Quranla istixarə — pulsuz və xüsusi', tr:"Kuran ile istihare — ücretsiz ve özel", ru:'Истихара по Корану — бесплатная и специальная', en:'Quran Istikhara — free and specialized', id:'Istikharah dengan Al-Quran — gratis dan khusus' },
     },
     {
       id: 'meeting',
@@ -625,8 +625,8 @@ function renderServices() {
       color: 'green',
       gradient: 'linear-gradient(135deg,#0a2a1a,#1a5a30)',
       href: '/meeting.html',
-      title: { fa:'دیدار با شیخ', ar:'لقاء الشيخ', ur:'شیخ سے ملاقات', az:'Şeyxlə görüş', tr:'Şeyh Görüşmesi', ru:'Встреча с шейхом', en:'Meet the Sheikh', id:'Bertemu Syaikh' },
-      desc:  { fa:'رایگان — با هماهنگی قبلی', ar:'مجاناً — بموعد مسبق', ur:'مفت — پہلے سے بکنگ', az:'Pulsuz — əvvəlcədən razılaşdırılmış', tr:'Ücretsiz — önceden randevu', ru:'Бесплатно — по записи', en:'Free — by prior appointment', id:'Gratis — dengan perjanjian' },
+      title: { fa:'دیدار با شیخ', ar:'لقاء الشيخ', ur:'شیخ سے ملاقات', az:'Şeyxlə görüş', tr:"Şeyh Görüşmesi", ru:'Встреча с шейхом', en:'Meet the Sheikh', id:'Bertemu Syaikh' },
+      desc:  { fa:'رایگان — با هماهنگی قبلی', ar:'مجاناً — بموعد مسبق', ur:'مفت — پہلے سے بکنگ', az:'Pulsuz — əvvəlcədən razılaşdırılmış', tr:"Ücretsiz — önceden randevu", ru:'Бесплатно — по записи', en:'Free — by prior appointment', id:'Gratis — dengan perjanjian' },
     },
     {
       id: 'payment',
@@ -634,8 +634,8 @@ function renderServices() {
       color: 'rose',
       gradient: 'linear-gradient(135deg,#0d1f2d,#1a3040)',
       href: '/payment.html',
-      title: { fa:'پرداخت', ar:'الدفع', ur:'ادائیگی', az:'Ödəniş', tr:'Ödeme', ru:'Платёж', en:'Payment', id:'Pembayaran' },
-      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة بركت هاب', ur:'برکت‌ہب کو رقم بھیجیں', az:'BarakatHub-a ödəniş göndər', tr:'BarakatHub'a ödeme gönder', ru:'Отправить платёж в BarakatHub', en:'Send payment to BarakatHub', id:'Kirim pembayaran ke BarakatHub' },
+      title: { fa:'پرداخت', ar:'الدفع', ur:'ادائیگی', az:'Ödəniş', tr:"Ödeme", ru:'Платёж', en:'Payment', id:'Pembayaran' },
+      desc:  { fa:'ارسال وجه به پلتفرم برکت‌هاب', ar:'إرسال مبلغ إلى منصة بركت هاب', ur:'برکت‌ہب کو رقم بھیجیں', az:'BarakatHub-a ödəniş göndər', tr:"BarakatHub'a ödeme gönder", ru:'Отправить платёж в BarakatHub', en:'Send payment to BarakatHub', id:'Kirim pembayaran ke BarakatHub' },
     },
   ];
 
@@ -644,7 +644,7 @@ function renderServices() {
       <div class="container">
         <div class="section-header">
           <h2 id="services-heading" class="section-header__title">
-            ${{ fa:'خدمات ما', ar:'خدماتنا', ur:'ہماری خدمات', az:'Xidmətlərimiz', tr:'Hizmetlerimiz', ru:'Наши услуги', en:'Our Services', id:'Layanan Kami' }[i18n.lang] ?? 'Services'}
+            ${{ fa:'خدمات ما', ar:'خدماتنا', ur:'ہماری خدمات', az:'Xidmətlərimiz', tr:"Hizmetlerimiz", ru:'Наши услуги', en:'Our Services', id:'Layanan Kami' }[i18n.lang] ?? 'Services'}
           </h2>
         </div>
 
@@ -698,7 +698,7 @@ function renderServices() {
                 font-weight:var(--weight-semibold);
                 position:relative;z-index:1;
               ">
-                ${{ fa:'ورود', ar:'دخول', ur:'داخل ہوں', az:'Daxil ol', tr:'Giriş', ru:'Войти', en:'Enter', id:'Masuk' }[i18n.lang] ?? 'Enter'}
+                ${{ fa:'ورود', ar:'دخول', ur:'داخل ہوں', az:'Daxil ol', tr:"Giriş", ru:'Войти', en:'Enter', id:'Masuk' }[i18n.lang] ?? 'Enter'}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                   <path d="${i18n.isRTL ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'}"/>
                 </svg>
