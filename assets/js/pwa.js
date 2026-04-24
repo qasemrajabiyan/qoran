@@ -19,7 +19,7 @@ const CFG = {
   swPath:         '/sw.js',
   swScope:        '/',
   updateInterval: 60 * 60 * 1000,
-  installDelay:   25 * 1000,
+  installDelay:   5 * 1000,
   toastDuration:  4000,
   debug:          location.hostname === 'localhost',
 };
@@ -245,9 +245,9 @@ function _initInstall() {
     _deferredPrompt = e;
     log.i('beforeinstallprompt ذخیره شد ✓');
     _track('pwa_prompt_available');
-    const dismissed = localStorage.getItem('pwa_install_dismissed');
-    const tooSoon   = dismissed && Date.now() - +dismissed < 7 * 24 * 60 * 60 * 1000;
-    if (!_bannerShown && !_isInstalled() && !tooSoon) {
+    
+    
+    if (!_bannerShown && !_isInstalled()) {
       setTimeout(_showInstallBanner, CFG.installDelay);
     }
   });
