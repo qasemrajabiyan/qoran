@@ -27,8 +27,8 @@ const MC = {
   loginRequired:{ fa:'برای ثبت دیدار ابتدا وارد شوید', ar:'يرجى تسجيل الدخول لتأكيد اللقاء', ur:'ملاقات درج کرنے کے لیے پہلے لاگ ان کریں', az:'Görüşü qeyd etmək üçün daxil olun', tr:'Buluşmayı kaydetmek için giriş yapın', ru:'Войдите, чтобы записаться на встречу', en:'Please login to confirm the meeting', id:'Silakan login untuk konfirmasi pertemuan' },
   myMeeting:    { fa:'دیدار من', ar:'لقائي', ur:'میری ملاقات', az:'Mənim görüşüm', tr:'Benim Buluşmam', ru:'Моя встреча', en:'My Meeting', id:'Pertemuan Saya' },
   cancelBtn:    { fa:'انصراف از دیدار', ar:'إلغاء اللقاء', ur:'ملاقات منسوخ کریں', az:'Görüşdən imtina et', tr:'Buluşmayı İptal Et', ru:'Отменить встречу', en:'Cancel Meeting', id:'Batalkan Pertemuan' },
-  locationBtn:   { fa:'مسیریابی به مکتب شیخ', ar:'الاتجاه إلى مكتب الشيخ', ur:'شیخ کے مکتب کا راستہ', az:'Şeyxin məktəbinə yol', tr:'Şeyhin Mektebine Yol Tarifi', ru:'Маршрут к мечети шейха', en:'Navigate to Sheikh's Mosque', id:'Navigasi ke Masjid Syaikh' },
-  locationTitle: { fa:'📍 آدرس مکتب شیخ', ar:'📍 عنوان مكتب الشيخ', ur:'📍 شیخ کے مکتب کا پتہ', az:'📍 Şeyxin məktəbinin ünvanı', tr:'📍 Şeyhin Mektebinin Adresi', ru:'📍 Адрес мечети шейха', en:'📍 Sheikh's Mosque Address', id:'📍 Alamat Masjid Syaikh' },
+  locationBtn:   { fa:'مسیریابی به مکتب شیخ', ar:'الاتجاه إلى مكتب الشيخ', ur:'شیخ کے مکتب کا راستہ', az:'Şeyxin məktəbinə yol', tr:'Şeyhin Mektebine Yol Tarifi', ru:'Маршрут к мечети шейха', en:"Navigate to Sheikh's Mosque", id:'Navigasi ke Masjid Syaikh' },
+  locationTitle: { fa:'📍 آدرس مکتب شیخ', ar:'📍 عنوان مكتب الشيخ', ur:'📍 شیخ کے مکتب کا پتہ', az:'📍 Şeyxin məktəbinin ünvanı', tr:'📍 Şeyhin Mektebinin Adresi', ru:'📍 Адрес мечети شейха', en:"📍 Sheikh's Mosque Address", id:'📍 Alamat Masjid Syaikh' },
   cancelConfirm:{ fa:'آیا از انصراف دیدار مطمئن هستید؟', ar:'هل أنت متأكد من إلغاء اللقاء؟', ur:'کیا آپ واقعی ملاقات منسوخ کرنا چاہتے ہیں؟', az:'Görüşdən imtina etmək istədiyinizə əminsiniz?', tr:'Buluşmayı iptal etmek istediğinizden emin misiniz?', ru:'Вы уверены, что хотите отменить встречу?', en:'Are you sure you want to cancel the meeting?', id:'Apakah Anda yakin ingin membatalkan pertemuan?' },
 };
 
