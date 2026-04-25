@@ -6,9 +6,9 @@
  * ============================================================
  */
 
-const STATIC_CACHE  = 'bh-static-v2';
-const DYNAMIC_CACHE = 'bh-dynamic-v2';
-const IMAGE_CACHE   = 'bh-images-v2';
+const STATIC_CACHE  = 'bh-static-v3';
+const DYNAMIC_CACHE = 'bh-dynamic-v3';
+const IMAGE_CACHE   = 'bh-images-v3';
 const ALL_CACHES    = [STATIC_CACHE, DYNAMIC_CACHE, IMAGE_CACHE];
 
 const MAX_DYNAMIC = 60;
