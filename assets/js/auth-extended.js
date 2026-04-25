@@ -252,27 +252,7 @@ export function showRegistrationGate(onComplete) {
           <div id="reg-name-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ ${tx(COPY.nameReq)}</div>
         </div>
 
-        <!-- کشور -->
-        <div style="margin-bottom:16px">
-          <label style="display:block;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:8px" for="reg-country">
-            ${tx(COPY.country)} *
-          </label>
-          <select id="reg-country"
-            style="
-              width:100%;padding:12px 14px;
-              background:rgba(255,255,255,0.06);
-              border:1.5px solid rgba(255,255,255,0.1);
-              border-radius:10px;color:white;
-              font-size:1rem;font-family:var(--font-rtl-body);
-              box-sizing:border-box;cursor:pointer;
-            "
-            aria-label="${tx(COPY.country)}"
-          >
-            <option value="" style="background:#1a2332">${tx({ fa:'— کشور خود را انتخاب کنید —', ar:'— اختر دولتك —', ur:'— اپنا ملک منتخب کریں —', en:'— Select your country —', tr:'— Ülkenizi seçin —', ru:'— Выберите страну —', az:'— Ölkənizi seçin —' })}</option>
-            ${COUNTRIES.map(c => `<option value="${c.code}" style="background:#1a2332">${c.flag} ${tx(c.name)}</option>`).join('')}
-          </select>
-          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ ${tx(COPY.countryReq)}</div>
-        </div>
+
 
         <!-- ایمیل اختیاری -->
         <div style="margin-bottom:24px">
@@ -350,7 +330,6 @@ function _bindRegGateEvents(overlay, onComplete) {
 
 async function _handleRegSubmit(overlay, onComplete) {
   const name    = document.getElementById('reg-name')?.value?.trim();
-  const country = document.getElementById('reg-country')?.value;
   const email   = document.getElementById('reg-email')?.value?.trim();
 
   let valid = true;
@@ -363,24 +342,14 @@ async function _handleRegSubmit(overlay, onComplete) {
     document.getElementById('reg-name-err').style.display = 'none';
   }
 
-  if (!country) {
-    document.getElementById('reg-country-err').style.display = 'block';
-    document.getElementById('reg-country').style.borderColor = '#f87171';
-    valid = false;
-  } else {
-    document.getElementById('reg-country-err').style.display = 'none';
-  }
 
   if (!valid) return;
 
   /* ذخیره کاربر */
-  const countryData = COUNTRIES.find(c => c.code === country);
   const user = {
     id:        'u_' + Math.random().toString(36).slice(2, 10),
     name,
     email:     email || null,
-    country,
-    countryName: countryData ? tx(countryData.name) : country,
     lang:      i18n.lang,
     isPremium: false,
     joinedAt:  new Date().toISOString(),
@@ -418,7 +387,6 @@ async function _handleGoogleSignIn(overlay, onComplete) {
     id:          'g_' + Math.random().toString(36).slice(2, 10),
     name:        'کاربر گوگل',
     email:       'user@gmail.com',
-    country:     LangDetector_getCountry() || 'IR',
     lang:        i18n.lang,
     isPremium:   false,
     joinedAt:    new Date().toISOString(),
