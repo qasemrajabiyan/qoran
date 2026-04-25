@@ -186,7 +186,9 @@ export function showRegistrationGate(onComplete) {
     submit:   { fa:'شروع کنید', ar:'ابدأ الآن', ur:'شروع کریں', az:'Başlayın', tr:'Başlayın', ru:'Начать', en:'Get Started' },
     orGoogle: { fa:'یا با گوگل وارد شوید', ar:'أو سجّل بحساب جوجل', ur:'یا گوگل سے داخل ہوں', az:'Və ya Google ilə daxil olun', tr:'veya Google ile giriş yapın', ru:'или войти через Google', en:'or sign in with Google' },
     nameReq:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required' },
-    countryReq:{ fa:'کشور را انتخاب کنید', ar:'اختر دولتك', ur:'ملک منتخب کریں', az:'Ölkəni seçin', tr:'Ülkeyi seçin', ru:'Выберите страну', en:'Select your country' },
+    countryReq:   { fa:'کشور را انتخاب کنید', ar:'اختر دولتك', ur:'ملک منتخب کریں', az:'Ölkəni seçin', tr:'Ülkeyi seçin', ru:'Выберите страну', en:'Select your country' },
+    selectCountry:{ fa:'کشور خود را انتخاب کنید', ar:'اختر دولتك', ur:'اپنا ملک منتخب کریں', az:'Ölkənizi seçin', tr:'Ülkenizi seçin', ru:'Выберите вашу страну', en:'Select your country' },
+    searchCountry:{ fa:'جستجوی کشور...', ar:'ابحث عن دولة...', ur:'ملک تلاش کریں...', az:'Ölkə axtar...', tr:'Ülke ara...', ru:'Поиск страны...', en:'Search country...' },
   };
 
   overlay.innerHTML = `
@@ -253,54 +255,133 @@ export function showRegistrationGate(onComplete) {
         </div>
         <!-- کشور -->
         <div style="margin-bottom:24px;position:relative">
-          <label style="display:block;margin-bottom:8px;font-size:0.9rem;font-weight:600;color:var(--text-primary)">
+          <label style="
+            display:block;margin-bottom:8px;
+            font-size:0.9rem;font-weight:600;
+            color:rgba(255,255,255,0.85);
+            letter-spacing:0.01em;
+          ">
             ${tx(COPY.country)} *
           </label>
           <div id="country-wrapper" style="position:relative">
-            <div id="country-selected" onclick="toggleCountryDropdown()" style="
-              width:100%;padding:14px 16px;border-radius:12px;
-              border:1.5px solid var(--border-color);
-              background:var(--bg-input);color:var(--text-secondary);
-              font-size:1rem;font-family:var(--font-rtl-body);
-              box-sizing:border-box;cursor:pointer;
-              display:flex;align-items:center;justify-content:space-between;
-              user-select:none;
-            ">
-              <span id="country-label">— ${tx(COPY.selectCountry)} —</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+
+            <!-- Trigger Button -->
+            <div
+              id="country-selected"
+              role="combobox"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="country-dropdown"
+              tabindex="0"
+              style="
+                width:100%;padding:13px 16px;border-radius:12px;
+                border:1.5px solid rgba(255,255,255,0.12);
+                background:rgba(255,255,255,0.06);
+                color:rgba(255,255,255,0.4);
+                font-size:1rem;font-family:var(--font-rtl-body);
+                box-sizing:border-box;cursor:pointer;
+                display:flex;align-items:center;justify-content:space-between;
+                gap:10px;user-select:none;
+                transition:border-color 0.2s, box-shadow 0.2s;
+              "
+            >
+              <span id="country-label" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                ${tx(COPY.selectCountry)}
+              </span>
+              <svg id="country-chevron" width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                style="flex-shrink:0;opacity:0.5;transition:transform 0.25s ease">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
             </div>
+
             <input type="hidden" id="reg-country" value="">
-            <div id="country-dropdown" style="
-              display:none;position:absolute;top:calc(100% + 4px);
-              left:0;right:0;z-index:9999;
-              background:var(--bg-surface,#1a1a1a);
-              border:1.5px solid var(--border-color);
-              border-radius:12px;max-height:220px;overflow-y:auto;
-              box-shadow:0 8px 24px rgba(0,0,0,0.3);
-            ">
-              <div style="padding:8px">
-                <input id="country-search" type="text" placeholder="🔍 ${tx(COPY.searchCountry)}" oninput="filterCountries(this.value)" style="
-                  width:100%;padding:8px 12px;border-radius:8px;
-                  border:1px solid var(--border-color);
-                  background:var(--bg-input);color:var(--text-primary);
-                  font-size:0.9rem;box-sizing:border-box;
-                "/>
+
+            <!-- Dropdown Panel -->
+            <div
+              id="country-dropdown"
+              role="listbox"
+              aria-label="${tx(COPY.country)}"
+              style="
+                display:none;
+                position:absolute;top:calc(100% + 6px);
+                left:0;right:0;z-index:9999;
+                background:#161b25;
+                border:1.5px solid rgba(255,255,255,0.12);
+                border-radius:14px;
+                overflow:hidden;
+                box-shadow:0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
+              "
+            >
+              <!-- Search Box -->
+              <div style="
+                padding:10px 10px 6px;
+                background:#161b25;
+                position:sticky;top:0;z-index:1;
+                border-bottom:1px solid rgba(255,255,255,0.07);
+              ">
+                <div style="position:relative">
+                  <span style="
+                    position:absolute;top:50%;left:12px;
+                    transform:translateY(-50%);
+                    font-size:0.95rem;opacity:0.4;pointer-events:none;
+                  ">🔍</span>
+                  <input
+                    id="country-search"
+                    type="text"
+                    placeholder="${tx(COPY.searchCountry)}"
+                    autocomplete="off"
+                    style="
+                      width:100%;padding:9px 12px 9px 36px;
+                      border-radius:9px;
+                      border:1px solid rgba(255,255,255,0.1);
+                      background:rgba(255,255,255,0.07);
+                      color:white;
+                      font-size:0.9rem;
+                      font-family:var(--font-rtl-body);
+                      box-sizing:border-box;
+                      outline:none;
+                      transition:border-color 0.2s;
+                    "
+                  />
+                </div>
               </div>
-              <div id="country-list">
-                ${COUNTRIES.map(c => `
-                  <div onclick="selectCountry('${c.code}','${c.flag}',tx(c.name))" data-name="${tx(c.name)}" data-code="${c.code}" style="
-                    padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;
-                    font-size:0.95rem;transition:background 0.15s;
-                  " onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">
-                    <span style="font-size:1.3rem">${c.flag}</span>
-                    <span>${tx(c.name)}</span>
-                    <span style="margin-right:auto;font-size:0.75rem;opacity:0.5">${c.code}</span>
-                  </div>
-                `).join('')}
+
+              <!-- Country List -->
+              <div
+                id="country-list"
+                style="max-height:230px;overflow-y:auto;padding:6px 0;"
+              >
+                ${COUNTRIES.map(c => {
+                  const localName = tx(c.name);
+                  return `<div
+                    role="option"
+                    data-code="${c.code}"
+                    data-flag="${c.flag}"
+                    data-name="${localName.replace(/"/g, '&quot;')}"
+                    style="
+                      padding:10px 16px;cursor:pointer;
+                      display:flex;align-items:center;gap:10px;
+                      font-size:0.95rem;
+                      color:rgba(255,255,255,0.85);
+                      transition:background 0.12s;
+                    "
+                    onmouseover="this.style.background='rgba(42,157,143,0.15)'"
+                    onmouseout="this.style.background='transparent'"
+                  >
+                    <span style="font-size:1.25rem;flex-shrink:0;line-height:1">${c.flag}</span>
+                    <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${localName}</span>
+                    <span style="font-size:0.72rem;opacity:0.35;flex-shrink:0;letter-spacing:0.05em">${c.code}</span>
+                  </div>`;
+                }).join('')}
               </div>
             </div>
+
           </div>
-          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ ${tx(COPY.countryReq)}</div>
+          <div id="reg-country-err" style="
+            color:#fca5a5;font-size:0.8rem;margin-top:6px;
+            display:none;padding-right:4px;
+          ">⚠ ${tx(COPY.countryReq)}</div>
         </div>
 
         <!-- ایمیل اختیاری -->
@@ -389,16 +470,33 @@ async function _handleRegSubmit(overlay, onComplete) {
     valid = false;
   } else {
     document.getElementById('reg-name-err').style.display = 'none';
+    document.getElementById('reg-name').style.borderColor = 'rgba(255,255,255,0.1)';
+  }
+
+  const country = document.getElementById('reg-country')?.value?.trim();
+  if (!country) {
+    document.getElementById('reg-country-err').style.display = 'block';
+    const trigger = document.getElementById('country-selected');
+    if (trigger) {
+      trigger.style.borderColor = '#f87171';
+      trigger.style.boxShadow  = '0 0 0 3px rgba(248,113,113,0.15)';
+    }
+    valid = false;
+  } else {
+    document.getElementById('reg-country-err').style.display = 'none';
   }
 
 
   if (!valid) return;
+
+  const country = document.getElementById('reg-country')?.value?.trim();
 
   /* ذخیره کاربر */
   const user = {
     id:        'u_' + Math.random().toString(36).slice(2, 10),
     name,
     email:     email || null,
+    country:   country || null,
     lang:      i18n.lang,
     isPremium: false,
     joinedAt:  new Date().toISOString(),
@@ -597,41 +695,186 @@ export const PrizeManager = {
 
 
 /* ── Country Dropdown ── */
-function toggleCountryDropdown() {
-  const dd = document.getElementById('country-dropdown');
-  const search = document.getElementById('country-search');
-  if (dd.style.display === 'none') {
-    dd.style.display = 'block';
-    if (search) search.focus();
-  } else {
+
+/**
+ * باز/بسته کردن dropdown کشور
+ * @param {boolean} [forceClose] - اگر true باشد، فقط می‌بندد
+ */
+function toggleCountryDropdown(forceClose = false) {
+  const trigger  = document.getElementById('country-selected');
+  const dd       = document.getElementById('country-dropdown');
+  const chevron  = document.getElementById('country-chevron');
+  const search   = document.getElementById('country-search');
+  if (!dd) return;
+
+  const isOpen = dd.style.display !== 'none';
+
+  if (isOpen || forceClose) {
+    /* بستن */
     dd.style.display = 'none';
+    trigger?.setAttribute('aria-expanded', 'false');
+    if (chevron) chevron.style.transform = 'rotate(0deg)';
+  } else {
+    /* باز کردن */
+    dd.style.display = 'block';
+    trigger?.setAttribute('aria-expanded', 'true');
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+    /* پاک کردن جستجوی قبلی و نمایش همه آیتم‌ها */
+    if (search) {
+      search.value = '';
+      filterCountries('');
+      setTimeout(() => search.focus(), 80);
+    }
+    /* اسکرول به آیتم انتخاب‌شده */
+    const selected = dd.querySelector('[aria-selected="true"]');
+    if (selected) selected.scrollIntoView({ block: 'nearest' });
   }
 }
 
+/**
+ * انتخاب کشور از dropdown
+ * @param {string} code - کد دو‌حرفی کشور
+ * @param {string} flag - ایموجی پرچم
+ * @param {string} name - نام محلی کشور
+ */
 function selectCountry(code, flag, name) {
-  document.getElementById('reg-country').value = code;
-  document.getElementById('country-label').textContent = flag + ' ' + name;
-  document.getElementById('country-label').style.color = 'var(--text-primary)';
-  document.getElementById('country-selected').style.borderColor = 'var(--color-primary-500,#2a9d8f)';
-  document.getElementById('country-dropdown').style.display = 'none';
-  document.getElementById('reg-country-err').style.display = 'none';
-}
+  const hiddenInput  = document.getElementById('reg-country');
+  const label        = document.getElementById('country-label');
+  const trigger      = document.getElementById('country-selected');
+  const errEl        = document.getElementById('reg-country-err');
 
-function filterCountries(query) {
-  const items = document.querySelectorAll('#country-list > div');
-  const q = query.toLowerCase();
-  items.forEach(item => {
-    const name = item.dataset.name?.toLowerCase() || '';
-    const code = item.dataset.code?.toLowerCase() || '';
-    item.style.display = (name.includes(q) || code.includes(q)) ? 'flex' : 'none';
+  if (hiddenInput) hiddenInput.value = code;
+
+  if (label) {
+    label.textContent = `${flag}  ${name}`;
+    label.style.color = 'rgba(255,255,255,0.9)';
+  }
+
+  if (trigger) {
+    trigger.style.borderColor  = 'var(--color-primary-500, #2a9d8f)';
+    trigger.style.boxShadow    = '0 0 0 3px rgba(42,157,143,0.15)';
+    trigger.style.color        = 'rgba(255,255,255,0.9)';
+  }
+
+  if (errEl) errEl.style.display = 'none';
+
+  /* علامت‌گذاری aria-selected */
+  document.querySelectorAll('#country-list [role="option"]').forEach(el => {
+    el.setAttribute('aria-selected', el.dataset.code === code ? 'true' : 'false');
+    el.style.background = el.dataset.code === code
+      ? 'rgba(42,157,143,0.18)'
+      : 'transparent';
   });
+
+  toggleCountryDropdown(true);
 }
 
+/**
+ * فیلتر کردن کشورها بر اساس جستجو
+ * @param {string} query - متن جستجو
+ */
+function filterCountries(query) {
+  const items  = document.querySelectorAll('#country-list [role="option"]');
+  const q      = query.trim().toLowerCase();
+  let   visible = 0;
+
+  items.forEach(item => {
+    const name = (item.dataset.name || '').toLowerCase();
+    const code = (item.dataset.code || '').toLowerCase();
+    const flag = (item.dataset.flag || '').toLowerCase();
+    const show = !q || name.includes(q) || code.includes(q) || flag.includes(q);
+    item.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+
+  /* پیام "یافت نشد" */
+  let noResult = document.getElementById('country-no-result');
+  if (!visible) {
+    if (!noResult) {
+      noResult = document.createElement('div');
+      noResult.id = 'country-no-result';
+      noResult.style.cssText = `
+        padding:16px;text-align:center;
+        color:rgba(255,255,255,0.3);font-size:0.9rem;
+      `;
+      noResult.textContent = '— موردی یافت نشد —';
+      document.getElementById('country-list')?.appendChild(noResult);
+    }
+    noResult.style.display = 'block';
+  } else if (noResult) {
+    noResult.style.display = 'none';
+  }
+}
+
+/* ── Event Wiring (بعد از درج HTML اجرا می‌شود) ── */
 document.addEventListener('click', function(e) {
   const wrapper = document.getElementById('country-wrapper');
-  if (wrapper && !wrapper.contains(e.target)) {
-    const dd = document.getElementById('country-dropdown');
-    if (dd) dd.style.display = 'none';
+  if (!wrapper) return;
+
+  /* کلیک روی trigger */
+  const trigger = document.getElementById('country-selected');
+  if (trigger && trigger.contains(e.target)) {
+    toggleCountryDropdown();
+    return;
+  }
+
+  /* کلیک روی آیتم کشور */
+  const option = e.target.closest('#country-list [role="option"]');
+  if (option) {
+    const { code, flag, name } = option.dataset;
+    selectCountry(code, flag, name);
+    return;
+  }
+
+  /* کلیک خارج از wrapper — بستن */
+  if (!wrapper.contains(e.target)) {
+    toggleCountryDropdown(true);
+  }
+});
+
+/* Keyboard navigation برای دسترس‌پذیری */
+document.addEventListener('keydown', function(e) {
+  const dd = document.getElementById('country-dropdown');
+  if (!dd || dd.style.display === 'none') return;
+
+  const items  = [...dd.querySelectorAll('[role="option"]:not([style*="display: none"])')];
+  const active = dd.querySelector('[role="option"]:focus') || dd.querySelector('[aria-selected="true"]');
+  let   idx    = items.indexOf(active);
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    items[Math.min(idx + 1, items.length - 1)]?.focus();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (idx <= 0) document.getElementById('country-search')?.focus();
+    else items[idx - 1]?.focus();
+  } else if (e.key === 'Enter' && active) {
+    e.preventDefault();
+    const { code, flag, name } = active.dataset;
+    selectCountry(code, flag, name);
+  } else if (e.key === 'Escape') {
+    toggleCountryDropdown(true);
+    document.getElementById('country-selected')?.focus();
+  }
+});
+
+/* Focus style برای search input */
+document.addEventListener('focusin', function(e) {
+  if (e.target.id === 'country-search') {
+    e.target.style.borderColor = 'var(--color-primary-400, #2a9d8f)';
+    e.target.style.outline     = 'none';
+  }
+});
+document.addEventListener('focusout', function(e) {
+  if (e.target.id === 'country-search') {
+    e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+  }
+});
+
+/* اتصال oninput به input جستجو (چون HTML به‌صورت static رندر می‌شود) */
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'country-search') {
+    filterCountries(e.target.value);
   }
 });
 
