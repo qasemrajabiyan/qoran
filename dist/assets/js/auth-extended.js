@@ -545,3 +545,5 @@ export const PrizeManager = {
     } catch { return { total:0, winners:0, premium:0 }; }
   },
 };
+
+/* updated */
