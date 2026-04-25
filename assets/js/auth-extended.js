@@ -254,13 +254,13 @@ export function showRegistrationGate(onComplete) {
         <!-- کشور -->
         <div style="margin-bottom:24px">
           <label style="display:block;margin-bottom:8px;font-size:0.9rem;font-weight:600;color:var(--text-primary)">
-            \${tx(COPY.country)} *
+            ${tx(COPY.country)} *
           </label>
           <select id="reg-country" style="width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:1rem;font-family:var(--font-rtl-body);box-sizing:border-box;cursor:pointer;">
-            <option value="">— \${tx(COPY.selectCountry)} —</option>
-            \${COUNTRIES.map(c => '<option value="' + c.code + '">' + c.flag + ' ' + tx(c.name) + '</option>').join('')}
+            <option value="">— ${tx(COPY.selectCountry)} —</option>
+            ${COUNTRIES.map(c => `<option value="${c.code}">${c.flag} ${tx(c.name)}</option>`).join('')}
           </select>
-          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ \${tx(COPY.countryReq)}</div>
+          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ ${tx(COPY.countryReq)}</div>
         </div>
 
         <!-- ایمیل اختیاری -->
@@ -555,4 +555,4 @@ export const PrizeManager = {
   },
 };
 
-/* v1777112711 */
+/* v1777112933 */
