@@ -185,7 +185,6 @@ export function showRegistrationGate(onComplete) {
     country:  { fa:'کشور شما', ar:'دولتك', ur:'آپ کا ملک', az:'Ölkəniz', tr:'Ülkeniz', ru:'Ваша страна', en:'Your Country' },
     submit:   { fa:'شروع کنید', ar:'ابدأ الآن', ur:'شروع کریں', az:'Başlayın', tr:'Başlayın', ru:'Начать', en:'Get Started' },
     orGoogle: { fa:'یا با گوگل وارد شوید', ar:'أو سجّل بحساب جوجل', ur:'یا گوگل سے داخل ہوں', az:'Və ya Google ilə daxil olun', tr:'veya Google ile giriş yapın', ru:'или войти через Google', en:'or sign in with Google' },
-    country: { fa:'کشور شما', ar:'بلدك', ur:'آپ کا ملک', en:'Your country', tr:'Ülkeniz', ru:'Ваша страна', az:'Ölkəniz', id:'Negara Anda' },
     nameReq:  { fa:'نام الزامی است', ar:'الاسم مطلوب', ur:'نام ضروری ہے', az:'Ad tələb olunur', tr:'Ad zorunludur', ru:'Имя обязательно', en:'Name is required' },
     countryReq:{ fa:'کشور را انتخاب کنید', ar:'اختر دولتك', ur:'ملک منتخب کریں', az:'Ölkəni seçin', tr:'Ülkeyi seçin', ru:'Выберите страну', en:'Select your country' },
   };
@@ -255,19 +254,13 @@ export function showRegistrationGate(onComplete) {
         <!-- کشور -->
         <div style="margin-bottom:24px">
           <label style="display:block;margin-bottom:8px;font-size:0.9rem;font-weight:600;color:var(--text-primary)">
-            ${tx(COPY.country)} *
+            \${tx(COPY.country)} *
           </label>
-          <select id="reg-country" style="
-            width:100%;padding:14px 16px;border-radius:12px;
-            border:1.5px solid var(--border-color);
-            background:var(--bg-input);color:var(--text-primary);
-            font-size:1rem;font-family:var(--font-rtl-body);
-            box-sizing:border-box;cursor:pointer;
-          ">
-            <option value="">— ${tx(COPY.selectCountry)} —</option>
-            \${COUNTRIES.map(c => \`<option value="\${c.code}">\${c.flag} \${tx(c.name)}</option>\`).join('')}
+          <select id="reg-country" style="width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:1rem;font-family:var(--font-rtl-body);box-sizing:border-box;cursor:pointer;">
+            <option value="">— \${tx(COPY.selectCountry)} —</option>
+            \${COUNTRIES.map(c => '<option value="' + c.code + '">' + c.flag + ' ' + tx(c.name) + '</option>').join('')}
           </select>
-          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ ${tx(COPY.countryReq)}</div>
+          <div id="reg-country-err" style="color:#fca5a5;font-size:0.8rem;margin-top:4px;display:none">⚠ \${tx(COPY.countryReq)}</div>
         </div>
 
         <!-- ایمیل اختیاری -->
@@ -356,15 +349,6 @@ async function _handleRegSubmit(overlay, onComplete) {
     valid = false;
   } else {
     document.getElementById('reg-name-err').style.display = 'none';
-
-  if (!country) {
-    document.getElementById('reg-country-err').style.display = 'block';
-    document.getElementById('reg-country').style.borderColor = '#f87171';
-    valid = false;
-  } else {
-    document.getElementById('reg-country-err').style.display = 'none';
-    document.getElementById('reg-country').style.borderColor = '';
-  }
   }
 
 
@@ -571,4 +555,4 @@ export const PrizeManager = {
   },
 };
 
-/* v1777112456 */
+/* v1777112711 */
