@@ -1,0 +1,16 @@
+# Cloudflare Pages — Cache Control Headers
+
+# فایل‌های JS و CSS — هیچوقت cache نشوند
+/assets/js/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/assets/css/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Service Worker — هیچوقت cache نشود
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# تصاویر — یک سال cache شوند (تصاویر تغییر نمی‌کنند)
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
