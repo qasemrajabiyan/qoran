@@ -814,7 +814,7 @@ document.addEventListener('click', function(e) {
   /* کلیک روی trigger */
   const trigger = document.getElementById('country-selected');
   if (trigger && trigger.contains(e.target)) {
-    toggleCountryDropdown();
+    ;
     return;
   }
 
